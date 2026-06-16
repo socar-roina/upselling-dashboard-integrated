@@ -359,8 +359,8 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">아이템별 비교 <span class="tag tag-blue">예약 건 기준</span> <span class="tag tag-ok">추가매출 기준</span></div>
   <div class="card">
     <div class="cmp-banner">
-      세 아이템은 <b>운영 기간이 달라</b> 노출과 수락 <b>건수는 직접 비교 불가</b><br>
-      PF는 대규모 검증 데이터, 시간연장과 차종은 수백 건 소표본이라 절대 규모로 봄
+      세 아이템은 운영 기간과 노출 모수가 달라(PF는 상시 전체, 시간연장과 차종은 AB 실험군) <b>건수는 직접 비교 불가</b><br>
+      비교축은 <b style="color:#334155">수락률</b>(기간과 모수에 무관), 추가매출 합계는 현재 규모
     </div>
     <table class="cmp">
       <thead>
@@ -388,7 +388,7 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
           <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
-        <tr class="cmp-key"><td class="metric">추가매출 합계 (net)</td>
+        <tr><td class="metric">추가매출 합계 (net)</td>
           <td class="col-pf"><span class="v">약 1.5억</span> <span class="vu">원</span></td>
           <td class="col-iv"><span class="v">약 300만</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">약 92만</span> <span class="vu">원</span></td></tr>
