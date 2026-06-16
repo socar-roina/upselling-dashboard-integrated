@@ -395,6 +395,23 @@ SELECT IF(v.member_id IS NULL,'미노출','노출') expose, r.pf_type,
   COUNT(*) rsv, COUNT(DISTINCT r.member_id) uu
 FROM r LEFT JOIN v ON r.d=v.d AND r.member_id=v.member_id
 GROUP BY 1,2;</pre>
+    <h3 style="margin-top:16px">쿼리 (아이템 분류, 양 포맷)</h3>
+    <pre class="sql"><span class="cmt">-- 6/10 09:42 포맷 변경(upselling_type -> ut) 양쪽 파싱</span>
+SELECT
+  CASE
+    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+pfNudge')
+         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+p[\\}",]')  THEN 'PF'
+    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+intervalUpselling')
+         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+i[\\}",]')  THEN '시간연장'
+    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+carUpgradeUpselling')
+         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+c[\\}",]')  THEN '차종'
+  END AS item,
+  COUNT(DISTINCT FORMAT('%t-%d', DATE(event_at_kst), member_id)) AS view_member_day
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE page_name='upsell_bottomsheet' AND event_name='view'
+  AND event_at_kst >= DATETIME '2026-05-21 14:00:00'
+  AND event_at_kst <  DATETIME '2026-06-15 00:00:00'
+GROUP BY 1;</pre>
   </div>
   </details>
 
