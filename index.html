@@ -41,7 +41,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .flow-split { display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:10px; }
 .flow-col { border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
 .flow-col .fh { padding:11px 16px; font-weight:800; font-size:14px; color:#fff; display:flex; justify-content:space-between; align-items:baseline; }
-.flow-col.expo .fh { background:#2563eb; }
+.flow-col.expo .fh { background:#334155; }
 .flow-col.none .fh { background:#64748b; }
 .flow-col .fb { padding:14px 16px; }
 .prop-bar { display:flex; height:42px; border-radius:9px; overflow:hidden; margin:14px 0; }
@@ -52,21 +52,21 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .prio .ps { font-size:12px; font-weight:800; padding:5px 11px; border-radius:20px; color:#fff; }
 .prio .p1 { background:#3b82f6; } .prio .p2 { background:#8b5cf6; } .prio .p3 { background:#f59e0b; }
 .prio-note { font-size:11px; color:#9ca3af; line-height:1.7; margin-bottom:16px; }
-.intro { background:#eff6ff; border-left:4px solid #3b82f6; border-radius:0 10px 10px 0; padding:14px 18px; font-size:13.5px; color:#1e3a5f; line-height:1.75; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.intro { background:#f8fafc; border-left:4px solid #64748b; border-radius:0 10px 10px 0; padding:14px 18px; font-size:13.5px; color:#1e293b; line-height:1.75; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 .intro b { color:#1e40af; }
 .hero { background:white; border-radius:14px; border:1px solid #e5e7eb; padding:20px 22px; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); margin-bottom:20px; }
 .hero-lead { font-size:15px; font-weight:700; color:#374151; margin-bottom:14px; }
 .hero-lead b { font-size:19px; color:#111827; }
 .hero-flow { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .hero-box { border-radius:12px; padding:15px 18px; }
-.hero-box.expo { background:#eff6ff; border:1px solid #bfdbfe; }
+.hero-box.expo { background:#eef2f6; border:1px solid #94a3b8; }
 .hero-box.miss { background:#f1f5f9; border:1px solid #cbd5e1; }
 .hero-box .hl { font-size:13px; font-weight:700; margin-bottom:6px; }
-.hero-box.expo .hl { color:#2563eb; }
+.hero-box.expo .hl { color:#334155; }
 .hero-box.miss .hl { color:#475569; }
 .hero-box .hn { font-size:26px; font-weight:900; color:#111827; line-height:1; }
 .hero-box .hp { font-size:15px; font-weight:800; margin-left:4px; }
-.hero-box.expo .hp { color:#2563eb; }
+.hero-box.expo .hp { color:#334155; }
 .hero-box.miss .hp { color:#64748b; }
 .hero-q { margin-top:14px; font-size:13.5px; font-weight:700; color:#334155; background:#f1f5f9; border-radius:8px; padding:11px 14px; line-height:1.5; }
 .hero-cum { margin-top:10px; font-size:11.5px; color:#9ca3af; line-height:1.7; }
@@ -82,7 +82,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .kpi-card.accent .kpi-unit { color:rgba(255,255,255,0.6); }
 .kpi-sub { font-size:12px; color:#9ca3af; margin-top:9px; line-height:1.5; }
 .kpi-card.accent .kpi-sub { color:rgba(255,255,255,0.6); }
-.now { background:#eff6ff; border-left:4px solid #3b82f6; border-radius:0 8px 8px 0; padding:12px 15px; font-size:13px; font-weight:700; color:#1e3a5f; line-height:1.7; margin-bottom:14px; }
+.now { background:#f8fafc; border-left:4px solid #64748b; border-radius:0 8px 8px 0; padding:12px 15px; font-size:13px; font-weight:700; color:#1e293b; line-height:1.7; margin-bottom:14px; }
 table.phase { width:100%; border-collapse:collapse; font-size:12.5px; }
 table.phase th { font-size:11px; color:#9ca3af; font-weight:700; text-align:left; padding:8px 12px; border-bottom:1px solid #e5e7eb; }
 table.phase td { padding:9px 12px; border-bottom:1px solid #f3f4f6; color:#374151; }
@@ -127,10 +127,10 @@ table.cmp td.dim { color: #cbd5e1; font-weight: 700; }
 table.cmp td.metric small { display: block; font-size: 10px; font-weight: 600; color: #b6bcc6; margin-top: 2px; }
 table.cmp tr.period-row td { background: #f8fafc; font-size: 12px; color: #6b7280; font-weight: 600; padding-top: 10px; padding-bottom: 10px; }
 table.cmp tr.period-row td.metric { color: #6b7280; }
-table.cmp tr.cmp-key td { background: #eff6ff; }
-table.cmp tr.cmp-key td.metric { color: #2563eb; }
-table.cmp tr.cmp-key .v { color: #2563eb; }
-table.cmp tr.cmp-key td.metric small { color: #60a5fa; }
+table.cmp tr.cmp-key td { background: #eef2f6; }
+table.cmp tr.cmp-key td.metric { color: #334155; }
+table.cmp tr.cmp-key .v { color: #334155; }
+table.cmp tr.cmp-key td.metric small { color: #94a3b8; }
 
 .chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size: 12px; color: #374151; line-height: 1.6; }
 .chart-interpret-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -138,7 +138,7 @@ table.cmp tr.cmp-key td.metric small { color: #60a5fa; }
 .ci-good { color: #059669; font-weight: 700; }
 
 /* 미노출 심층 */
-.who-grid { display:grid; grid-template-columns: 1.1fr 1fr 1fr; gap:14px; }
+.who-grid { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
 .mrow { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:8px 0; border-bottom:1px solid #f3f4f6; }
 .mrow:last-child { border-bottom:none; }
 .mrow .k { color:#6b7280; }
@@ -161,6 +161,16 @@ table.cmp tr.cmp-key td.metric small { color: #60a5fa; }
 .gap-i { font-size:12px; color:#374151; line-height:1.55; padding:8px 0; border-top:1px solid rgba(0,0,0,0.05); }
 .gap-i b { color:#111827; font-size:12.5px; }
 @media (max-width:720px){ .gap-cats { grid-template-columns:1fr; } }
+.takeaway { background:#f1f5f9; border-left:4px solid #334155; border-radius:0 8px 8px 0; padding:12px 16px; margin-top:16px; font-size:14px; color:#1e293b; line-height:1.6; }
+.takeaway b { color:#0f172a; }
+.concl-card { background:#0f172a; border-radius:14px; padding:22px 24px; margin-bottom:20px; }
+.concl-h { color:#e2e8f0; font-size:15px; font-weight:800; margin-bottom:16px; }
+.concl-row { display:flex; gap:13px; padding:13px 0; border-top:1px solid #1e293b; }
+.concl-row:first-of-type { border-top:none; }
+.cn { flex-shrink:0; width:26px; height:26px; border-radius:50%; background:#334155; color:#fff; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; }
+.ct { font-size:14px; color:#cbd5e1; line-height:1.6; }
+.ct b { color:#fff; }
+.ct .em { color:#6ee7b7; font-weight:800; }
 
 .prep-card { background:#fbfbfc; border:1px dashed #d1d5db; border-radius:12px; padding:18px 22px; margin-bottom:14px; }
 .prep-card h3 { font-size:13px; font-weight:700; color:#6b7280; }
@@ -224,7 +234,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/16 현재</span></div>
   <div class="card">
     <h3>어떤 아이템이 언제 운영됐나</h3>
-    <div class="now">PF 보험은 5/21부터 상시 운영<br>차종은 6/10~6/24 실험 중(최우선 노출), 시간연장은 6/2 종료</div>
+    <div class="now">PF 보험은 5/21부터 상시 운영<br>차종은 6/10~6/24 실험 중(최우선 노출), 시간연장은 6/2 종료<br>6/24 차종 실험이 끝나면 상시 노출되는 건 PF 하나뿐</div>
     <div class="timeline">
       <div class="tl-axis">
         <span style="left:0;transform:none">5/21</span>
@@ -263,7 +273,7 @@ pre.sql .cmt { color:#7dd3fc; }
     </div>
     <div class="flow-cap">전체 예약 <b>248,862건</b> (5/21~6/14 누적) 중</div>
     <div class="prop-bar">
-      <div class="seg" style="background:#2563eb;width:66%">노출 66%<span>163,703건</span></div>
+      <div class="seg" style="background:#334155;width:66%">노출 66%<span>163,703건</span></div>
       <div class="seg" style="background:#94a3b8;width:34%">미노출 34%<span>85,159건</span></div>
     </div>
     <div class="flow-split">
@@ -289,6 +299,7 @@ pre.sql .cmt { color:#7dd3fc; }
         </div>
       </div>
     </div>
+    <div class="takeaway">빈틈(미노출)의 <b>74%는 이미 PF0</b>라 PF 넛지로는 줄일 수 없음<br>빈틈을 줄이는 건 시간연장, 차종, 또는 새 아이템의 몫</div>
   </div>
 
   <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
@@ -297,7 +308,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <h3>노출에서 수락, 추가매출, 1건당 단가까지</h3>
     <div class="cmp-banner">
       세 아이템은 <b>운영 기간이 달라</b> 노출과 수락, 매출 <b>건수는 직접 비교 불가</b><br>
-      기간과 무관하게 비교 가능한 건 <b style="color:#2563eb">수락률</b>과 <b style="color:#2563eb">노출 1건당 추가매출</b> (아래 표에서 파란 줄)
+      기간과 무관하게 비교 가능한 건 <b style="color:#334155">수락률</b>과 <b style="color:#334155">노출 1건당 추가매출</b> (아래 표에서 진하게 표시한 줄)
     </div>
     <table class="cmp">
       <thead>
@@ -346,13 +357,14 @@ pre.sql .cmt { color:#7dd3fc; }
         <div>시간연장과 차종 추가매출은 사용자 고정 결제액(4,900원, 9,900원) 실측<br>PF 추가매출은 대조군 없는 추정이라(전환이 다 넛지 덕인지 미검증) PF 단가는 참고용</div>
       </div>
     </div>
+    <div class="takeaway"><b>노출 1건당 추가매출이 세 아이템 비슷</b>(약 930~1,340원)<br>어느 아이템이냐보다 <b>얼마나 많이 노출되나(빈틈 줄이기)</b>가 매출의 핵심 레버</div>
   </div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,159건 분해</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="card">
     <h3>미노출 예약 구성</h3>
-    <div class="card-sub">왼쪽: 미노출 85,159건의 보험등급 구분<br>오른쪽: 그중 이미 PF0 6.3만 건의 예약 분포 (미노출률이 아니라 구성비)</div>
+    <div class="card-sub">왼쪽: 미노출 85,159건의 보험등급 구분<br>오른쪽: 그중 이미 PF0 6.3만 건의 대여 길이 분포 (미노출률이 아니라 구성비)</div>
     <div class="who-grid">
       <div>
         <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 보험등급 구분</div>
@@ -373,15 +385,6 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="mrow" style="margin-top:6px"><span class="k">1~3일</span><span class="v">14%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:14%;background:#cbd5e1"></div></div>
       </div>
-      <div>
-        <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">지역 분포 (이미 PF0 6.3만)</div>
-        <div class="mrow"><span class="k">수도권</span><span class="v">57%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:57%;background:#475569"></div></div>
-        <div class="mrow" style="margin-top:6px"><span class="k">부산</span><span class="v">7%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#94a3b8"></div></div>
-        <div class="mrow" style="margin-top:6px"><span class="k">제주</span><span class="v">7%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#94a3b8"></div></div>
-      </div>
     </div>
     <div class="gap-title">미노출 85,159건을 어떻게 줄이나</div>
     <div class="gap-cats">
@@ -389,7 +392,7 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="gap-h">기존 아이템으로 줄일 수 있음 <span class="gap-sum">약 43,500건</span></div>
         <div class="gap-i"><b>시간연장 확대 22,653건</b><br>이미 PF0지만 6~24시간 대여, 이 구간 시간연장 수락률 34.7%라 노출 조건 넓히면 도달</div>
         <div class="gap-i"><b>PF 넛지 회수 약 8,800건</b><br>PF70/30 미노출 중 구버전이 아닌데 안 뜬 건 (원인 확인 대상)</div>
-        <div class="gap-i"><b>앱 보급되며 자연 해소 12,087건</b><br>PF70/30 미노출 중 구버전 앱, 업데이트되면 자동 노출</div>
+        <div class="gap-i"><b>구버전 앱이라 안 뜬 건 12,087건</b><br>결제 직전 업셀링은 앱 18.20부터 들어간 기능이라 구버전은 미노출, 앱이 업데이트되면 저절로 노출됨</div>
       </div>
       <div class="gap-cat gap-new">
         <div class="gap-h">새 아이템이 필요한 세그먼트 <span class="gap-sum">약 40,600건</span></div>
@@ -401,6 +404,16 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="gap-i"><b>PF5와 PF200 1,060건</b><br>차량 보험정책상 PF0 선택지가 없던 예약, PF 넛지는 대상 아님 (다른 아이템은 별도 검토)</div>
       </div>
     </div>
+  </div>
+
+  <!-- ===== 정리 (결론) ===== -->
+  <div class="section-label">정리 <span class="tag tag-ok">데이터가 가리키는 논의 포인트</span></div>
+  <div class="concl-card">
+    <div class="concl-h">업셀링 구좌를 더 잘 굴리려면</div>
+    <div class="concl-row"><span class="cn">1</span><div class="ct"><b>빈틈의 74%는 이미 PF0</b>라 PF 넛지로는 못 줄임. 빈틈을 줄이는 건 시간연장, 차종, 새 아이템의 몫</div></div>
+    <div class="concl-row"><span class="cn">2</span><div class="ct"><b>노출 1건당 추가매출은 세 아이템 비슷</b>(약 930~1,340원). 아이템 종류보다 <span class="em">도달(노출) 확대 = 빈틈 줄이기</span>가 매출의 핵심 레버</div></div>
+    <div class="concl-row"><span class="cn">3</span><div class="ct">가장 큰 빈틈은 <span class="em">6시간 이하 초단기 3만 건</span>(미노출의 36%)인데 현재 세 아이템 조건에 다 안 맞음. 이 구간에 맞는 새 아이템 없이는 못 줄임 (논의 1순위)</div></div>
+    <div class="concl-row"><span class="cn">4</span><div class="ct"><b>6/24 차종 실험이 끝나면 상시 노출은 PF 하나뿐</b>. 시간연장과 차종을 정규화하지 않으면 빈틈이 다시 커짐 (정규화 논의 필요)</div></div>
   </div>
 
   <!-- ===== 미노출률 추이 ===== -->
