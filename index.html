@@ -129,11 +129,11 @@ table.cmp tr.cmp-key td.metric small { color: #60a5fa; }
 .gap-cats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px; }
 .gap-cat { border-radius:10px; padding:12px 13px; }
 .gap-cat.gap-go { background:#ecfdf5; border:1px solid #a7f3d0; }
-.gap-cat.gap-wait { background:#fffbeb; border:1px solid #fde68a; }
+.gap-cat.gap-new { background:#eff6ff; border:1px solid #bfdbfe; }
 .gap-cat.gap-fix { background:#f8fafc; border:1px solid #e5e7eb; }
 .gap-h { font-size:13px; font-weight:800; margin-bottom:9px; line-height:1.4; }
 .gap-go .gap-h { color:#047857; }
-.gap-wait .gap-h { color:#b45309; }
+.gap-new .gap-h { color:#1d4ed8; }
 .gap-fix .gap-h { color:#6b7280; }
 .gap-sum { display:block; font-size:16px; font-weight:800; margin-top:2px; }
 .gap-i { font-size:12px; color:#374151; line-height:1.55; padding:8px 0; border-top:1px solid rgba(0,0,0,0.05); }
@@ -364,21 +364,22 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="bar-track"><div class="bar-fill" style="width:7%;background:#34d399"></div></div>
       </div>
     </div>
-    <div class="gap-title">미노출 85,202건을 줄일 수 있는지로 나누면</div>
+    <div class="gap-title">미노출 85,202건을 어떻게 줄이나</div>
     <div class="gap-cats">
       <div class="gap-cat gap-go">
-        <div class="gap-h">줄일 수 있는 빈틈 <span class="gap-sum">약 31,400건</span></div>
-        <div class="gap-i"><b>시간연장과 차종 후보 22,653건</b><br>이미 PF0지만 6~24시간 대여 (이 구간 시간연장 수락률 34.7%)</div>
-        <div class="gap-i"><b>PF 넛지 회수 대상 약 8,800건</b><br>PF70/30 미노출 중 구버전이 아닌데 안 뜬 건</div>
+        <div class="gap-h">기존 아이템으로 줄일 수 있음 <span class="gap-sum">약 43,500건</span></div>
+        <div class="gap-i"><b>시간연장 확대 22,653건</b><br>이미 PF0지만 6~24시간 대여, 이 구간 시간연장 수락률 34.7%라 노출 조건 넓히면 도달</div>
+        <div class="gap-i"><b>PF 넛지 회수 약 8,800건</b><br>PF70/30 미노출 중 구버전이 아닌데 안 뜬 건 (원인 확인 대상)</div>
+        <div class="gap-i"><b>앱 보급되며 자연 해소 12,087건</b><br>PF70/30 미노출 중 구버전 앱, 업데이트되면 자동 노출</div>
       </div>
-      <div class="gap-cat gap-wait">
-        <div class="gap-h">시간 지나면 자연 해소 <span class="gap-sum">12,087건</span></div>
-        <div class="gap-i"><b>구버전 앱 12,087건</b><br>PF70/30 미노출 중 구버전, 앱 업데이트되면 자동 노출</div>
+      <div class="gap-cat gap-new">
+        <div class="gap-h">새 아이템이 필요한 세그먼트 <span class="gap-sum">약 40,600건</span></div>
+        <div class="gap-i"><b>6시간 이하 초단기 30,721건</b><br>이미 PF0면서 시간연장(4~24시간)과 차종 조건도 다 안 맞음, 미노출 중 가장 큰 단일 덩어리</div>
+        <div class="gap-i"><b>1~3일 이상 장기 9,883건</b><br>이미 PF0면서 시간연장 조건 밖, 이 세그먼트에 맞는 새 아이템이 닿을 여지</div>
       </div>
       <div class="gap-cat gap-fix">
-        <div class="gap-h">줄이기 어려운 구조적 제외 <span class="gap-sum">약 41,700건</span></div>
-        <div class="gap-i"><b>이미 PF0의 단기와 장기 대여 약 40,600건</b><br>6시간 이하 초단기 30,721건 포함, 시간연장과 차종 조건도 안 맞음</div>
-        <div class="gap-i"><b>PF5와 PF200 1,063건</b><br>차량 보험정책상 PF0 선택지가 없던 예약이라 넛지 대상 아님</div>
+        <div class="gap-h">PF 한정 제외 <span class="gap-sum">1,063건</span></div>
+        <div class="gap-i"><b>PF5와 PF200 1,063건</b><br>차량 보험정책상 PF0 선택지가 없던 예약, PF 넛지는 대상 아님 (다른 아이템은 별도 검토)</div>
       </div>
     </div>
   </div>
