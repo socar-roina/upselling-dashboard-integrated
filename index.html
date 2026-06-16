@@ -246,17 +246,17 @@ pre.sql .cmt { color:#7dd3fc; }
       <span class="fn-val">약 480<small>건</small> <em>노출의 7.0%</em></span>
     </div>
   </div>
-  <div class="gap-callout"><b>약 3,500건</b><span class="gc-t">노출 안 된 미노출 = 빈틈 (전체 예약의 34%)</span></div>
+  <div class="gap-callout"><b>약 3,500건</b><span class="gc-t">노출되지 않은 미노출 예약 (전체의 34%)</span></div>
   <div class="cum-ref">누적 (5/21~6/14): 전체 예약 248,862건, 노출 163,703건, 수락 11,495건, 미노출 85,159건</div>
 
   <!-- ===== 핵심 결론 (BLUF) ===== -->
   <div class="section-label">핵심 <span class="tag tag-ok">데이터가 가리키는 것</span></div>
   <div class="concl-card">
     <div class="concl-h">세 아이템은 단계가 다름: PF0 정규화, 시간연장 검증, 차종 실험 중(6/24)</div>
-    <div class="concl-row"><span class="cn">1</span><div class="ct"><b>빈틈의 74%는 이미 PF0</b>라 PF로는 못 줄임. 시간연장과 차종이 빈틈 줄일 후보</div></div>
-    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">시간연장은 검증 먼저</span> (모수 작아 유의성 미확인, 할인이라 순증분 확인 필요)</div></div>
+    <div class="concl-row"><span class="cn">1</span><div class="ct"><b>미노출의 74%는 이미 PF0</b>라 PF 넛지 대상이 아님. 시간연장과 차종이 미노출을 줄일 후보</div></div>
+    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">시간연장은 검증 먼저</span> (표본이 작아 효과는 검증 단계, 할인이라 정말 추가 이익인지 확인 필요)</div></div>
     <div class="concl-row"><span class="cn">3</span><div class="ct"><span class="em">차종은 6/24 실험 종료 후 판단</span> (진행 중이라 지금 단정 불가)</div></div>
-    <div class="concl-row"><span class="cn">4</span><div class="ct">현 3개 아이템으로 못 닿는 <b>약 4만 건(6시간 이하 초단기 등)</b>은 중장기 새 아이템 영역</div></div>
+    <div class="concl-row"><span class="cn">4</span><div class="ct"><b>약 4만 건(6시간 이하 초단기 등)</b>은 현 3개 아이템 조건에 안 맞아, 중장기 새 아이템</div></div>
   </div>
 
   <!-- ===== 운영 타임라인 ===== -->
@@ -341,8 +341,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="chart-interpret">
       <span class="chart-interpret-icon">💡</span>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div>시간연장 수락률 27.4%는 모수가 작아 유의성 미확인, 할인이라 순증분 검증이 선행돼야 함</div>
-        <div>매출은 시간연장과 차종이 고정 결제액 실측, PF는 대조군 없는 추정(참고용)</div>
+        <div>시간연장 수락률 27.4%는 표본이 작아 효과는 검증 단계, 할인이라 정말 추가 이익인지 더 봐야 함</div>
       </div>
     </div>
   </div>
@@ -350,7 +349,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,159건 분해</span> <span class="tag tag-gray">누적 5/21~6/14</span></div>
   <div class="card">
-    <div class="card-sub">대여 길이 분포는 이미 PF0 안에서의 구성비 (특정 구간의 미노출률이 아님)</div>
+    <div class="card-sub">이미 PF0(6.3만 건)를 대여 길이로 나눈 비율</div>
     <div class="who-grid">
       <div>
         <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 보험등급 구분</div>
@@ -374,16 +373,16 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="gap-title">미노출을 어떻게 줄이나</div>
     <div class="gap-cats">
       <div class="gap-cat gap-go">
-        <div class="gap-h">지금 줄일 수 있음 <span class="gap-sum">약 31,400건</span></div>
+        <div class="gap-h">지금 노출 늘릴 수 있음 <span class="gap-sum">약 31,400건</span></div>
         <div class="gap-i"><b>시간연장 조건 완화 22,653건</b><br>시간연장은 노출 조건이 좁아 하루 약 76건만 노출됨. 6~24시간 대여 미노출이 22,653건이라 조건 완화가 가장 큰 레버</div>
-        <div class="gap-i"><b>PF 넛지 회수 약 8,800건</b><br>PF70/30 미노출 중 구버전이 아닌 건 (최신 앱 7,149 + 버전 미상 1,599), 원인 파악 대상</div>
+        <div class="gap-i"><b>PF 넛지 회수 약 8,800건</b><br>PF70/30 미노출 중 구버전이 아닌데 안 뜬 건 (최신 앱 7,149 + 버전 미상 1,599), 원인 파악 대상</div>
       </div>
       <div class="gap-cat gap-soft">
-        <div class="gap-h">저절로 해소 <span class="gap-sum">12,087건</span></div>
+        <div class="gap-h">앱 업데이트로 해소 <span class="gap-sum">12,087건</span></div>
         <div class="gap-i"><b>구버전 앱 12,087건</b><br>업셀링이 앱 18.20부터라 구버전은 미노출, 앱 업데이트되면 노출됨 (별도 액션 불필요)</div>
       </div>
       <div class="gap-cat gap-fix">
-        <div class="gap-h">현 3개 아이템으로 못 닿음 <span class="gap-sum">약 41,700건</span></div>
+        <div class="gap-h">현 3개 아이템 조건 밖 <span class="gap-sum">약 41,700건</span></div>
         <div class="gap-i"><b>초단기와 장기 대여 40,604건</b><br>6시간 이하 초단기 30,721건 포함, PF0면서 시간연장과 차종 조건도 안 맞음. 중장기 새 아이템 영역</div>
         <div class="gap-i"><b>PF5와 PF200 1,060건</b><br>차량 보험정책상 PF0 선택지가 없던 예약</div>
       </div>
