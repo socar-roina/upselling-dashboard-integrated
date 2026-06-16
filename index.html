@@ -25,7 +25,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .verdict .vt b { color:#fbbf24; }
 .verdict .vsub { font-size:12px; color:rgba(255,255,255,0.65); margin-top:12px; line-height:1.7; }
 
-.section-label { font-size: 13px; font-weight: 800; color: #475569; letter-spacing: 0.02em; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.section-label { font-size: 15px; font-weight: 800; color: #111827; letter-spacing: 0; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .tag { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
 .tag-ok { background: #d1fae5; color: #065f46; }
 .tag-blue { background: #dbeafe; color: #1e40af; }
@@ -256,13 +256,12 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="concl-row"><span class="cn">1</span><div class="ct"><b>빈틈의 74%는 이미 PF0</b>라 PF로는 못 줄임. 시간연장과 차종이 빈틈 줄일 후보</div></div>
     <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">시간연장은 검증 먼저</span> (모수 작아 유의성 미확인, 할인이라 순증분 확인 필요)</div></div>
     <div class="concl-row"><span class="cn">3</span><div class="ct"><span class="em">차종은 6/24 실험 종료 후 판단</span> (진행 중이라 지금 단정 불가)</div></div>
-    <div class="concl-row"><span class="cn">4</span><div class="ct"><b>초단기 등 4만 건</b>은 현 아이템으로 못 닿음, 중장기 새 아이템</div></div>
+    <div class="concl-row"><span class="cn">4</span><div class="ct">현 3개 아이템으로 못 닿는 <b>약 4만 건(6시간 이하 초단기 등)</b>은 중장기 새 아이템 영역</div></div>
   </div>
 
   <!-- ===== 운영 타임라인 ===== -->
   <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/16 현재</span></div>
   <div class="card">
-    <h3>어떤 아이템이 언제 운영됐나</h3>
     <div class="prio">
       <span class="pl">노출 우선순위 (예약당 1개)</span>
       <span class="ps" style="background:#475569">AB 실험 아이템 최우선</span>
@@ -295,7 +294,6 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
   <div class="section-label">아이템별 비교 <span class="tag tag-blue">예약 건 기준</span> <span class="tag tag-ok">추가매출 기준</span></div>
   <div class="card">
-    <h3>노출에서 수락, 추가매출, 1건당 단가까지</h3>
     <div class="cmp-banner">
       세 아이템은 <b>운영 기간이 달라</b> 노출과 수락, 매출 <b>건수는 직접 비교 불가</b><br>
       기간과 무관하게 비교 가능한 건 <b style="color:#334155">수락률</b>과 <b style="color:#334155">노출 1건당 추가매출</b>
@@ -352,7 +350,6 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,159건 분해</span> <span class="tag tag-gray">누적 5/21~6/14</span></div>
   <div class="card">
-    <h3>미노출 예약 구성</h3>
     <div class="card-sub">대여 길이 분포는 이미 PF0 안에서의 구성비 (특정 구간의 미노출률이 아님)</div>
     <div class="who-grid">
       <div>
@@ -396,7 +393,6 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출률 추이 ===== -->
   <div class="section-label">미노출률 추이 <span class="tag tag-blue">지금 추세 (일별)</span></div>
   <div class="card">
-    <h3>미노출률 일별 추이</h3>
     <div class="card-sub">초기 약 37%에서 최근 30%대로 감소 (차종 실험으로 노출이 늘고 구버전 앱이 줄어든 영향)</div>
     <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
   </div>
