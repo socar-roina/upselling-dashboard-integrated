@@ -74,6 +74,15 @@ table.phase td { padding:9px 12px; border-bottom:1px solid #f3f4f6; color:#37415
 table.phase tr:last-child td { border-bottom:none; }
 table.phase td:first-child { color:#6b7280; white-space:nowrap; font-weight:600; }
 table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
+.timeline { margin-top:4px; }
+.tl-axis { position:relative; height:16px; margin-left:64px; margin-bottom:4px; }
+.tl-axis span { position:absolute; transform:translateX(-50%); font-size:10px; color:#9ca3af; font-weight:600; white-space:nowrap; }
+.tl-axis span.now { color:#ef4444; font-weight:800; }
+.tl-row { display:flex; align-items:center; margin-bottom:7px; }
+.tl-label { width:64px; flex-shrink:0; font-size:12px; font-weight:700; color:#374151; }
+.tl-track { position:relative; flex:1; height:28px; background:#f3f4f6; border-radius:6px; }
+.tl-bar { position:absolute; top:0; bottom:0; border-radius:6px; display:flex; align-items:center; padding:0 9px; font-size:10.5px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; }
+.tl-now { position:absolute; top:-5px; bottom:-5px; width:2px; background:#ef4444; z-index:5; }
 .fbar { display:flex; height:34px; border-radius:7px; overflow:hidden; margin-bottom:12px; }
 .fbar .s { display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:800; }
 .sub-row { display:flex; justify-content:space-between; font-size:12px; padding:7px 0; border-bottom:1px dashed #eef0f3; }
@@ -207,18 +216,32 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
   <div style="font-size:12px;color:#6b7280;margin:-8px 0 18px;line-height:1.7">측정 시작은 <b>PF 정규화(5/21 14:00)</b> 시점, PF가 상시 운영이라 이 시점 기준으로 누적<br>미노출률은 운영 단계별 35.1%, 34.3%, 31.7%로 안정적이며 차종 실험과 앱 보급으로 최근 소폭 감소</div>
 
-  <!-- ===== 운영 현황 ===== -->
-  <div class="section-label">바텀시트 기간별 운영 <span class="tag tag-blue">6/16 현재</span></div>
+  <!-- ===== 운영 타임라인 ===== -->
+  <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/16 현재</span></div>
   <div class="card">
-    <h3>현재 운영과 기간별 변화</h3>
-    <div class="now">현재 PF 보험 상시 운영<br>차종 업그레이드 실험 중 (6/10~6/24, 최우선 노출)<br>시간연장은 6/2 종료, 정규화 대기</div>
-    <table class="phase">
-      <tr><th>기간</th><th>바텀시트 운영</th></tr>
-      <tr><td>5/21 ~ 6/2</td><td>PF 상시 운영 + 시간연장 실험</td></tr>
-      <tr><td>6/2 ~ 6/10</td><td>PF 상시 운영</td></tr>
-      <tr class="cur"><td>6/10 ~ 6/24 (현재)</td><td>PF 상시 운영 + 차종 실험 (차종 최우선 노출)</td></tr>
-      <tr><td>6/24 ~</td><td>PF 상시 운영 (차종 실험 종료 후)</td></tr>
-    </table>
+    <h3>어떤 아이템이 언제 운영됐나</h3>
+    <div class="now">PF 보험은 5/21부터 상시 운영<br>차종은 6/10~6/24 실험 중(최우선 노출), 시간연장은 6/2 종료</div>
+    <div class="timeline">
+      <div class="tl-axis">
+        <span style="left:0;transform:none">5/21</span>
+        <span style="left:35.3%">6/2</span>
+        <span style="left:58.8%">6/10</span>
+        <span class="now" style="left:76.5%">오늘</span>
+        <span style="left:100%;transform:translateX(-100%)">6/24</span>
+      </div>
+      <div class="tl-row">
+        <span class="tl-label">PF 보험</span>
+        <div class="tl-track"><div class="tl-bar" style="left:0;right:0;background:#3b82f6">상시 운영</div><div class="tl-now" style="left:76.5%"></div></div>
+      </div>
+      <div class="tl-row">
+        <span class="tl-label">시간연장</span>
+        <div class="tl-track"><div class="tl-bar" style="left:0;width:35.3%;background:#8b5cf6">실험 종료 (5/21~6/2)</div><div class="tl-now" style="left:76.5%"></div></div>
+      </div>
+      <div class="tl-row">
+        <span class="tl-label">차종</span>
+        <div class="tl-track"><div class="tl-bar" style="left:58.8%;right:0;background:#f59e0b">실험 중 (6/10~6/24)</div><div class="tl-now" style="left:76.5%"></div></div>
+      </div>
+    </div>
   </div>
 
   <!-- ===== 흐름: 진입에서 노출, 미노출 ===== -->
