@@ -223,24 +223,21 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="intro">결제 직전 <b>PF 보험, 시간연장, 차종 업그레이드</b> 중 하나를 추천 (예약당 1개)</div>
 
   <!-- ===== 한눈에: 예약 노출 수락 퍼널 ===== -->
-  <div class="section-label">한눈에 <span class="tag tag-gray">하루 평균 기준</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="section-label">하루 평균 흐름</div>
   <div class="funnel3">
     <div class="fn-card">
       <div class="fl">전체 예약</div>
       <div class="fnum">약 10,300<span>건</span></div>
-      <div class="fu">하루 평균</div>
     </div>
     <div class="fn-step"><span>66%<br>노출</span></div>
     <div class="fn-card">
       <div class="fl">업셀링 노출</div>
       <div class="fnum">약 6,800<span>건</span></div>
-      <div class="fu">예약의 66%</div>
     </div>
     <div class="fn-step"><span>7.0%<br>수락</span></div>
     <div class="fn-card">
       <div class="fl">수락</div>
       <div class="fnum">약 480<span>건</span></div>
-      <div class="fu">노출 대비 7.0%</div>
     </div>
   </div>
   <div class="gap-callout"><b>약 3,500건</b><span class="gc-t">노출 안 된 미노출 = 빈틈 (하루 평균, 전체 예약의 34%)</span></div>
@@ -276,7 +273,7 @@ pre.sql .cmt { color:#7dd3fc; }
       </div>
       <div class="tl-row">
         <span class="tl-label">PF 보험</span>
-        <div class="tl-track"><div class="tl-bar" style="left:0;width:74%;background:#3b82f6">정규화 (상시 운영)</div><div class="tl-bar" style="left:74%;right:0;background:#dbeafe;color:#1e40af">이후도 PF만 (현 계획)</div></div>
+        <div class="tl-track"><div class="tl-bar" style="left:0;width:74%;background:#3b82f6">정규화 (상시 운영)</div><div class="tl-bar" style="left:74%;right:0;background:#dbeafe;color:#1e40af">차종 끝나면 PF만</div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">시간연장</span>
@@ -347,7 +344,7 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
-  <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,159건 분해</span> <span class="tag tag-gray">누적 5/21~6/14</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,159건 분해</span> <span class="tag tag-gray">누적 5/21~6/14</span></div>
   <div class="card">
     <h3>미노출 예약 구성</h3>
     <div class="card-sub">대여 길이 분포는 이미 PF0 안에서의 구성비 (특정 구간의 미노출률이 아님)</div>
@@ -371,7 +368,7 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="bar-track"><div class="bar-fill" style="width:14%;background:#cbd5e1"></div></div>
       </div>
     </div>
-    <div class="gap-title">미노출 85,159건을 어떻게 줄이나</div>
+    <div class="gap-title">미노출을 어떻게 줄이나</div>
     <div class="gap-cats">
       <div class="gap-cat gap-go">
         <div class="gap-h">지금 줄일 수 있음 <span class="gap-sum">약 31,400건</span></div>
@@ -391,19 +388,11 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== 미노출률 추이 ===== -->
-  <div class="section-label">미노출률 추이 <span class="tag tag-blue">지금 추세 (일별)</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="section-label">미노출률 추이 <span class="tag tag-blue">지금 추세 (일별)</span></div>
   <div class="card">
     <h3>미노출률 일별 추이</h3>
     <div class="card-sub">초기 약 37%에서 최근 30%대로 감소 (차종 실험으로 노출이 늘고 구버전 앱이 줄어든 영향)</div>
     <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
-  </div>
-
-  <!-- ===== PF 일별 추이 (보조) ===== -->
-  <div class="section-label">PF 일별 추이 <span class="tag tag-blue">노출 예약 (막대)</span> <span class="tag tag-ok">수락률 (선)</span></div>
-  <div class="card">
-    <h3>상시 운영 중인 PF 보험 넛지</h3>
-    <div class="card-sub">최근 1~2일 수락률 하락은 결제 D+1 지연 영향</div>
-    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
   </div>
 
   <!-- ===== method ===== -->
@@ -473,26 +462,6 @@ GROUP BY 1;</pre>
 
 <script>
 const labels   = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14'];
-const exposed  = [4459,6495,5539,5081,6874,7156,6916,7320,6522,6350,7038,7569,6696,7696,7322,6564,6086,6219,6963,6622,6978,6862,5806,5578,5800];
-const accepted = [292,549,545,481,532,478,474,500,551,504,436,470,528,485,410,482,439,361,417,377,396,358,431,390,306];
-const rate = labels.map((_,i)=> exposed[i] ? +((accepted[i]/exposed[i]*100).toFixed(1)) : null);
-const colBlue='#3b82f6', colGreen='#16a34a';
-new Chart(document.getElementById('trendChart'), {
-  data: { labels, datasets: [
-    { type:'bar', label:'노출 예약 수', data: exposed, backgroundColor:'rgba(59,130,246,0.20)', borderColor:colBlue, borderWidth:1, yAxisID:'y', borderRadius:4, order:2 },
-    { type:'line', label:'수락률 (%)', data: rate, borderColor:colGreen, backgroundColor:'rgba(22,163,74,0.08)', pointBackgroundColor:colGreen, pointRadius:4, borderWidth:2.5, tension:0.35, yAxisID:'y1', order:1, spanGaps:true }
-  ]},
-  options: {
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{ labels:{ font:{size:11}, boxWidth:12, padding:12 } } },
-    scales:{
-      x:{ ticks:{font:{size:11}}, grid:{display:false} },
-      y:{ position:'left', beginAtZero:true, suggestedMax:8000, title:{display:true,text:'노출 예약',font:{size:10},color:'#9ca3af'}, ticks:{font:{size:11}, callback:v=>v.toLocaleString()}, grid:{color:'#f3f4f6'} },
-      y1:{ position:'right', beginAtZero:true, suggestedMax:12, title:{display:true,text:'수락률 %',font:{size:10},color:'#16a34a'}, ticks:{font:{size:11}, callback:v=>v+'%'}, grid:{drawOnChartArea:false} }
-    }
-  }
-});
-
 const missPct = [34.6,37.3,37.9,36.9,32.6,35.2,35.3,33.0,36.8,35.2,32.7,34.7,35.8,32.3,33.4,36.8,35.2,31.8,35.1,33.9,32.9,31.2,33.6,32.3,28.3];
 new Chart(document.getElementById('missChart'), {
   type:'line',
