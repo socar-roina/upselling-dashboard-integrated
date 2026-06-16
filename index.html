@@ -101,6 +101,14 @@ table.cmp td.dim { color: #cbd5e1; font-weight: 700; }
 .col-pf { border-left: 3px solid #3b82f6; }
 .col-iv { border-left: 3px solid #8b5cf6; }
 .col-cu { border-left: 3px solid #cbd5e1; }
+.cmp-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #1e3a5f; line-height: 1.7; margin-bottom: 14px; }
+table.cmp td.metric small { display: block; font-size: 10px; font-weight: 600; color: #b6bcc6; margin-top: 2px; }
+table.cmp tr.period-row td { background: #f8fafc; font-size: 12px; color: #6b7280; font-weight: 600; padding-top: 10px; padding-bottom: 10px; }
+table.cmp tr.period-row td.metric { color: #6b7280; }
+table.cmp tr.cmp-key td { background: #eff6ff; }
+table.cmp tr.cmp-key td.metric { color: #2563eb; }
+table.cmp tr.cmp-key .v { color: #2563eb; }
+table.cmp tr.cmp-key td.metric small { color: #60a5fa; }
 
 .chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size: 12px; color: #374151; line-height: 1.6; }
 .chart-interpret-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -117,6 +125,20 @@ table.cmp td.dim { color: #cbd5e1; font-weight: 700; }
 .bar-fill { height:100%; border-radius:99px; }
 .action { background:#ecfdf5; border-left:4px solid #10b981; border-radius:0 10px 10px 0; padding:13px 16px; font-size:12.5px; color:#065f46; line-height:1.7; }
 .action b { color:#047857; }
+.gap-title { margin-top:18px; font-size:14px; font-weight:800; color:#111827; }
+.gap-cats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px; }
+.gap-cat { border-radius:10px; padding:12px 13px; }
+.gap-cat.gap-go { background:#ecfdf5; border:1px solid #a7f3d0; }
+.gap-cat.gap-wait { background:#fffbeb; border:1px solid #fde68a; }
+.gap-cat.gap-fix { background:#f8fafc; border:1px solid #e5e7eb; }
+.gap-h { font-size:13px; font-weight:800; margin-bottom:9px; line-height:1.4; }
+.gap-go .gap-h { color:#047857; }
+.gap-wait .gap-h { color:#b45309; }
+.gap-fix .gap-h { color:#6b7280; }
+.gap-sum { display:block; font-size:16px; font-weight:800; margin-top:2px; }
+.gap-i { font-size:12px; color:#374151; line-height:1.55; padding:8px 0; border-top:1px solid rgba(0,0,0,0.05); }
+.gap-i b { color:#111827; font-size:12.5px; }
+@media (max-width:720px){ .gap-cats { grid-template-columns:1fr; } }
 
 .prep-card { background:#fbfbfc; border:1px dashed #d1d5db; border-radius:12px; padding:18px 22px; margin-bottom:14px; }
 .prep-card h3 { font-size:13px; font-weight:700; color:#6b7280; }
@@ -183,7 +205,7 @@ pre.sql .cmt { color:#7dd3fc; }
       <div class="kpi-sub">전체 예약의 34% (최근 30%대로 감소)</div>
     </div>
   </div>
-  <div style="font-size:11px;color:#9ca3af;margin:-8px 0 18px;line-height:1.6">PF 정규화(5/21 14:00) 이후 누적 (PF가 상시라 이 시점 기준)<br>미노출률은 운영 단계별 35.1%, 34.3%, 31.7%로 안정적이며 차종 실험과 앱 보급으로 최근 소폭 감소</div>
+  <div style="font-size:12px;color:#6b7280;margin:-8px 0 18px;line-height:1.7">측정 시작은 <b>PF 정규화(5/21 14:00)</b> 시점, PF가 상시 운영이라 이 시점 기준으로 누적<br>미노출률은 운영 단계별 35.1%, 34.3%, 31.7%로 안정적이며 차종 실험과 앱 보급으로 최근 소폭 감소</div>
 
   <!-- ===== 운영 현황 ===== -->
   <div class="section-label">바텀시트 기간별 운영 <span class="tag tag-blue">6/16 현재</span></div>
@@ -254,38 +276,45 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">아이템별 비교 <span class="tag tag-blue">예약 건 기준</span> <span class="tag tag-ok">추가매출 기준</span></div>
   <div class="card">
     <h3>노출에서 수락, 추가매출, 1건당 단가까지</h3>
-    <div class="card-sub">예약 건 기준(흐름과 같은 단위)<br>매출은 시간연장과 차종은 사용자 고정 결제액(실측), PF는 대조군 없는 추정이라 PF 단가는 참고용</div>
+    <div class="cmp-banner">
+      세 아이템은 <b>운영 기간이 달라</b> 노출·수락·매출 <b>건수는 직접 비교 불가</b><br>
+      기간과 무관하게 비교 가능한 건 <b style="color:#2563eb">수락률</b>과 <b style="color:#2563eb">노출 1건당 추가매출</b> (아래 표에서 파란 줄)
+    </div>
     <table class="cmp">
       <thead>
         <tr>
           <th>지표</th>
-          <th class="col-pf"><div class="colhead">PF 보험 넛지<small>상시 운영, 5/21~6/14</small></div></th>
-          <th class="col-iv"><div class="colhead">시간연장<small>실험 종료, 5/21~6/2 집계</small></div></th>
-          <th class="col-cu"><div class="colhead">차종 업그레이드<small>실험 6/10~6/24 (6/14까지)</small></div></th>
+          <th class="col-pf"><div class="colhead">PF 보험 넛지</div></th>
+          <th class="col-iv"><div class="colhead">시간연장</div></th>
+          <th class="col-cu"><div class="colhead">차종 업그레이드</div></th>
         </tr>
       </thead>
       <tbody>
-        <tr><td class="metric">노출 예약</td>
+        <tr class="period-row"><td class="metric">운영 기간</td>
+          <td class="col-pf">상시 운영<br><b>24일</b> (5/21~6/14)</td>
+          <td class="col-iv">실험 종료<br><b>12일</b> (5/21~6/2)</td>
+          <td class="col-cu">실험 진행 중<br><b>5일째</b> (6/10~6/14)</td></tr>
+        <tr><td class="metric">노출 예약<small>기간 달라 비교 불가</small></td>
           <td class="col-pf"><span class="v">162,511</span> <span class="vu">건</span></td>
           <td class="col-iv"><span class="v">909</span> <span class="vu">건</span></td>
           <td class="col-cu"><span class="v">418</span> <span class="vu">건</span></td></tr>
-        <tr><td class="metric">수락 예약</td>
+        <tr><td class="metric">수락 예약<small>기간 달라 비교 불가</small></td>
           <td class="col-pf"><span class="v">11,192</span> <span class="vu">건</span></td>
           <td class="col-iv"><span class="v">249</span> <span class="vu">건</span></td>
           <td class="col-cu"><span class="v">54</span> <span class="vu">건</span></td></tr>
-        <tr><td class="metric">수락률</td>
+        <tr class="cmp-key"><td class="metric">수락률<small>기간 무관 비교 가능</small></td>
           <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
           <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
-        <tr class="hl"><td class="metric">수락 1건당 추가매출</td>
-          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원 (추정)</span></td>
-          <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
-          <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
-        <tr class="hl"><td class="metric">노출 1건당 추가매출</td>
+        <tr class="cmp-key"><td class="metric">노출 1건당 추가매출<small>기간 무관 비교 가능</small></td>
           <td class="col-pf"><span class="v">약 930</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">약 1,340</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">약 1,280</span> <span class="vu">원</span></td></tr>
-        <tr><td class="metric">추가매출 합계</td>
+        <tr><td class="metric">수락 1건당 추가매출</td>
+          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원 (추정)</span></td>
+          <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
+          <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
+        <tr><td class="metric">추가매출 합계<small>기간 달라 비교 불가</small></td>
           <td class="col-pf"><span class="v">약 1.51억</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">122만</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">53만</span> <span class="vu">원</span></td></tr>
@@ -294,8 +323,8 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="chart-interpret">
       <span class="chart-interpret-icon">💡</span>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div><em>수락률은 시간연장 27.4%, 차종 12.9%로 PF(6.9%)보다 높음</em><br>단 조건이 좁아 고관여 대상만 본 값이라 노출 확대 시 낮아질 수 있음</div>
-        <div><span class="ci-good">시간연장과 차종 추가매출은 사용자 고정 결제액(4,900원, 9,900원) 실측</span><br>PF 추가매출은 대조군 없는 추정(전환이 다 넛지 덕인지 미검증)이라 PF와 단가 직접 비교는 참고만</div>
+        <div><em>노출 1건당 추가매출은 세 아이템 비슷 (PF 930원, 시간연장 1,340원, 차종 1,280원)</em><br>수락률은 시간연장 27.4%로 가장 높지만 노출 조건이 좁아 고관여 대상만 본 값이라 확대 시 낮아질 수 있음</div>
+        <div>시간연장과 차종 추가매출은 사용자 고정 결제액(4,900원, 9,900원) 실측<br>PF 추가매출은 대조군 없는 추정이라(전환이 다 넛지 덕인지 미검증) PF 단가는 참고용</div>
       </div>
     </div>
   </div>
@@ -322,12 +351,14 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="card-sub">왼쪽은 미노출 85,202건의 보험등급 구분<br>오른쪽 두 칸은 그중 '이미 PF0' 6.3만 건이 어떤 예약인지 분포 (특정 구간의 미노출 비율이 아니라 구성)</div>
     <div class="who-grid">
       <div>
-        <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 구분</div>
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 보험등급 구분</div>
         <div class="mrow"><span class="k">이미 PF0</span><span class="v">74.2%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:74.2%;background:#10b981"></div></div>
         <div class="mrow" style="margin-top:8px"><span class="k">PF70/30 미노출</span><span class="v">24.5%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:24.5%;background:#f59e0b"></div></div>
-        <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">74%는 이미 PF0라 시간연장과 차종 후보<br>25%는 결제 직전 업셀링이 앱 18.20+ 기능이라 구버전 앱에서 미노출, 앱 보급되며 해소</div>
+        <div class="mrow" style="margin-top:8px"><span class="k">기타 (PF5, PF200)</span><span class="v">1.2%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:1.2%;background:#cbd5e1"></div></div>
+        <div style="font-size:12px;color:#6b7280;margin-top:10px;line-height:1.6">아래 분류 박스에서 각 구분이 줄일 수 있는 빈틈인지 정리</div>
       </div>
       <div>
         <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">대여 길이 분포 (이미 PF0 6.3만)</div>
@@ -348,11 +379,22 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="bar-track"><div class="bar-fill" style="width:7%;background:#34d399"></div></div>
       </div>
     </div>
-    <div class="action" style="margin-top:16px">
-      <b>빈틈(미노출 85,202건) 줄일 여지</b><br>
-      시간연장으로 닿을 잠재: 미노출 PF0의 6~24시간 대여 22,653건 (이 구간 시간연장 수락률 34.7%)<br>
-      앱 보급되며 자연 해소: PF70/30 미노출 중 구버전 앱 12,087건<br>
-      현 아이템과 안 맞는 빈틈: 미노출 PF0의 6시간 이하 초단기 30,721건
+    <div class="gap-title">미노출 85,202건을 줄일 수 있는지로 나누면</div>
+    <div class="gap-cats">
+      <div class="gap-cat gap-go">
+        <div class="gap-h">줄일 수 있는 빈틈 <span class="gap-sum">약 31,400건</span></div>
+        <div class="gap-i"><b>시간연장과 차종 후보 22,653건</b><br>이미 PF0지만 6~24시간 대여 (이 구간 시간연장 수락률 34.7%)</div>
+        <div class="gap-i"><b>PF 넛지 회수 대상 약 8,800건</b><br>PF70/30 미노출 중 최신 앱인데 안 뜬 건</div>
+      </div>
+      <div class="gap-cat gap-wait">
+        <div class="gap-h">시간 지나면 자연 해소 <span class="gap-sum">12,087건</span></div>
+        <div class="gap-i"><b>구버전 앱 12,087건</b><br>PF70/30 미노출 중 구버전, 앱 업데이트되면 자동 노출</div>
+      </div>
+      <div class="gap-cat gap-fix">
+        <div class="gap-h">줄이기 어려운 구조적 제외 <span class="gap-sum">약 41,700건</span></div>
+        <div class="gap-i"><b>이미 PF0의 단기와 장기 대여 약 40,600건</b><br>6시간 이하 초단기 30,721건 포함, 시간연장과 차종 조건도 안 맞음</div>
+        <div class="gap-i"><b>PF5와 PF200 1,063건</b><br>차량 보험정책상 PF0 선택지가 없던 예약이라 넛지 대상 아님</div>
+      </div>
     </div>
   </div>
 
