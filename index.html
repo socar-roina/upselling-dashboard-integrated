@@ -70,6 +70,18 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .hero-box.miss .hp { color:#64748b; }
 .hero-q { margin-top:14px; font-size:13.5px; font-weight:700; color:#334155; background:#f1f5f9; border-radius:8px; padding:11px 14px; line-height:1.5; }
 .hero-cum { margin-top:10px; font-size:11.5px; color:#9ca3af; line-height:1.7; }
+.funnel3 { display:flex; align-items:stretch; gap:8px; margin-bottom:12px; }
+.fn-card { flex:1; background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.fn-card .fl { font-size:12px; font-weight:700; color:#6b7280; }
+.fn-card .fnum { font-size:32px; font-weight:900; color:#0f172a; line-height:1.1; margin-top:4px; }
+.fn-card .fnum span { font-size:14px; font-weight:700; color:#9ca3af; margin-left:2px; }
+.fn-card .fu { font-size:12px; color:#6b7280; font-weight:600; margin-top:3px; }
+.fn-step { display:flex; align-items:center; }
+.fn-step span { font-size:11px; font-weight:800; color:#475569; text-align:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:8px; padding:6px 9px; line-height:1.3; white-space:nowrap; }
+.gap-callout { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; border-radius:10px; padding:14px 18px; margin-bottom:20px; }
+.gap-callout b { font-size:24px; font-weight:900; color:#0f172a; flex-shrink:0; }
+.gap-callout .gc-t { font-size:13px; color:#475569; font-weight:600; line-height:1.5; }
+@media (max-width:680px){ .funnel3 { flex-wrap:wrap; } .fn-step { display:none; } }
 @media (max-width:600px){ .hero-flow { grid-template-columns:1fr; } }
 .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
 .kpi-card { background:white; border-radius:14px; border:1px solid #e5e7eb; padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); }
@@ -206,35 +218,44 @@ pre.sql .cmt { color:#7dd3fc; }
 
 <div class="main">
 
-  <!-- ===== 인트로 (오리엔테이션) ===== -->
-  <div class="intro">
-    결제 직전 '결제하기'를 누르면 <b>PF 보험, 시간연장, 차종 업그레이드</b> 중 하나를 추천함 (예약당 1개).<br>
-    업셀링이 더 촘촘히 뜨도록 <b>빈틈(미노출)을 줄이고</b>, 세 아이템을 <b>누구에게 어떻게 노출할지</b> 보는 데 초점.
-  </div>
+  <!-- ===== 인트로 1줄 ===== -->
+  <div class="intro">결제 직전 <b>PF 보험, 시간연장, 차종 업그레이드</b> 중 하나를 추천 (예약당 1개). 빈틈을 줄이고 누구에게 무엇을 노출할지 보는 대시보드.</div>
 
-  <!-- ===== 한눈에 (하루 평균 프레임) ===== -->
-  <div class="section-label">한눈에 <span class="tag tag-blue">하루 평균 기준</span> <span class="tag tag-ok">BQ 실측</span></div>
-  <div class="hero">
-    <div class="hero-lead">하루 평균 약 <b>1만 건</b>이 결제 단계에 도달</div>
-    <div class="hero-flow">
-      <div class="hero-box expo">
-        <div class="hl">업셀링 노출</div>
-        <div class="hn">약 6,800건 <span class="hp">66%</span></div>
-      </div>
-      <div class="hero-box miss">
-        <div class="hl">미노출 = 빈틈</div>
-        <div class="hn">약 3,500건 <span class="hp">34%</span></div>
-      </div>
+  <!-- ===== 한눈에: 예약 노출 수락 퍼널 ===== -->
+  <div class="section-label">한눈에 <span class="tag tag-gray">5/21~6/14 누적</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="funnel3">
+    <div class="fn-card">
+      <div class="fl">전체 예약</div>
+      <div class="fnum">248,862<span>건</span></div>
+      <div class="fu">하루 평균 약 1만</div>
     </div>
-    <div class="hero-q">이 빈틈은 누구이고 무엇을 더 줄 수 있나</div>
-    <div class="hero-cum">누적 기준 (5/21~6/14): 전체 248,862건, 노출 163,703건, 수락 11,495건, 미노출 85,159건<br>미노출률은 최근 30%대로 감소 (차종 실험으로 노출이 늘고 구버전 앱이 줄어든 영향)</div>
+    <div class="fn-step"><span>66%<br>노출</span></div>
+    <div class="fn-card">
+      <div class="fl">업셀링 노출</div>
+      <div class="fnum">163,703<span>건</span></div>
+      <div class="fu">예약의 66%</div>
+    </div>
+    <div class="fn-step"><span>7.0%<br>수락</span></div>
+    <div class="fn-card">
+      <div class="fl">수락</div>
+      <div class="fnum">11,495<span>건</span></div>
+      <div class="fu">노출 대비 7.0%</div>
+    </div>
   </div>
+  <div class="gap-callout"><b>85,159건</b><span class="gc-t">노출 안 된 미노출 = 빈틈 (전체 예약의 34%)<br>이게 줄일 대상, 누구이고 무엇을 줄지는 아래에서</span></div>
 
   <!-- ===== 운영 타임라인 ===== -->
   <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/16 현재</span></div>
   <div class="card">
     <h3>어떤 아이템이 언제 운영됐나</h3>
     <div class="now">PF 보험은 5/21부터 상시 운영<br>차종은 6/10~6/24 실험 중(최우선 노출), 시간연장은 6/2 종료<br>6/24 차종 실험이 끝나면 상시 노출되는 건 PF 하나뿐</div>
+    <div class="prio">
+      <span class="pl">노출 우선순위 (예약당 1개)</span>
+      <span class="ps" style="background:#475569">AB 실험 아이템 최우선</span>
+      <span class="ps p1">1 PF</span>
+      <span class="ps p2">2 시간연장</span>
+      <span class="ps p3">3 차종</span>
+    </div>
     <div class="timeline">
       <div class="tl-axis">
         <span style="left:0;transform:none">5/21</span>
@@ -255,51 +276,6 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="tl-track"><div class="tl-bar" style="left:58.8%;right:0;background:#f59e0b">실험 중 (6/10~6/24)</div></div>
       </div>
     </div>
-  </div>
-
-  <!-- ===== 흐름: 진입에서 노출, 미노출 ===== -->
-  <div class="section-label">전체 흐름 <span class="tag tag-blue">예약 기준</span> <span class="tag tag-gray">5/21 14:00 ~ 6/14</span> <span class="tag tag-ok">BQ 실측</span></div>
-  <div class="card">
-    <h3>전체 예약의 업셀링 노출 분기</h3>
-    <div class="prio">
-      <span class="pl">노출 우선순위 (예약당 1개만)</span>
-      <span class="ps" style="background:#475569">AB 테스트 중인 아이템 최우선</span>
-    </div>
-    <div class="prio" style="margin-bottom:8px">
-      <span class="pl">그 외 기본 순서</span>
-      <span class="ps p1">1 PF 보험</span>
-      <span class="ps p2">2 시간연장</span>
-      <span class="ps p3">3 차종</span>
-    </div>
-    <div class="flow-cap">전체 예약 <b>248,862건</b> (5/21~6/14 누적) 중</div>
-    <div class="prop-bar">
-      <div class="seg" style="background:#334155;width:66%">노출 66%<span>163,703건</span></div>
-      <div class="seg" style="background:#94a3b8;width:34%">미노출 34%<span>85,159건</span></div>
-    </div>
-    <div class="flow-split">
-      <div class="flow-col expo">
-        <div class="fh"><span>노출</span><span style="font-size:11px;font-weight:600;opacity:0.85">업셀링 노출 66%</span></div>
-        <div class="fb">
-          <div class="sub-row"><span class="k">PF 보험 넛지</span><span class="v">162,511건</span></div>
-          <div class="sub-row"><span class="k">시간연장</span><span class="v">909건 <small>종료</small></span></div>
-          <div class="sub-row"><span class="k">차종 업그레이드</span><span class="v">418건 <small>6/10~</small></span></div>
-        </div>
-      </div>
-      <div class="flow-col none">
-        <div class="fh"><span>미노출</span><span style="font-size:11px;font-weight:600;opacity:0.85">업셀링 미노출 34%</span></div>
-        <div class="fb">
-          <div class="fbar">
-            <div class="s" style="background:#64748b;width:74.2%">이미 PF0 74%</div>
-            <div class="s" style="background:#94a3b8;width:24.5%">PF70/30 미노출 25%</div>
-            <div class="s" style="background:#cbd5e1;width:1.3%"></div>
-          </div>
-          <div class="sub-row"><span class="k"><b>이미 PF0</b><span class="tagline tl-target">시간연장과 차종 후보</span></span><span class="v">63,254건</span></div>
-          <div class="sub-row"><span class="k"><b>PF70/30 미노출</b><span class="tagline tl-miss">구버전 앱 미적용</span></span><span class="v">20,842건</span></div>
-          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)<span class="tagline" style="background:#f3f4f6;color:#6b7280">PF0 선택지가 없던 예약 (보험정책상)</span></span><span class="v">1,060건</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="takeaway">빈틈(미노출)의 <b>74%는 이미 PF0</b>라 PF 넛지로는 줄일 수 없음<br>빈틈을 줄이는 건 시간연장, 차종, 또는 새 아이템의 몫</div>
   </div>
 
   <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
@@ -368,11 +344,11 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="who-grid">
       <div>
         <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 보험등급 구분</div>
-        <div class="mrow"><span class="k">이미 PF0</span><span class="v">74.2%</span></div>
+        <div class="mrow"><span class="k">이미 PF0 (63,254건)</span><span class="v">74.2%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:74.2%;background:#64748b"></div></div>
-        <div class="mrow" style="margin-top:8px"><span class="k">PF70/30 미노출</span><span class="v">24.5%</span></div>
+        <div class="mrow" style="margin-top:8px"><span class="k">PF70/30 미노출 (20,842건)</span><span class="v">24.5%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:24.5%;background:#94a3b8"></div></div>
-        <div class="mrow" style="margin-top:8px"><span class="k">기타 (PF5, PF200)</span><span class="v">1.2%</span></div>
+        <div class="mrow" style="margin-top:8px"><span class="k">기타 PF5, PF200 (1,060건)</span><span class="v">1.2%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:1.2%;background:#cbd5e1"></div></div>
         <div style="font-size:12px;color:#6b7280;margin-top:10px;line-height:1.6">아래 분류 박스에서 각 구분이 줄일 수 있는 빈틈인지 정리</div>
       </div>
