@@ -139,19 +139,6 @@ pre.sql .cmt { color:#7dd3fc; }
 
 <div class="main">
 
-  <!-- ===== 결론 배너 (척추) ===== -->
-  <div class="verdict">
-    <div class="vh">핵심 요약</div>
-    <div class="vt">
-      <b>PF 보험은 상시 운영 중</b> (노출 16.3만, 수락률 6.9%, 추가매출 약 1.5억)<br>
-      차종(실험 중)과 시간연장(종료)은 조건이 좁아 노출은 적지만, <b>노출 1건당 추가매출은 PF보다 높음</b>
-    </div>
-    <div class="vsub">
-      키울 곳: 시간연장은 노출당 효율이 높아 노출 조건 완화로 키울 여지 (높은 수락률 유지 여부는 확대 후 실측), 차종은 6/24 실험 종료 후 판단<br>
-      남은 기회: 미노출 34%(8.5만) 중 PF0 74%는 시간연장과 차종 타깃, 나머지는 구버전 앱이라 업데이트되며 해소
-    </div>
-  </div>
-
   <!-- ===== 운영 현황 ===== -->
   <div class="section-label">바텀시트 기간별 운영 <span class="tag tag-blue">6/16 현재</span></div>
   <div class="card">
@@ -225,7 +212,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">아이템별 비교 <span class="tag tag-blue">예약 건 기준</span> <span class="tag tag-ok">추가매출 기준</span></div>
   <div class="card">
     <h3>노출에서 수락, 추가매출, 1건당 단가까지</h3>
-    <div class="card-sub">예약 건 기준(흐름과 같은 단위), 넛지가 더 만든 추가매출 기준<br>기간이 달라 총액보다 1건당과 노출당 단가가 공정한 비교축</div>
+    <div class="card-sub">예약 건 기준(흐름과 같은 단위)<br>매출은 시간연장과 차종은 사용자 고정 결제액(실측), PF는 대조군 없는 추정이라 PF 단가는 참고용</div>
     <table class="cmp">
       <thead>
         <tr>
@@ -249,15 +236,15 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
         <tr class="hl"><td class="metric">수락 1건당 추가매출</td>
-          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원</span></td>
+          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
           <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
         <tr class="hl"><td class="metric">노출 1건당 추가매출</td>
-          <td class="col-pf"><span class="v">약 930</span> <span class="vu">원</span></td>
+          <td class="col-pf"><span class="v">약 930</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">약 1,340</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">약 1,280</span> <span class="vu">원</span></td></tr>
         <tr><td class="metric">추가매출 합계</td>
-          <td class="col-pf"><span class="v">약 1.51억</span> <span class="vu">원</span></td>
+          <td class="col-pf"><span class="v">약 1.51억</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">122만</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">53만</span> <span class="vu">원</span></td></tr>
       </tbody>
@@ -265,9 +252,8 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="chart-interpret">
       <span class="chart-interpret-icon">💡</span>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div><em>수락률은 시간연장 27.4%, 차종 12.9%로 PF(6.9%)보다 높음</em><br>노출만 되면 좁은 조건 아이템의 수락이 더 잘 됨</div>
-        <div><em>수락 1건당 가치는 PF가 가장 큼</em> (PF 1.35만원 vs 차종 9,900원 vs 시간연장 4,900원)<br>전환 한 건의 매출은 PF 우위</div>
-        <div><span class="ci-good">노출 1건당 추가매출은 시간연장(1,340), 차종(1,280)이 PF(930)보다 높음</span><br><b>다만 높은 수락률은 조건이 좁아 고관여 대상만 본 값</b>, 조건 완화로 노출 늘리면 수락률은 낮아질 수 있어 확대 효과는 확대 후 실측 필요</div>
+        <div><em>수락률은 시간연장 27.4%, 차종 12.9%로 PF(6.9%)보다 높음</em><br>단 조건이 좁아 고관여 대상만 본 값이라 노출 확대 시 낮아질 수 있음</div>
+        <div><span class="ci-good">시간연장과 차종 추가매출은 사용자 고정 결제액(4,900원, 9,900원) 실측</span><br>PF 추가매출은 대조군 없는 추정(전환이 다 넛지 덕인지 미검증)이라 PF와 단가 직접 비교는 참고만</div>
       </div>
     </div>
   </div>
