@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업셀링 통합 모니터링</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif; background: #f7f8fa; color: #111827; font-size: 14px; line-height: 1.5; min-width: 1120px; }
+
+.top-bar { background: white; border-bottom: 1px solid #e5e7eb; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+.top-bar h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+.top-bar .meta { font-size: 11px; color: #9ca3af; margin-top: 3px; }
+.top-bar .updated { font-size: 11px; color: #9ca3af; text-align: right; line-height: 1.6; }
+
+.main { width: 100%; margin: 0 auto; padding: 18px 28px 48px; }
+
+/* 결론 배너 */
+.verdict { background: linear-gradient(135deg,#0f2040 0%,#1e293b 100%); color:#fff; border-radius:16px; padding:22px 26px; margin-bottom:20px; }
+.verdict .vh { font-size:11px; font-weight:800; letter-spacing:0.08em; color:#7dd3fc; text-transform:uppercase; margin-bottom:10px; }
+.verdict .vt { font-size:18px; font-weight:800; line-height:1.55; letter-spacing:-0.01em; }
+.verdict .vt b { color:#fbbf24; }
+.verdict .vsub { font-size:12px; color:rgba(255,255,255,0.65); margin-top:12px; line-height:1.7; }
+
+.section-label { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; }
+.tag-ok { background: #d1fae5; color: #065f46; }
+.tag-blue { background: #dbeafe; color: #1e40af; }
+.tag-gray { background: #f3f4f6; color: #6b7280; }
+
+.card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 18px 22px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); }
+.card h3 { font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 3px; }
+.card-sub { font-size: 11px; color: #9ca3af; margin-bottom: 14px; line-height: 1.5; }
+
+/* 흐름 (진입 → 노출 / 미노출) */
+.flow-top { background:#1e293b; color:#fff; border-radius:12px; padding:14px 18px; text-align:center; }
+.flow-top .l { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; }
+.flow-top .n { font-size:30px; font-weight:900; letter-spacing:-0.02em; }
+.flow-top .x { font-size:11px; color:rgba(255,255,255,0.6); }
+.flow-split { display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:10px; }
+.flow-col { border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+.flow-col .fh { padding:11px 16px; font-weight:800; font-size:14px; color:#fff; display:flex; justify-content:space-between; align-items:baseline; }
+.flow-col.expo .fh { background:#2563eb; }
+.flow-col.none .fh { background:#64748b; }
+.flow-col .fb { padding:14px 16px; }
+.prop-bar { display:flex; height:42px; border-radius:9px; overflow:hidden; margin:14px 0; }
+.prop-bar .seg { display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:800; line-height:1.2; }
+.prop-bar .seg span { font-size:10px; font-weight:600; opacity:0.85; margin-top:2px; }
+.prio { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+.prio .pl { font-size:11px; font-weight:800; color:#6b7280; margin-right:4px; }
+.prio .ps { font-size:12px; font-weight:800; padding:5px 11px; border-radius:20px; color:#fff; }
+.prio .p1 { background:#3b82f6; } .prio .p2 { background:#8b5cf6; } .prio .p3 { background:#cbd5e1; color:#475569; }
+.prio-note { font-size:11px; color:#9ca3af; line-height:1.7; margin-bottom:16px; }
+.now { background:#eff6ff; border-left:4px solid #3b82f6; border-radius:0 8px 8px 0; padding:12px 15px; font-size:13px; font-weight:700; color:#1e3a5f; line-height:1.7; margin-bottom:14px; }
+table.phase { width:100%; border-collapse:collapse; font-size:12.5px; }
+table.phase th { font-size:11px; color:#9ca3af; font-weight:700; text-align:left; padding:8px 12px; border-bottom:1px solid #e5e7eb; }
+table.phase td { padding:9px 12px; border-bottom:1px solid #f3f4f6; color:#374151; }
+table.phase tr:last-child td { border-bottom:none; }
+table.phase td:first-child { color:#6b7280; white-space:nowrap; font-weight:600; }
+table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
+.fbar { display:flex; height:34px; border-radius:7px; overflow:hidden; margin-bottom:12px; }
+.fbar .s { display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:800; }
+.sub-row { display:flex; justify-content:space-between; font-size:12px; padding:7px 0; border-bottom:1px dashed #eef0f3; }
+.sub-row:last-child { border-bottom:none; }
+.sub-row .k { color:#6b7280; }
+.sub-row .k b { color:#111827; }
+.sub-row .v { font-weight:800; color:#111827; }
+.sub-row .v small { font-weight:600; color:#9ca3af; font-size:11px; }
+.tagline { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:20px; margin-left:6px; }
+.tl-target { background:#dcfce7; color:#166534; }
+.tl-miss { background:#fef3c7; color:#92400e; }
+
+/* 비교표 */
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.cmp th, table.cmp td { padding: 12px 14px; text-align: right; border-bottom: 1px solid #f3f4f6; }
+table.cmp th { font-size: 11px; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #e5e7eb; }
+table.cmp th:first-child, table.cmp td:first-child { text-align: left; }
+table.cmp td.metric { color: #6b7280; font-weight: 600; }
+table.cmp .v { font-weight: 800; color: #111827; font-size: 15px; }
+table.cmp .vu { font-size: 11px; color: #9ca3af; font-weight: 600; }
+table.cmp .colhead { font-size: 14px; font-weight: 800; color: #111827; }
+table.cmp .colhead small { display: block; font-size: 10px; font-weight: 600; color: #9ca3af; margin-top: 2px; }
+table.cmp tr.hl td { background: #f0fdf4; }
+table.cmp td.dim { color: #cbd5e1; font-weight: 700; }
+.col-pf { border-left: 3px solid #3b82f6; }
+.col-iv { border-left: 3px solid #8b5cf6; }
+.col-cu { border-left: 3px solid #cbd5e1; }
+
+.chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size: 12px; color: #374151; line-height: 1.6; }
+.chart-interpret-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.chart-interpret em { font-style: normal; font-weight: 700; color: #111827; }
+.ci-good { color: #059669; font-weight: 700; }
+
+/* 미노출 심층 */
+.who-grid { display:grid; grid-template-columns: 1.1fr 1fr 1fr; gap:14px; }
+.mrow { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:8px 0; border-bottom:1px solid #f3f4f6; }
+.mrow:last-child { border-bottom:none; }
+.mrow .k { color:#6b7280; }
+.mrow .v { font-weight:700; color:#111827; }
+.bar-track { height: 8px; background:#f3f4f6; border-radius:99px; overflow:hidden; margin-top:6px; }
+.bar-fill { height:100%; border-radius:99px; }
+.action { background:#ecfdf5; border-left:4px solid #10b981; border-radius:0 10px 10px 0; padding:13px 16px; font-size:12.5px; color:#065f46; line-height:1.7; }
+.action b { color:#047857; }
+
+.prep-card { background:#fbfbfc; border:1px dashed #d1d5db; border-radius:12px; padding:18px 22px; margin-bottom:14px; }
+.prep-card h3 { font-size:13px; font-weight:700; color:#6b7280; }
+.badge { font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px; }
+.b-prep { background:#f3f4f6; color:#6b7280; }
+
+.chart-wrap { height: 270px; position: relative; }
+
+.method { background:#fbfbfc; border:1px solid #eef0f3; border-radius:12px; padding:18px 22px; margin-top:8px; }
+.method h3 { font-size:12px; font-weight:800; color:#374151; margin-bottom:10px; }
+.method-item { font-size:11.5px; color:#4b5563; line-height:1.7; margin-bottom:6px; }
+.method-item code { background:#f3f4f6; border-radius:4px; padding:1px 5px; font-family: ui-monospace, Menlo, monospace; font-size:11px; color:#374151; }
+.method-item strong { color:#111827; }
+pre.sql { background:#0f172a; color:#e2e8f0; border-radius:8px; padding:13px 15px; font-family: ui-monospace, Menlo, monospace; font-size:11px; line-height:1.6; overflow-x:auto; margin-top:8px; white-space:pre; }
+pre.sql .cmt { color:#7dd3fc; }
+.method-details { margin-top:26px; }
+.method-summary { cursor:pointer; font-size:11px; font-weight:700; color:#6b7280; letter-spacing:0.06em; padding:10px 16px; background:#f3f4f6; border-radius:8px; display:inline-block; list-style:none; }
+.method-summary::-webkit-details-marker { display:none; }
+.method-summary::before { content:'＋ '; color:#9ca3af; }
+.method-details[open] .method-summary::before { content:'－ '; }
+.method-details[open] .method-summary { margin-bottom:14px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>업셀링 통합 모니터링</h1>
+    <div class="meta">결제 직전 추천 화면(PF 보험, 시간연장, 차종 업그레이드)의 노출에서 수락, 매출, 미노출까지 한 화면에서 추적</div>
+  </div>
+  <div class="updated">데이터 기준: 2026-06-14 (KST), BQ 실측<br>이벤트와 결제 D+1 반영이라 6/15 이후 제외</div>
+</div>
+
+<div class="main">
+
+  <!-- ===== 결론 배너 (척추) ===== -->
+  <div class="verdict">
+    <div class="vh">핵심 요약</div>
+    <div class="vt">
+      업셀링 노출은 사실상 <b>PF 보험뿐</b> (노출 16.3만, 수락률 6.9%, 추가매출 약 1.5억)<br>
+      시간연장과 차종은 조건이 좁아 노출이 100배 이상 적지만, <b>노출 1건당 추가매출은 PF보다 높음</b>
+    </div>
+    <div class="vsub">
+      키울 곳: 시간연장과 차종은 노출 조건을 완화해 노출 확대 여지 (단 좁은 조건이 만든 높은 수락률이 유지될지는 확대 후 실측)<br>
+      남은 기회: 미노출 34%(8.5만) 중 PF0 74%는 시간연장과 차종 타깃, 나머지는 구버전 앱이라 업데이트되며 해소
+    </div>
+  </div>
+
+  <!-- ===== 운영 현황 ===== -->
+  <div class="section-label">바텀시트 기간별 운영 <span class="tag tag-blue">6/16 현재</span></div>
+  <div class="card">
+    <h3>지금 바텀시트엔 무엇이 뜨고 있나</h3>
+    <div class="now">현재 PF 보험 상시 운영<br>차종 업그레이드 실험 중 (6/10~6/24, 최우선 노출)<br>시간연장은 6/2 종료, 정규화 대기</div>
+    <table class="phase">
+      <tr><th>기간</th><th>바텀시트 운영</th></tr>
+      <tr><td>5/13 ~ 5/21</td><td>PF 실험 + 시간연장 실험</td></tr>
+      <tr><td>5/21 ~ 6/2</td><td>PF 상시 운영 + 시간연장 실험</td></tr>
+      <tr><td>6/2 ~ 6/10</td><td>PF 상시 운영</td></tr>
+      <tr class="cur"><td>6/10 ~ 6/24 (현재)</td><td>PF 상시 운영 + 차종 실험 (차종 최우선 노출)</td></tr>
+      <tr><td>6/24 ~</td><td>PF 상시 운영 (차종 실험 종료 후)</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== 흐름: 진입 → 노출 / 미노출 ===== -->
+  <div class="section-label">전체 흐름 <span class="tag tag-blue">예약 기준</span> <span class="tag tag-gray">5/21 14:00 ~ 6/14</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="card">
+    <h3>전체 예약의 업셀링 노출 분기</h3>
+    <div class="prio">
+      <span class="pl">노출 우선순위 (예약당 1개만)</span>
+      <span class="ps" style="background:#ef4444">AB 테스트 중인 아이템 최우선</span>
+    </div>
+    <div class="prio" style="margin-bottom:8px">
+      <span class="pl">그 외 기본 순서</span>
+      <span class="ps p1">1 PF 보험</span>
+      <span class="ps p2">2 시간연장</span>
+      <span class="ps p3">3 차종</span>
+    </div>
+    <div class="prio-note">
+      효과 측정을 위해 AB 테스트 중인 아이템을 최우선 노출, 대상이 아니면 기본 순서로 내려감<br>
+      현재 차종이 AB 테스트 중(6/10~6/24)이라 차종이 최우선<br>
+      시간연장이 AB 중이던 5/21~6/2엔 대상이면 최우선이었으나 조건이 좁아 908건뿐, 나머지는 PF가 노출
+    </div>
+    <div class="flow-top">
+      <div class="l">전체 예약</div>
+      <div class="n">248,862<span style="font-size:15px">건</span></div>
+      <div class="x">일평균 약 1만 건</div>
+    </div>
+    <div class="prop-bar">
+      <div class="seg" style="background:#2563eb;width:66%">노출 66%<span>163,660건</span></div>
+      <div class="seg" style="background:#94a3b8;width:34%">미노출 34%<span>85,202건</span></div>
+    </div>
+    <div class="flow-split">
+      <div class="flow-col expo">
+        <div class="fh"><span>노출</span><span style="font-size:11px;font-weight:600;opacity:0.85">업셀링 뜬 예약 66%</span></div>
+        <div class="fb">
+          <div class="sub-row"><span class="k">PF 보험 넛지</span><span class="v">162,511건</span></div>
+          <div class="sub-row"><span class="k">시간연장</span><span class="v">909건 <small>종료</small></span></div>
+          <div class="sub-row"><span class="k">차종 업그레이드</span><span class="v">418건 <small>6/10~</small></span></div>
+          <div style="font-size:10.5px;color:#9ca3af;margin-top:8px">PF는 PF70/30 전체에 상시 노출, 시간연장은 조건이 좁아 극소량<br>수락과 매출은 아래 비교표 참고</div>
+        </div>
+      </div>
+      <div class="flow-col none">
+        <div class="fh"><span>미노출</span><span style="font-size:11px;font-weight:600;opacity:0.85">아무 업셀링 안 뜸 34%</span></div>
+        <div class="fb">
+          <div class="fbar">
+            <div class="s" style="background:#10b981;width:74.2%">이미 PF0 74%</div>
+            <div class="s" style="background:#f59e0b;width:24.5%">PF 노출 누락 25%</div>
+            <div class="s" style="background:#cbd5e1;width:1.3%"></div>
+          </div>
+          <div class="sub-row"><span class="k"><b>이미 PF0</b><span class="tagline tl-target">시간연장과 차종 후보</span></span><span class="v">63,257건</span></div>
+          <div class="sub-row"><span class="k"><b>PF 노출 누락</b><span class="tagline tl-miss">구버전 앱 미적용</span></span><span class="v">20,882건</span></div>
+          <div class="sub-row"><span class="k">기타</span><span class="v">1,063건</span></div>
+          <div style="font-size:10.5px;color:#9ca3af;margin-top:8px">73%는 이미 PF0라 PF 불가, 시간연장과 차종 후보<br>25%는 결제 직전 업셀링이 앱 18.20+ 기능이라 구버전 앱에서 미노출, 앱 보급되며 해소</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
+  <div class="section-label">아이템별 비교 <span class="tag tag-blue">예약 건 기준</span> <span class="tag tag-ok">추가매출 기준</span></div>
+  <div class="card">
+    <h3>노출에서 수락, 추가매출, 1건당 단가까지</h3>
+    <div class="card-sub">예약 건 기준(흐름과 같은 단위), 넛지가 더 만든 추가매출 기준<br>기간이 달라 총액보다 1건당과 노출당 단가가 공정한 비교축</div>
+    <table class="cmp">
+      <thead>
+        <tr>
+          <th>지표</th>
+          <th class="col-pf"><div class="colhead">PF 보험 넛지<small>상시 운영, 5/21~6/14</small></div></th>
+          <th class="col-iv"><div class="colhead">시간연장<small>실험 종료, 5/13~6/2</small></div></th>
+          <th class="col-cu"><div class="colhead">차종 업그레이드<small>실험 중, 6/10~6/24</small></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="metric">노출 예약</td>
+          <td class="col-pf"><span class="v">162,511</span> <span class="vu">건</span></td>
+          <td class="col-iv"><span class="v">909</span> <span class="vu">건</span></td>
+          <td class="col-cu"><span class="v">418</span> <span class="vu">건</span></td></tr>
+        <tr><td class="metric">수락 예약</td>
+          <td class="col-pf"><span class="v">11,192</span> <span class="vu">건</span></td>
+          <td class="col-iv"><span class="v">249</span> <span class="vu">건</span></td>
+          <td class="col-cu"><span class="v">54</span> <span class="vu">건</span></td></tr>
+        <tr><td class="metric">수락률</td>
+          <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
+          <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
+          <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
+        <tr class="hl"><td class="metric">수락 1건당 추가매출</td>
+          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원</span></td>
+          <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
+          <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
+        <tr class="hl"><td class="metric">노출 1건당 추가매출</td>
+          <td class="col-pf"><span class="v">약 930</span> <span class="vu">원</span></td>
+          <td class="col-iv"><span class="v">약 1,340</span> <span class="vu">원</span></td>
+          <td class="col-cu"><span class="v">약 1,280</span> <span class="vu">원</span></td></tr>
+        <tr><td class="metric">추가매출 합계</td>
+          <td class="col-pf"><span class="v">약 1.51억</span> <span class="vu">원</span></td>
+          <td class="col-iv"><span class="v">122만</span> <span class="vu">원</span></td>
+          <td class="col-cu"><span class="v">53만</span> <span class="vu">원</span></td></tr>
+      </tbody>
+    </table>
+    <div class="chart-interpret">
+      <span class="chart-interpret-icon">💡</span>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div><em>수락률은 시간연장 27.4%, 차종 12.9%로 PF(6.9%)보다 높음</em><br>노출만 되면 좁은 조건 아이템의 수락이 더 잘 됨</div>
+        <div><em>수락 1건당 가치는 PF가 가장 큼</em> (PF 1.35만원 vs 차종 9,900원 vs 시간연장 4,900원)<br>전환 한 건의 매출은 PF 우위</div>
+        <div><span class="ci-good">노출 1건당 추가매출은 시간연장(1,340), 차종(1,280)이 PF(930)보다 높음</span><br><b>다만 높은 수락률은 조건이 좁아 고관여 대상만 본 값</b>, 조건 완화로 노출 늘리면 수락률은 낮아질 수 있어 확대 효과는 확대 후 실측 필요</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
+  <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,202건 분해</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="card">
+    <h3>미노출 예약의 정체</h3>
+    <div class="who-grid">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 구분</div>
+        <div class="mrow"><span class="k">이미 PF0</span><span class="v">74.2%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:74.2%;background:#10b981"></div></div>
+        <div class="mrow" style="margin-top:8px"><span class="k">PF 노출 누락 (PF70/30)</span><span class="v">24.5%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:24.5%;background:#f59e0b"></div></div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">74%는 이미 PF0라 시간연장과 차종 후보<br>25%는 결제 직전 업셀링이 앱 18.20+ 기능이라 구버전 앱에서 미노출, 앱 보급되며 해소</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">대여 길이 (이미 PF0 6.3만)</div>
+        <div class="mrow"><span class="k">6시간 이하</span><span class="v">49%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:49%;background:#3b82f6"></div></div>
+        <div class="mrow" style="margin-top:6px"><span class="k">6~24시간</span><span class="v">36%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:36%;background:#60a5fa"></div></div>
+        <div class="mrow" style="margin-top:6px"><span class="k">1~3일</span><span class="v">14%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:14%;background:#93c5fd"></div></div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">지역 (이미 PF0 6.3만)</div>
+        <div class="mrow"><span class="k">수도권 (서울/경기/인천)</span><span class="v">57%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:57%;background:#3b82f6"></div></div>
+        <div class="mrow" style="margin-top:6px"><span class="k">부산</span><span class="v">7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#93c5fd"></div></div>
+        <div class="mrow" style="margin-top:6px"><span class="k">제주</span><span class="v">7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#34d399"></div></div>
+      </div>
+    </div>
+    <div class="action" style="margin-top:16px">
+      <b>미노출, 무엇으로 공략하나</b><br>
+      이미 PF0 6.3만: PF는 끝 → <b>시간연장이나 차종</b> 투입 대상 (절반이 6시간 이하 단기, 수도권 57%)<br>
+      PF 노출 누락 2.1만: <b>앱 18.20+ 기능</b>이라 구버전 미노출, 앱 보급되며 자연 해소
+    </div>
+  </div>
+
+  <!-- ===== PF 일별 추이 (보조) ===== -->
+  <div class="section-label">PF 일별 추이 <span class="tag tag-blue">노출 예약 (막대)</span> <span class="tag tag-ok">수락률 (선)</span></div>
+  <div class="card">
+    <h3>상시 운영 중인 PF 보험 넛지</h3>
+    <div class="card-sub">최근 1~2일 수락률 하락은 결제 D+1 지연 영향</div>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+  </div>
+
+  <!-- ===== method ===== -->
+  <details class="method-details">
+  <summary class="method-summary">집계 기준, 데이터 출처, 쿼리</summary>
+  <div class="method">
+    <h3>핵심 정의</h3>
+    <div class="method-item">• <strong>전체 예약</strong>: <code>profit_socar_reservation</code> 생성 예약(5/21 14:00~6/14)<br>업셀링 노출 대상을 예약으로 잡음(결제 직전 도달 전용 이벤트가 없어 예약으로 근사)</div>
+    <div class="method-item">• <strong>노출/미노출</strong>: 예약 회원이 그날 <code>page_name='upsell_bottomsheet'</code> <code>view</code> 이벤트가 있으면 노출, 없으면 미노출<br>회원+날짜 단위 매칭(예약ID가 이벤트에 없어 reservation_id 직접 매칭 불가)</div>
+    <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
+    <div class="method-item">• <strong>수락률</strong>: 수락 예약 ÷ 노출 예약 (흐름과 같은 예약 건 기준)</div>
+    <div class="method-item">• <strong>수락 1건당 추가매출</strong>: PF는 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원)<br>시간연장은 고정 4,900원, 차종은 고정 9,900원(사용자 추가 결제)</div>
+    <div class="method-item">• <strong>노출 1건당 추가매출</strong>: 추가매출 합계 ÷ 노출 예약<br>기간과 무관해 아이템 간 효율 비교축</div>
+    <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.7억, 전환 전 보험료 차감 시 추가매출 약 1.5억<br>의사결정은 추가매출 기준</div>
+
+    <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
+    <div class="method-item">• <strong>인과</strong>: 정규화된 PF는 대조군이 없어 넛지가 '추가로' 유발한 비율은 정밀 측정 불가(원래 살 사람 포함)<br>노출당과 수락당 비교엔 PF와 시간연장에 동일 적용이라 상대 비교는 유효<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
+    <div class="method-item">• <strong>단위</strong>: 흐름과 비교표 모두 예약 건 기준으로 통일</div>
+    <div class="method-item">• <strong>미노출 등급</strong>: pf_type은 결제 결과 등급<br>'이미 PF0'는 결과 PF0(자기부담금 0원)면서 미노출인 건으로 진입 시점 등급의 근사</div>
+    <div class="method-item">• <strong>최근 지연</strong>: 6/13~6/14 수락은 결제 D+1 반영으로 과소집계 가능</div>
+
+    <h3 style="margin-top:16px">데이터 출처 (BigQuery)</h3>
+    <div class="method-item">• 노출: <code>socar-data.app_web_log.socar_app_web_log</code> (page_name='upsell_bottomsheet')</div>
+    <div class="method-item">• PF 수락/매출/등급: <code>socar-data.socar_biz_profit.profit_socar_reservation</code> (pf_type, _rev_pf, utime, region1)</div>
+    <div class="method-item">• 시간연장과 차종 수락/매출: <code>socar-data.dbt.stg_tianjin_replica__paid_info</code> (paid_type='upselling_discount', 차종은 6/10 이후분)</div>
+
+    <h3 style="margin-top:16px">쿼리 (미노출 분해)</h3>
+    <pre class="sql"><span class="cmt">-- 예약을 노출/미노출 × 보험등급으로 분해</span>
+WITH v AS (
+  SELECT DISTINCT DATE(event_at_kst) d, member_id
+  FROM `socar-data.app_web_log.socar_app_web_log`
+  WHERE page_name='upsell_bottomsheet' AND event_name='view'
+    AND event_at_kst >= DATETIME '2026-05-21 14:00:00'
+    AND event_at_kst <  DATETIME '2026-06-15 00:00:00'
+),
+r AS (
+  SELECT DATE(created_at_kst) d, member_id, pf_type, utime, region1
+  FROM `socar-data.socar_biz_profit.profit_socar_reservation`
+  WHERE created_at_kst >= DATETIME '2026-05-21 14:00:00'
+    AND created_at_kst <  DATETIME '2026-06-15 00:00:00'
+)
+SELECT IF(v.member_id IS NULL,'미노출','노출') expose, r.pf_type,
+  COUNT(*) rsv, COUNT(DISTINCT r.member_id) uu
+FROM r LEFT JOIN v ON r.d=v.d AND r.member_id=v.member_id
+GROUP BY 1,2;</pre>
+  </div>
+  </details>
+
+</div>
+
+<script>
+const labels   = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14'];
+const exposed  = [4459,6495,5539,5081,6874,7156,6916,7320,6522,6350,7038,7569,6696,7696,7322,6564,6086,6219,6963,6622,6978,6862,5806,5578,5800];
+const accepted = [292,549,545,481,532,478,474,500,551,504,436,470,528,485,410,482,439,361,417,377,396,358,431,390,306];
+const rate = labels.map((_,i)=> exposed[i] ? +((accepted[i]/exposed[i]*100).toFixed(1)) : null);
+const colBlue='#3b82f6', colGreen='#16a34a';
+new Chart(document.getElementById('trendChart'), {
+  data: { labels, datasets: [
+    { type:'bar', label:'노출 예약 수', data: exposed, backgroundColor:'rgba(59,130,246,0.20)', borderColor:colBlue, borderWidth:1, yAxisID:'y', borderRadius:4, order:2 },
+    { type:'line', label:'수락률 (%)', data: rate, borderColor:colGreen, backgroundColor:'rgba(22,163,74,0.08)', pointBackgroundColor:colGreen, pointRadius:4, borderWidth:2.5, tension:0.35, yAxisID:'y1', order:1, spanGaps:true }
+  ]},
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ labels:{ font:{size:11}, boxWidth:12, padding:12 } } },
+    scales:{
+      x:{ ticks:{font:{size:11}}, grid:{display:false} },
+      y:{ position:'left', beginAtZero:true, suggestedMax:8000, title:{display:true,text:'노출 예약',font:{size:10},color:'#9ca3af'}, ticks:{font:{size:11}, callback:v=>v.toLocaleString()}, grid:{color:'#f3f4f6'} },
+      y1:{ position:'right', beginAtZero:true, suggestedMax:12, title:{display:true,text:'수락률 %',font:{size:10},color:'#16a34a'}, ticks:{font:{size:11}, callback:v=>v+'%'}, grid:{drawOnChartArea:false} }
+    }
+  }
+});
+</script>
+</body>
+</html>
