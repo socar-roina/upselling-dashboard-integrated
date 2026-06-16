@@ -473,7 +473,7 @@ new Chart(document.getElementById('targetChart'), {
     responsive:true, maintainAspectRatio:false,
     plugins:{
       legend:{ labels:{ font:{size:11}, boxWidth:12, padding:12 } },
-      tooltip:{ callbacks:{ label:c=> c.parsed.y==null?`${c.dataset.label}: 표본 부족`:`${c.dataset.label}: ${c.parsed.y}%` } }
+      tooltip:{ callbacks:{ label:c=> `${c.dataset.label}: ${c.parsed.y}%` } }
     },
     scales:{
       x:{ ticks:{font:{size:11}}, grid:{display:false} },
