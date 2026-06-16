@@ -160,7 +160,7 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== KPI 히어로 ===== -->
-  <div class="section-label">핵심 수치 <span class="tag tag-gray">5/21 14:00 ~ 6/14 누적</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="section-label">핵심 수치 <span class="tag tag-gray">전체 기간 누적 (5/21~6/14)</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="kpi-row">
     <div class="kpi-card">
       <div class="kpi-top">전체 예약</div>
@@ -244,7 +244,7 @@ pre.sql .cmt { color:#7dd3fc; }
           </div>
           <div class="sub-row"><span class="k"><b>이미 PF0</b><span class="tagline tl-target">시간연장과 차종 후보</span></span><span class="v">63,257건</span></div>
           <div class="sub-row"><span class="k"><b>PF70/30 미노출</b><span class="tagline tl-miss">구버전 앱 미적용</span></span><span class="v">20,882건</span></div>
-          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)<span class="tagline" style="background:#f3f4f6;color:#6b7280">넛지 비대상 등급</span></span><span class="v">1,063건</span></div>
+          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)<span class="tagline" style="background:#f3f4f6;color:#6b7280">PF0 전환 옵션 없는 비표준 면책</span></span><span class="v">1,063건</span></div>
         </div>
       </div>
     </div>
@@ -304,33 +304,9 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">누구에게 어떤 아이템이 잘 먹히나 <span class="tag tag-blue">대여 길이별 수락률</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="card">
     <h3>대여 길이별 아이템 수락률</h3>
-    <div class="card-sub">각 아이템이 노출된 예약 중 수락 비율<br>시간연장과 차종은 노출 모수가 작아 1~3일 이상 구간은 표본 부족</div>
-    <table class="cmp">
-      <thead>
-        <tr><th>대여 길이</th>
-          <th class="col-pf"><div class="colhead">PF 보험</div></th>
-          <th class="col-iv"><div class="colhead">시간연장</div></th>
-          <th class="col-cu"><div class="colhead">차종</div></th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="metric">6시간 이하</td>
-          <td class="col-pf"><span class="v">7.2</span> <span class="vu">%</span></td>
-          <td class="col-iv"><span class="v">7.8</span> <span class="vu">%</span></td>
-          <td class="col-cu"><span class="v">4.3</span> <span class="vu">%</span></td></tr>
-        <tr class="hl"><td class="metric">6~24시간</td>
-          <td class="col-pf"><span class="v">5.9</span> <span class="vu">%</span></td>
-          <td class="col-iv"><span class="v">34.7</span> <span class="vu">%</span></td>
-          <td class="col-cu"><span class="v">10.4</span> <span class="vu">%</span></td></tr>
-        <tr><td class="metric">1~3일</td>
-          <td class="col-pf"><span class="v">9.2</span> <span class="vu">%</span></td>
-          <td class="col-iv dim">표본 부족</td>
-          <td class="col-cu dim">표본 부족</td></tr>
-        <tr><td class="metric">3일 초과</td>
-          <td class="col-pf"><span class="v">7.9</span> <span class="vu">%</span></td>
-          <td class="col-iv dim">표본 부족</td>
-          <td class="col-cu dim">표본 부족</td></tr>
-      </tbody>
-    </table>
+    <div class="card-sub">각 아이템이 노출된 예약 중 수락한 비율</div>
+    <div class="chart-wrap" style="height:260px"><canvas id="targetChart"></canvas></div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:6px">시간연장과 차종은 1~3일 이상 구간 노출 표본이 적어 막대 생략</div>
     <div class="chart-interpret">
       <span class="chart-interpret-icon">💡</span>
       <div style="display:flex;flex-direction:column;gap:6px">
@@ -382,7 +358,7 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== 미노출률 추이 ===== -->
-  <div class="section-label">미노출률 추이 <span class="tag tag-blue">일별</span> <span class="tag tag-ok">BQ 실측</span></div>
+  <div class="section-label">미노출률 추이 <span class="tag tag-blue">지금 추세 (일별)</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="card">
     <h3>미노출률 일별 추이</h3>
     <div class="card-sub">초기 약 37%에서 최근 30%대로 감소 (차종 실험과 앱 보급 영향)</div>
@@ -480,6 +456,29 @@ new Chart(document.getElementById('trendChart'), {
       x:{ ticks:{font:{size:11}}, grid:{display:false} },
       y:{ position:'left', beginAtZero:true, suggestedMax:8000, title:{display:true,text:'노출 예약',font:{size:10},color:'#9ca3af'}, ticks:{font:{size:11}, callback:v=>v.toLocaleString()}, grid:{color:'#f3f4f6'} },
       y1:{ position:'right', beginAtZero:true, suggestedMax:12, title:{display:true,text:'수락률 %',font:{size:10},color:'#16a34a'}, ticks:{font:{size:11}, callback:v=>v+'%'}, grid:{drawOnChartArea:false} }
+    }
+  }
+});
+
+new Chart(document.getElementById('targetChart'), {
+  type:'bar',
+  data:{
+    labels:['6시간 이하','6~24시간','1~3일','3일 초과'],
+    datasets:[
+      { label:'PF 보험', data:[7.2,5.9,9.2,7.9], backgroundColor:'#3b82f6', borderRadius:4 },
+      { label:'시간연장', data:[7.8,34.7,null,null], backgroundColor:'#16a34a', borderRadius:4 },
+      { label:'차종', data:[4.3,10.4,null,null], backgroundColor:'#f59e0b', borderRadius:4 }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{ labels:{ font:{size:11}, boxWidth:12, padding:12 } },
+      tooltip:{ callbacks:{ label:c=> c.parsed.y==null?`${c.dataset.label}: 표본 부족`:`${c.dataset.label}: ${c.parsed.y}%` } }
+    },
+    scales:{
+      x:{ ticks:{font:{size:11}}, grid:{display:false} },
+      y:{ beginAtZero:true, suggestedMax:40, title:{display:true,text:'수락률 %',font:{size:10},color:'#9ca3af'}, ticks:{font:{size:11}, callback:v=>v+'%'}, grid:{color:'#f3f4f6'} }
     }
   }
 });
