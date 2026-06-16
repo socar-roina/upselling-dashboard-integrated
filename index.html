@@ -214,9 +214,7 @@ pre.sql .cmt { color:#7dd3fc; }
       <span class="ps p3">3 차종</span>
     </div>
     <div class="prio-note">
-      효과 측정을 위해 AB 테스트 중인 아이템을 최우선 노출, 대상이 아니면 기본 순서로 내려감<br>
-      현재 차종이 AB 테스트 중(6/10~6/24)이라 차종이 최우선<br>
-      시간연장이 AB 중이던 5/21~6/2엔 대상이면 최우선이었으나 조건이 좁아 908건뿐, 나머지는 PF가 노출
+      AB 테스트 중인 아이템이 최우선, 대상이 아니면 기본 순서 (현재 차종 6/10~6/24 실험 중이라 차종 최우선)
     </div>
     <div class="flow-top">
       <div class="l">전체 예약</div>
@@ -234,7 +232,6 @@ pre.sql .cmt { color:#7dd3fc; }
           <div class="sub-row"><span class="k">PF 보험 넛지</span><span class="v">162,511건</span></div>
           <div class="sub-row"><span class="k">시간연장</span><span class="v">909건 <small>종료</small></span></div>
           <div class="sub-row"><span class="k">차종 업그레이드</span><span class="v">418건 <small>6/10~</small></span></div>
-          <div style="font-size:10.5px;color:#9ca3af;margin-top:8px">PF는 상시 운영이라 노출이 크고, 차종과 시간연장은 실험이고 조건이 좁아 노출 적음<br>수락과 매출은 아래 비교표 참고</div>
         </div>
       </div>
       <div class="flow-col none">
@@ -247,8 +244,7 @@ pre.sql .cmt { color:#7dd3fc; }
           </div>
           <div class="sub-row"><span class="k"><b>이미 PF0</b><span class="tagline tl-target">시간연장과 차종 후보</span></span><span class="v">63,257건</span></div>
           <div class="sub-row"><span class="k"><b>PF70/30 미노출</b><span class="tagline tl-miss">구버전 앱 미적용</span></span><span class="v">20,882건</span></div>
-          <div class="sub-row"><span class="k">기타</span><span class="v">1,063건</span></div>
-          <div style="font-size:10.5px;color:#9ca3af;margin-top:8px">73%는 이미 PF0라 PF 불가, 시간연장과 차종 후보<br>25%는 결제 직전 업셀링이 앱 18.20+ 기능이라 구버전 앱에서 미노출, 앱 보급되며 해소</div>
+          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)</span><span class="v">1,063건</span></div>
         </div>
       </div>
     </div>
