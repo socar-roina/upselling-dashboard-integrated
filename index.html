@@ -244,7 +244,7 @@ pre.sql .cmt { color:#7dd3fc; }
           </div>
           <div class="sub-row"><span class="k"><b>이미 PF0</b><span class="tagline tl-target">시간연장과 차종 후보</span></span><span class="v">63,257건</span></div>
           <div class="sub-row"><span class="k"><b>PF70/30 미노출</b><span class="tagline tl-miss">구버전 앱 미적용</span></span><span class="v">20,882건</span></div>
-          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)<span class="tagline" style="background:#f3f4f6;color:#6b7280">PF0 전환 옵션 없는 비표준 면책</span></span><span class="v">1,063건</span></div>
+          <div class="sub-row"><span class="k">기타 등급 (PF5, PF200)<span class="tagline" style="background:#f3f4f6;color:#6b7280">넛지 사다리 밖 비표준 면책 등급</span></span><span class="v">1,063건</span></div>
         </div>
       </div>
     </div>
@@ -304,14 +304,13 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">누구에게 어떤 아이템이 잘 먹히나 <span class="tag tag-blue">대여 길이별 수락률</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="card">
     <h3>대여 길이별 아이템 수락률</h3>
-    <div class="card-sub">각 아이템이 노출된 예약 중 수락한 비율</div>
+    <div class="card-sub">각 아이템이 노출된 예약 중 수락한 비율<br>시간연장과 차종은 노출 조건상 24시간 이내 예약에만 떠서, 세 아이템이 겹치는 24시간 이내 구간만 비교</div>
     <div class="chart-wrap" style="height:260px"><canvas id="targetChart"></canvas></div>
-    <div style="font-size:11px;color:#9ca3af;margin-top:6px">시간연장과 차종은 1~3일 이상 구간 노출 표본이 적어 막대 생략</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:6px">PF는 모든 대여 길이에 노출되며 전 구간 수락률 6~9%로 고름 (1~3일 9.2%, 3일 초과 7.9%)</div>
     <div class="chart-interpret">
       <span class="chart-interpret-icon">💡</span>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div><span class="ci-good">시간연장은 6~24시간 대여에서 수락률 34.7%로 압도적</span> (같은 구간 PF 5.9%, 차종 10.4%)<br>6~24시간 대여 고객이 시간연장 확률이 가장 높은 타겟</div>
-        <div>PF는 전 구간 6~9%로 고르고 1~3일 대여에서 9.2%로 가장 높음</div>
       </div>
     </div>
   </div>
@@ -463,11 +462,11 @@ new Chart(document.getElementById('trendChart'), {
 new Chart(document.getElementById('targetChart'), {
   type:'bar',
   data:{
-    labels:['6시간 이하','6~24시간','1~3일','3일 초과'],
+    labels:['6시간 이하','6~24시간'],
     datasets:[
-      { label:'PF 보험', data:[7.2,5.9,9.2,7.9], backgroundColor:'#3b82f6', borderRadius:4 },
-      { label:'시간연장', data:[7.8,34.7,null,null], backgroundColor:'#16a34a', borderRadius:4 },
-      { label:'차종', data:[4.3,10.4,null,null], backgroundColor:'#f59e0b', borderRadius:4 }
+      { label:'PF 보험', data:[7.2,5.9], backgroundColor:'#3b82f6', borderRadius:4 },
+      { label:'시간연장', data:[7.8,34.7], backgroundColor:'#16a34a', borderRadius:4 },
+      { label:'차종', data:[4.3,10.4], backgroundColor:'#f59e0b', borderRadius:4 }
     ]
   },
   options:{
