@@ -221,7 +221,7 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="hn">약 3,500건 <span class="hp">34%</span></div>
       </div>
     </div>
-    <div class="hero-q">이 빈틈 약 3,500건은 누구이고 무엇을 더 줄 수 있나 (아래 미노출 분류에서 정리)</div>
+    <div class="hero-q">이 빈틈은 누구이고 무엇을 더 줄 수 있나</div>
     <div class="hero-cum">누적 기준 (5/21~6/14): 전체 248,862건, 노출 163,660건, 수락 11,495건, 미노출 85,202건<br>미노출률은 최근 30%대로 감소 (차종 실험과 앱 보급 영향)</div>
   </div>
 
@@ -235,20 +235,19 @@ pre.sql .cmt { color:#7dd3fc; }
         <span style="left:0;transform:none">5/21</span>
         <span style="left:35.3%">6/2</span>
         <span style="left:58.8%">6/10</span>
-        <span class="now" style="left:76.5%">오늘</span>
         <span style="left:100%;transform:translateX(-100%)">6/24</span>
       </div>
       <div class="tl-row">
         <span class="tl-label">PF 보험</span>
-        <div class="tl-track"><div class="tl-bar" style="left:0;right:0;background:#3b82f6">상시 운영</div><div class="tl-now" style="left:76.5%"></div></div>
+        <div class="tl-track"><div class="tl-bar" style="left:0;right:0;background:#3b82f6">상시 운영</div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">시간연장</span>
-        <div class="tl-track"><div class="tl-bar" style="left:0;width:35.3%;background:#8b5cf6">실험 종료 (5/21~6/2)</div><div class="tl-now" style="left:76.5%"></div></div>
+        <div class="tl-track"><div class="tl-bar" style="left:0;width:35.3%;background:#8b5cf6">실험 종료 (5/21~6/2)</div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">차종</span>
-        <div class="tl-track"><div class="tl-bar" style="left:58.8%;right:0;background:#f59e0b">실험 중 (6/10~6/24)</div><div class="tl-now" style="left:76.5%"></div></div>
+        <div class="tl-track"><div class="tl-bar" style="left:58.8%;right:0;background:#f59e0b">실험 중 (6/10~6/24)</div></div>
       </div>
     </div>
   </div>
@@ -259,16 +258,13 @@ pre.sql .cmt { color:#7dd3fc; }
     <h3>전체 예약의 업셀링 노출 분기</h3>
     <div class="prio">
       <span class="pl">노출 우선순위 (예약당 1개만)</span>
-      <span class="ps" style="background:#ef4444">AB 테스트 중인 아이템 최우선</span>
+      <span class="ps" style="background:#475569">AB 테스트 중인 아이템 최우선</span>
     </div>
     <div class="prio" style="margin-bottom:8px">
       <span class="pl">그 외 기본 순서</span>
       <span class="ps p1">1 PF 보험</span>
       <span class="ps p2">2 시간연장</span>
       <span class="ps p3">3 차종</span>
-    </div>
-    <div class="prio-note">
-      AB 테스트 중인 아이템이 최우선, 대상이 아니면 기본 순서 (현재 차종 6/10~6/24 실험 중이라 차종 최우선)
     </div>
     <div class="flow-top">
       <div class="l">전체 예약</div>
@@ -326,19 +322,19 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-pf">상시 운영<br><b>24일</b> (5/21~6/14)</td>
           <td class="col-iv">실험 종료<br><b>12일</b> (5/21~6/2)</td>
           <td class="col-cu">실험 진행 중<br><b>5일째</b> (6/10~6/14)</td></tr>
-        <tr><td class="metric">노출 예약<small>기간 달라 비교 불가</small></td>
+        <tr><td class="metric">노출 예약</td>
           <td class="col-pf"><span class="v">162,511</span> <span class="vu">건</span></td>
           <td class="col-iv"><span class="v">909</span> <span class="vu">건</span></td>
           <td class="col-cu"><span class="v">418</span> <span class="vu">건</span></td></tr>
-        <tr><td class="metric">수락 예약<small>기간 달라 비교 불가</small></td>
+        <tr><td class="metric">수락 예약</td>
           <td class="col-pf"><span class="v">11,192</span> <span class="vu">건</span></td>
           <td class="col-iv"><span class="v">249</span> <span class="vu">건</span></td>
           <td class="col-cu"><span class="v">54</span> <span class="vu">건</span></td></tr>
-        <tr class="cmp-key"><td class="metric">수락률<small>기간 무관 비교 가능</small></td>
+        <tr class="cmp-key"><td class="metric">수락률</td>
           <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
           <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
-        <tr class="cmp-key"><td class="metric">노출 1건당 추가매출<small>기간 무관 비교 가능</small></td>
+        <tr class="cmp-key"><td class="metric">노출 1건당 추가매출</td>
           <td class="col-pf"><span class="v">약 930</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">약 1,340</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">약 1,280</span> <span class="vu">원</span></td></tr>
@@ -346,7 +342,7 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
           <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
-        <tr><td class="metric">추가매출 합계<small>기간 달라 비교 불가</small></td>
+        <tr><td class="metric">추가매출 합계</td>
           <td class="col-pf"><span class="v">약 1.51억</span> <span class="vu">원 (추정)</span></td>
           <td class="col-iv"><span class="v">122만</span> <span class="vu">원</span></td>
           <td class="col-cu"><span class="v">53만</span> <span class="vu">원</span></td></tr>
@@ -365,7 +361,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">미노출 유저는 누구인가 <span class="tag tag-blue">미노출 85,202건 분해</span> <span class="tag tag-ok">BQ 실측</span></div>
   <div class="card">
     <h3>미노출 예약 구성</h3>
-    <div class="card-sub">왼쪽은 미노출 85,202건의 보험등급 구분<br>오른쪽 두 칸은 그중 '이미 PF0' 6.3만 건이 어떤 예약인지 분포 (특정 구간의 미노출 비율이 아니라 구성)</div>
+    <div class="card-sub">왼쪽: 미노출 85,202건의 보험등급 구분<br>오른쪽: 그중 이미 PF0 6.3만 건의 예약 분포 (미노출률이 아니라 구성비)</div>
     <div class="who-grid">
       <div>
         <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">미노출 보험등급 구분</div>
@@ -388,12 +384,12 @@ pre.sql .cmt { color:#7dd3fc; }
       </div>
       <div>
         <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">지역 분포 (이미 PF0 6.3만)</div>
-        <div class="mrow"><span class="k">수도권 (서울/경기/인천)</span><span class="v">57%</span></div>
+        <div class="mrow"><span class="k">수도권</span><span class="v">57%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:57%;background:#3b82f6"></div></div>
         <div class="mrow" style="margin-top:6px"><span class="k">부산</span><span class="v">7%</span></div>
         <div class="bar-track"><div class="bar-fill" style="width:7%;background:#93c5fd"></div></div>
         <div class="mrow" style="margin-top:6px"><span class="k">제주</span><span class="v">7%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#34d399"></div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:7%;background:#93c5fd"></div></div>
       </div>
     </div>
     <div class="gap-title">미노출 85,202건을 어떻게 줄이나</div>
@@ -523,7 +519,7 @@ const missPct = [34.6,37.3,37.9,36.9,32.6,35.2,35.3,33.0,36.8,35.2,32.7,34.7,35.
 new Chart(document.getElementById('missChart'), {
   type:'line',
   data:{ labels, datasets:[
-    { label:'미노출률 (%)', data: missPct, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.08)', pointBackgroundColor:'#ef4444', pointRadius:3, borderWidth:2.5, tension:0.35, fill:true }
+    { label:'미노출률 (%)', data: missPct, borderColor:'#64748b', backgroundColor:'rgba(100,116,139,0.10)', pointBackgroundColor:'#64748b', pointRadius:3, borderWidth:2.5, tension:0.35, fill:true }
   ]},
   options:{
     responsive:true, maintainAspectRatio:false,
