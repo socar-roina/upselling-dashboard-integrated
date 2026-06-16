@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif; background: #f7f8fa; color: #111827; font-size: 15px; line-height: 1.55; min-width: 1120px; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif; background: #f7f8fa; color: #111827; font-size: 15px; line-height: 1.5; min-width: 1120px; }
 
 .top-bar { background: white; border-bottom: 1px solid #e5e7eb; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
 .top-bar h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
@@ -25,7 +25,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .verdict .vt b { color:#fbbf24; }
 .verdict .vsub { font-size:12px; color:rgba(255,255,255,0.65); margin-top:12px; line-height:1.7; }
 
-.section-label { font-size: 16.5px; font-weight: 800; color: #374151; margin: 32px 0 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.section-label { font-size: 16.5px; font-weight: 800; color: #374151; margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .section-label::before { content: ""; display: inline-block; width: 4px; height: 16px; background: #3b82f6; border-radius: 2px; }
 .tag { font-size: 12.5px; padding: 3px 9px; border-radius: 20px; font-weight: 600; letter-spacing: 0; }
 .tag-ok { background: #d1fae5; color: #065f46; }
@@ -72,11 +72,11 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .hero-q { margin-top:14px; font-size:13.5px; font-weight:700; color:#334155; background:#f1f5f9; border-radius:8px; padding:11px 14px; line-height:1.5; }
 .hero-cum { margin-top:10px; font-size:11.5px; color:#9ca3af; line-height:1.7; }
 .funnel { margin-bottom:14px; }
-.fn-row { display:flex; align-items:center; gap:12px; margin-bottom:9px; }
-.fn-stage { width:96px; flex-shrink:0; font-size:15.5px; font-weight:700; color:#374151; }
+.fn-row { display:flex; align-items:center; gap:12px; margin-bottom:7px; }
+.fn-stage { width:88px; flex-shrink:0; font-size:15.5px; font-weight:700; color:#374151; }
 .fn-track { flex:1; height:32px; background:#f3f4f6; border-radius:7px; overflow:hidden; }
 .fn-bar { height:100%; border-radius:7px; min-width:10px; }
-.fn-val { width:190px; flex-shrink:0; font-size:22px; font-weight:900; color:#0f172a; }
+.fn-val { width:172px; flex-shrink:0; font-size:21px; font-weight:900; color:#0f172a; }
 .fn-val small { font-size:13px; font-weight:700; color:#9ca3af; margin-left:1px; }
 .fn-val em { font-style:normal; font-size:14.5px; font-weight:700; color:#6b7280; margin-left:5px; }
 .funnel3 { display:flex; align-items:stretch; gap:8px; margin-bottom:12px; }
@@ -145,7 +145,7 @@ table.cmp td.dim { color: #cbd5e1; font-weight: 700; }
 .col-pf { border-left: 3px solid #3b82f6; }
 .col-iv { border-left: 3px solid #8b5cf6; }
 .col-cu { border-left: 3px solid #f59e0b; }
-.cmp-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px 16px; font-size: 14.5px; color: #1e3a5f; line-height: 1.7; margin-bottom: 14px; }
+.cmp-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; font-size: 14.5px; color: #1e3a5f; line-height: 1.55; margin-bottom: 12px; }
 table.cmp td.metric small { display: block; font-size: 10px; font-weight: 600; color: #b6bcc6; margin-top: 2px; }
 table.cmp tr.period-row td { background: #f8fafc; font-size: 13.5px; color: #6b7280; font-weight: 600; padding-top: 10px; padding-bottom: 10px; }
 table.cmp tr.period-row td.metric { color: #6b7280; }
@@ -154,7 +154,7 @@ table.cmp tr.cmp-key td.metric { color: #334155; }
 table.cmp tr.cmp-key .v { color: #334155; }
 table.cmp tr.cmp-key td.metric small { color: #94a3b8; }
 
-.warn-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:14px 18px; margin-top:14px; font-size:14.5px; color:#9a3412; line-height:1.6; }
+.warn-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:12px 16px; margin-top:12px; font-size:14.5px; color:#9a3412; line-height:1.5; }
 .chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size: 12px; color: #374151; line-height: 1.6; }
 .chart-interpret-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 .chart-interpret em { font-style: normal; font-weight: 700; color: #111827; }
@@ -191,12 +191,12 @@ table.cmp tr.cmp-key td.metric small { color: #94a3b8; }
 .miss-seg.s1 { background:#64748b; }
 .miss-seg.s2 { background:#94a3b8; }
 .miss-seg.s3 { background:#cbd5e1; color:#475569; }
-.miss-row { display:flex; gap:14px; padding:13px 0; border-top:1px solid #f1f3f5; }
+.miss-row { display:flex; gap:14px; padding:10px 0; border-top:1px solid #f1f3f5; }
 .miss-row:first-of-type { border-top:none; }
 .miss-key { flex-shrink:0; width:158px; }
 .miss-key .mk-n { font-size:18px; font-weight:800; color:#0f172a; }
 .miss-key .mk-p { font-size:14.5px; color:#6b7280; font-weight:700; margin-top:2px; }
-.miss-txt { font-size:15.5px; color:#475569; line-height:1.65; }
+.miss-txt { font-size:15px; color:#475569; line-height:1.5; }
 .miss-txt b { color:#111827; font-weight:800; }
 .miss-go { color:#047857; font-weight:800; }
 @media (max-width:680px){ .miss-row { flex-direction:column; gap:4px; } .miss-key { width:auto; } }
@@ -222,7 +222,7 @@ table.cmp tr.cmp-key td.metric small { color: #94a3b8; }
 .b-on { background:#d1fae5; color:#065f46; }
 .b-test { background:#fef3c7; color:#92400e; }
 .b-exp { background:#dbeafe; color:#1e40af; }
-.st-line { font-size:15.5px; color:#475569; line-height:1.55; }
+.st-line { font-size:15px; color:#475569; line-height:1.45; }
 .st-line b { color:#111827; font-weight:800; }
 @media (max-width:720px){ .status3 { grid-template-columns:1fr; } }
 
@@ -297,7 +297,7 @@ pre.sql .cmt { color:#7dd3fc; }
     </div>
     <div class="miss-row">
       <div class="miss-key"><div class="mk-n">PF30/70</div><div class="mk-p">24%</div></div>
-      <div class="miss-txt">PF0보다 높은 자기부담금으로 결제한 예약<br>약 72%가 구버전 앱이라 PF0 추천 기능이 없던 버전(앱 18.20부터 제공)</div>
+      <div class="miss-txt">PF0(자기부담금 0원)가 아닌 PF30/70으로 결제한 예약<br>약 72%가 구버전 앱이라 PF0 추천 기능이 없던 버전(앱 18.20부터)</div>
     </div>
     <div class="miss-row">
       <div class="miss-key"><div class="mk-n">PF5와 PF200</div><div class="mk-p">약 1%</div></div>
