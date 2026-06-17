@@ -370,7 +370,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="card">
     <div class="cmp-banner">
       세 아이템은 운영 기간과 모수가 달라 노출과 수락 <b>건수는 직접 비교 불가</b><br>
-      단가 비교축은 <b style="color:#334155">수락 1건당 추가매출</b>(PF가 약 13,500원으로 가장 큼), PF는 예약이고 시간연장과 차종은 회원 기준이라 노출과 수락률은 단위가 다름
+      회원 기준으로 정리(개별 대시보드와 일치), 단가 비교는 <b style="color:#334155">수락 1건당 추가매출</b>(PF가 약 13,500원으로 가장 큼)
     </div>
     <table class="cmp">
       <thead>
@@ -387,15 +387,15 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-iv">실험 종료<br>(~6/3)</td>
           <td class="col-cu">실험 진행 중<br>(6/10~6/15)</td></tr>
         <tr><td class="metric">노출</td>
-          <td class="col-pf"><span class="v">162,511</span> <span class="vu">예약</span></td>
+          <td class="col-pf"><span class="v">110,650</span> <span class="vu">회원</span></td>
           <td class="col-iv"><span class="v">약 1,100</span> <span class="vu">회원</span></td>
           <td class="col-cu"><span class="v">688</span> <span class="vu">회원</span></td></tr>
         <tr><td class="metric">수락</td>
-          <td class="col-pf"><span class="v">11,192</span> <span class="vu">건</span></td>
-          <td class="col-iv"><span class="v">약 320</span> <span class="vu">건</span></td>
-          <td class="col-cu"><span class="v">65</span> <span class="vu">건</span></td></tr>
+          <td class="col-pf"><span class="v">12,573</span> <span class="vu">회원</span></td>
+          <td class="col-iv"><span class="v">약 320</span> <span class="vu">회원</span></td>
+          <td class="col-cu"><span class="v">59</span> <span class="vu">회원</span></td></tr>
         <tr><td class="metric">수락률</td>
-          <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
+          <td class="col-pf"><span class="v">11.4</span> <span class="vu">%</span></td>
           <td class="col-iv"><span class="v">약 29</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">8.6</span> <span class="vu">%</span></td></tr>
         <tr class="cmp-key"><td class="metric">수락 1건당 추가매출</td>
@@ -409,7 +409,7 @@ pre.sql .cmt { color:#7dd3fc; }
       </tbody>
     </table>
     <div class="warn-box">수락 1건당 추가매출은 PF가 약 13,500원으로 가장 큼(시간연장 4,900원과 차종 9,900원은 정규가보다 싸게 제안하는 고정 추가금)<br>시간연장과 차종은 수백 건 소표본이라 수락률은 선택편향 가능(참고치)</div>
-    <div class="cum-ref" style="margin:12px 0 0">시간연장과 차종은 개별 대시보드 공식 수치(회원 기준)라 매출과 수락 건수가 개별 대시보드와 일치, PF는 예약 기준이라 노출과 수락률은 단위가 다름<br>개별 대시보드: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 업그레이드</a></div>
+    <div class="cum-ref" style="margin:12px 0 0">노출과 수락률은 회원, 수락 건수와 추가매출은 결제 기준이라 개별 대시보드와 일치<br>개별 대시보드: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 업그레이드</a></div>
   </div>
 
 
