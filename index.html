@@ -439,7 +439,7 @@ pre.sql .cmt { color:#7dd3fc; }
 
     <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
     <div class="method-item">• <strong>PF 전환 집계</strong>: PF0는 바텀시트에서 수락하든 결제페이지에서 직접 선택하든 가격이 같아, 직접 전환과 간접 전환을 모두 PF0 결제로 집계<br>상시 운영이라 대조군이 없어 추천이 '추가로' 일으킨 순증분은 정밀 측정 어려움(원래 PF0 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
-    <div class="method-item">• <strong>단위</strong>: 흐름은 예약 기준, 아이템 비교는 회원 기준(노출에 예약ID가 없어 회원으로 정확 집계, 개별 대시보드와 일치)</div>
+    <div class="method-item">• <strong>단위</strong>: 흐름은 예약 기준(노출에 예약ID가 없어 회원과 날짜로 매칭), 아이템 비교는 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수)</div>
     <div class="method-item">• <strong>미노출 등급</strong>: pf_type은 결제 결과 등급<br>'이미 PF0'는 결과 PF0(자기부담금 0원)면서 미노출인 건으로 진입 시점 등급의 근사</div>
     <div class="method-item">• <strong>최근 지연</strong>: 6/13~6/14 수락은 결제 D+1 반영으로 과소집계 가능</div>
 
