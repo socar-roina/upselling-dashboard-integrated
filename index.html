@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <meta name="robots" content="noindex, nofollow, noarchive">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>업셀링 통합 모니터링</title>
@@ -369,7 +370,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="card">
     <div class="cmp-banner">
       세 아이템은 운영 기간과 노출 모수가 달라(PF는 상시 전체, 시간연장과 차종은 AB 실험군) <b>건수는 직접 비교 불가</b><br>
-      비교축은 <b style="color:#334155">수락률과 수락 1건당 추가매출</b>(기간과 모수에 무관), 추가매출 합계는 현재 규모
+      비교축은 <b style="color:#334155">수락률</b>(기간과 모수에 무관), 추가매출 합계는 현재 규모
     </div>
     <table class="cmp">
       <thead>
@@ -397,18 +398,13 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-pf"><span class="v">6.9</span> <span class="vu">%</span></td>
           <td class="col-iv"><span class="v">27.4</span> <span class="vu">%</span></td>
           <td class="col-cu"><span class="v">12.9</span> <span class="vu">%</span></td></tr>
-        <tr class="cmp-key"><td class="metric">수락 1건당 추가매출</td>
-          <td class="col-pf"><span class="v">약 13,500</span> <span class="vu">원</span></td>
-          <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
-          <td class="col-cu"><span class="v">9,900</span> <span class="vu">원 (고정)</span></td></tr>
-        <tr><td class="metric">추가매출 합계</td>
+        <tr><td class="metric">추가매출 합계 (net)</td>
           <td class="col-pf"><span class="v">약 1.5억</span> <span class="vu">원</span></td>
-          <td class="col-iv"><span class="v">약 122만</span> <span class="vu">원</span></td>
-          <td class="col-cu"><span class="v">약 53만</span> <span class="vu">원</span></td></tr>
+          <td class="col-iv"><span class="v">약 300만</span> <span class="vu">원</span></td>
+          <td class="col-cu"><span class="v">약 92만</span> <span class="vu">원</span></td></tr>
       </tbody>
     </table>
-    <div class="warn-box">수락 1건당 추가매출은 PF가 약 13,500원으로 가장 큼(시간연장 4,900원과 차종 9,900원은 정규가보다 싸게 제안하는 고정 추가금)<br>시간연장과 차종은 수백 건 소표본이라 수락률은 선택편향 가능(참고치)</div>
-    <div class="cum-ref" style="margin:12px 0 0">시간연장과 차종의 정밀 수치는 개별 대시보드 기준 (통합은 세 아이템을 같은 기준으로 비교해 노출과 수락 정의가 달라 숫자가 다소 다름)<br>개별 대시보드: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 업그레이드</a></div>
+    <div class="warn-box">시간연장과 차종은 수백 건 소표본이라 수락률은 선택편향 가능(참고치)<br>시간연장은 할인 방식이라 실제 순이익 여부(매출 증분)는 검증 단계, 매출 규모도 PF의 수십분의 1<br>추가매출 net은 결제 기준(환불 반영), PF만 대규모 검증 데이터</div>
   </div>
 
 
@@ -429,11 +425,11 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
     <div class="method-item">• <strong>수락률</strong>: 수락 예약 ÷ 노출 예약 (흐름과 같은 예약 건 기준)</div>
     <div class="method-item">• <strong>PF 추가매출</strong>: 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원), 합계 약 1.5억</div>
-    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 249건 약 122만, 차종 54건 약 53만<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
+    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: <code>paid_info</code> <code>upselling_discount</code> 결제액 net(환불 반영)<br>시간연장 5/21~6/2 약 300만(결제 약 325건), 차종 6/10~6/14 약 92만(결제 53건)<br>금액 변동에 소표본이라 노출당 매출 등 per건 비교는 미제시</div>
     <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.7억, 전환 전 보험료 차감 시 추가매출 약 1.5억<br>의사결정은 추가매출 기준</div>
 
     <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
-    <div class="method-item">• <strong>PF 전환 집계</strong>: PF0는 바텀시트에서 수락하든 결제페이지에서 직접 선택하든 가격이 같아, 직접 전환과 간접 전환을 모두 PF0 결제로 집계<br>상시 운영이라 대조군이 없어 추천이 '추가로' 일으킨 순증분은 정밀 측정 어려움(원래 PF0 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
+    <div class="method-item">• <strong>인과</strong>: 상시 운영 중인 PF는 대조군이 없어 추천이 '추가로' 일으킨 비율은 정밀 측정 어려움(원래 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
     <div class="method-item">• <strong>단위</strong>: 흐름과 비교표 모두 예약 건 기준으로 통일</div>
     <div class="method-item">• <strong>미노출 등급</strong>: pf_type은 결제 결과 등급<br>'이미 PF0'는 결과 PF0(자기부담금 0원)면서 미노출인 건으로 진입 시점 등급의 근사</div>
     <div class="method-item">• <strong>최근 지연</strong>: 6/13~6/14 수락은 결제 D+1 반영으로 과소집계 가능</div>
