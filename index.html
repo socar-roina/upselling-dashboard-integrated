@@ -302,7 +302,7 @@ pre.sql .cmt { color:#7dd3fc; }
     </div>
     <div class="st-card ti">
       <div class="st-top"><span class="st-name">시간연장</span><span class="st-badge b-test">검증 중</span></div>
-      <div class="st-line">수락률 방향성은 검증됨<br>매출 증분은 표본이 작아 검증 단계</div>
+      <div class="st-line">수락률 29% 신뢰 가능(표본 충분)<br>확대 여지는 조건상 약 1.3배 천장</div>
     </div>
     <div class="st-card cu">
       <div class="st-top"><span class="st-name">차종</span><span class="st-badge b-exp">실험 중</span></div>
@@ -412,7 +412,7 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-cu"><span class="v">643,500</span> <span class="vu">원</span></td></tr>
       </tbody>
     </table>
-    <div class="warn-box">시간연장과 차종은 매출이 아니라 가동률과 상위 차급 활용이 본 목적이라 매출 규모로 줄세우지 않음(시간연장은 누적 약 1,327시간 유휴 차량을 추가 가동)<br>수락률은 표본은 충분하나(노출 약 1,100명, 688명) 노출 조건이 좁은 선택편향이라 조건 완화 시 하락 가능(참고치)</div>
+    <div class="warn-box">시간연장과 차종은 매출이 아니라 가동률과 상위 차급 활용이 본 목적이라 매출 규모로 줄세우지 않음(시간연장은 누적 약 1,327시간 유휴 차량을 추가 가동)<br>수락률은 세 아이템 모두 표본 충분(추정에 약 380명 필요, PF 약 11만, 시간연장 약 1,100, 차종 688)이라 신뢰 가능, 단 시간연장 29%는 좁은 조건의 선택편향이라 조건 완화 시 하락 가능<br>시간연장은 조건 완화로 모수를 늘려도 실효 천장 약 1.3배(시간 조건을 다 풀면 4.95배지만 늦은 밤과 새벽 반납이라 가동 가치 없어 무효)라, 확대 여부는 모수가 아니라 가동 기여가 할인 대비 의미 있는지의 판단</div>
     <div class="cum-ref" style="margin:12px 0 0">노출과 수락은 회원, 추가매출은 결제 기준이라 아래 개별 대시보드와 수치 동일<br><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장 대시보드</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 대시보드</a></div>
   </div>
 
