@@ -294,23 +294,6 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="gap-callout"><b>약 3,500건</b><span class="gc-t">업셀링이 안 뜬 미노출 예약 (전체의 34%)</span></div>
   <div class="cum-ref">누적 (5/21~6/14): 전체 예약 251,255건, 노출 164,900건, 수락 12,172건, 미노출 86,355건</div>
 
-  <!-- ===== 핵심 결론 (BLUF) ===== -->
-  <div class="section-label">아이템별 현황</div>
-  <div class="status3">
-    <div class="st-card pf">
-      <div class="st-top"><span class="st-name">PF 보험</span><span class="st-badge b-on">상시 운영</span></div>
-      <div class="st-line">하루 노출 약 6,800건<br>수락률 <b>11.3%</b></div>
-    </div>
-    <div class="st-card ti">
-      <div class="st-top"><span class="st-name">시간연장</span><span class="st-badge b-test">실험 종료</span></div>
-      <div class="st-line">수락률 <b>29%</b><br>확대해도 노출 약 1.3배가 한계</div>
-    </div>
-    <div class="st-card cu">
-      <div class="st-top"><span class="st-name">차종</span><span class="st-badge b-exp">실험 중</span></div>
-      <div class="st-line">수락률 <b>8.6%</b><br>6/24 종료 후 판정</div>
-    </div>
-  </div>
-
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 구성 <span class="tag tag-gray">최근 1주 (6/1~6/7)</span></div>
   <div class="card">
@@ -334,8 +317,25 @@ pre.sql .cmt { color:#7dd3fc; }
     </div>
   </div>
 
+  <!-- ===== 아이템별 현황 ===== -->
+  <div class="section-label">아이템별 현황</div>
+  <div class="status3">
+    <div class="st-card pf">
+      <div class="st-top"><span class="st-name">PF 보험</span><span class="st-badge b-on">상시 운영</span></div>
+      <div class="st-line">하루 노출 약 6,800건<br>수락률 <b>11.3%</b></div>
+    </div>
+    <div class="st-card ti">
+      <div class="st-top"><span class="st-name">시간연장</span><span class="st-badge b-test">실험 종료</span></div>
+      <div class="st-line">수락률 <b>29%</b><br>확대해도 노출 약 1.3배가 한계</div>
+    </div>
+    <div class="st-card cu">
+      <div class="st-top"><span class="st-name">차종</span><span class="st-badge b-exp">실험 중</span></div>
+      <div class="st-line">수락률 <b>8.6%</b><br>6/24 종료 후 판정</div>
+    </div>
+  </div>
+
   <!-- ===== 운영 타임라인 ===== -->
-  <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/16 현재</span></div>
+  <div class="section-label">바텀시트 운영 타임라인 <span class="tag tag-blue">6/18 현재</span></div>
   <div class="card">
     <div class="prio">
       <span class="pl">노출 우선순위 (예약당 1개)</span>
@@ -414,7 +414,7 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-cu"><span class="v">643,500</span> <span class="vu">원</span></td></tr>
       </tbody>
     </table>
-    <div class="warn-box">시간연장과 차종은 매출이 아니라 가동률과 상위 차급 활용이 목적이라 매출로 줄세우지 않음<br>수락률은 셋 다 표본이 충분해 신뢰 가능 (시간연장 29%는 좁은 조건이라 완화 시 하락 가능)<br>시간연장 확대는 가동 가치로 판단하며, 조건 완화로 늘릴 여지는 약 1.3배가 한계</div>
+    <div class="warn-box">운영 기간과 모수가 달라 노출과 수락 합계로 우열을 가리지 않음 (차종은 상위 차급 활용이 목적)<br>수락률은 셋 다 표본이 충분해 신뢰 가능 (시간연장 29%는 좁은 조건이라 완화 시 하락 가능)<br>시간연장은 조건 완화로 늘릴 노출 여지가 약 1.3배가 한계</div>
     <div class="cum-ref" style="margin:12px 0 0">노출과 수락은 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수), 추가매출은 결제 기준<br><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장 대시보드</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 대시보드</a></div>
   </div>
 
@@ -422,7 +422,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출률 추이 ===== -->
   <div class="section-label">미노출률 추이 <span class="tag tag-blue">지금 추세 (일별)</span></div>
   <div class="card">
-    <div class="card-sub">초기 약 37%에서 최근 약 28%로 감소</div>
+    <div class="card-sub">5/21 이후 대체로 33~36%에서 등락, 최근 약 30%로 소폭 하락 (5/21~6/17)</div>
     <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
   </div>
 
@@ -492,8 +492,8 @@ GROUP BY 1;</pre>
 </div>
 
 <script>
-const labels   = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14'];
-const missPct = [34.6,37.3,37.9,36.9,32.6,35.2,35.3,33.0,36.8,35.2,32.7,34.7,35.8,32.3,33.4,36.8,35.2,31.8,35.1,33.9,32.9,31.2,33.6,32.3,28.3];
+const labels   = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14','6/15','6/16','6/17'];
+const missPct = [34.7,37.3,38.0,37.0,32.7,35.3,35.4,33.1,36.8,35.3,32.8,35.0,36.0,32.4,33.6,37.2,35.4,32.1,35.5,34.6,33.7,32.3,35.2,33.1,29.7,32.1,30.9,29.6];
 new Chart(document.getElementById('missChart'), {
   type:'line',
   data:{ labels, datasets:[
