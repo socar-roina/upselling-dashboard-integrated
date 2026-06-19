@@ -262,12 +262,11 @@ pre.sql .cmt { color:#7dd3fc; }
 
 <div class="main">
 
-  <!-- ===== 데이터 기반 인사이트 요약 (BLUF) ===== -->
-  <div class="section-label">데이터 기반 인사이트 요약</div>
-  <div class="concl-card">
-    <div class="concl-row"><span class="cn">1</span><div class="ct"><b>PF 보험이 업셀링 매출의 대부분</b><br>업셀링 노출의 99%가 PF, 추가매출 1.5억</div></div>
-    <div class="concl-row"><span class="cn">2</span><div class="ct"><b>PF는 이미 폭넓게 적용돼 추가로 닿을 대상이 적음</b><br>노출 안 된 34%도 대부분 이미 PF0(75%)거나 구버전 앱(17%)이라 PF로 새로 추천할 대상이 거의 없음</div></div>
-    <div class="concl-row"><span class="cn">3</span><div class="ct"><b>신규 아이템 검토 후보 = 이미 PF0면서 4시간 미만 초단기 고객</b><br>PF는 이미 PF0라 넛지 대상 아님, 시간연장은 4시간 이상 조건이라 대상 아님, 차종은 차급 조건상 일부(약 17%)에만 노출<br>현 3개로는 대부분 노출이 안 되는 구간, 실제 수요는 별도 검증 필요</div></div>
+  <!-- ===== 임원용 한눈에 요약 (BLUF) ===== -->
+  <div class="verdict">
+    <div class="vh">한눈에 요약</div>
+    <div class="vt">업셀링은 사실상 <b>PF 보험</b>이 전부 (노출 99%, 추가매출 1.5억), 이미 폭넓게 적용돼 PF로 더 키울 대상은 적음<br><b>시간연장</b>은 수락이 잘 됨 (29%), 매출보다 유휴 차량 가동이 목적<br><b>차종</b>은 실험 중 (6/24 종료 후 판정)</div>
+    <div class="vsub">추가 기회는 현 3개 아이템으로 닿지 않는 구간 (이미 PF0이면서 단시간 예약), 신규 아이템 검토 후보 (실제 수요는 별도 검증)</div>
   </div>
 
 
@@ -298,15 +297,15 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="status3">
     <div class="st-card pf">
       <div class="st-top"><span class="st-name">PF 보험</span><span class="st-badge b-on">상시 운영</span></div>
-      <div class="st-line">하루 노출 약 6,800건<br>수락률(회원) <b>11.3%</b></div>
+      <div class="st-line">하루 노출 약 6,800건<br>수락률 <b>11.3%</b> (보험 매출)</div>
     </div>
     <div class="st-card ti">
-      <div class="st-top"><span class="st-name">시간연장</span><span class="st-badge b-test">검증 중</span></div>
-      <div class="st-line">수락률 29% 신뢰 가능(표본 충분)<br>확대 여지는 조건상 약 1.3배 천장</div>
+      <div class="st-top"><span class="st-name">시간연장</span><span class="st-badge b-test">실험 종료</span></div>
+      <div class="st-line">수락률 <b>29%</b> (가동 목적)<br>확대해도 노출 약 1.3배가 한계</div>
     </div>
     <div class="st-card cu">
       <div class="st-top"><span class="st-name">차종</span><span class="st-badge b-exp">실험 중</span></div>
-      <div class="st-line">6/24 종료<br>결과 후 판단</div>
+      <div class="st-line">수락률 <b>8.6%</b> (실험 중)<br>6/24 종료 후 판정</div>
     </div>
   </div>
 
@@ -370,7 +369,8 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="card">
     <div class="cmp-banner">
       세 아이템은 운영 기간과 모수가 달라 노출과 수락 <b>건수는 직접 비교 불가</b><br>
-      기간과 모수에 무관한 <b style="color:#334155">수락률과 단가</b>로 비교
+      기간과 모수에 무관한 <b style="color:#334155">수락률과 단가</b>로 비교<br>
+      수락률이 낮아도 목적이 다르면 저성과가 아님 (목적 행 참고)
     </div>
     <table class="cmp">
       <thead>
