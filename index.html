@@ -155,6 +155,8 @@ table.cmp tr.cmp-key td.metric { color: #334155; }
 table.cmp tr.cmp-key .v { color: #334155; }
 table.cmp tr.cmp-key td.metric small { color: #94a3b8; }
 
+.rate-bar { height:7px; background:#eef0f3; border-radius:99px; margin-top:8px; overflow:hidden; }
+.rate-fill { height:100%; border-radius:99px; }
 .warn-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:12px 16px; margin-top:12px; font-size:14.5px; color:#9a3412; line-height:1.5; }
 .chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size: 12px; color: #374151; line-height: 1.6; }
 .chart-interpret-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -398,10 +400,10 @@ pre.sql .cmt { color:#7dd3fc; }
           <td class="col-pf"><span class="v">12,833</span> <span class="vu">회원</span></td>
           <td class="col-iv"><span class="v">약 320</span> <span class="vu">회원</span></td>
           <td class="col-cu"><span class="v">59</span> <span class="vu">회원</span></td></tr>
-        <tr><td class="metric">수락률</td>
-          <td class="col-pf"><span class="v">11.3</span> <span class="vu">%</span></td>
-          <td class="col-iv"><span class="v">약 29</span> <span class="vu">%</span></td>
-          <td class="col-cu"><span class="v">8.6</span> <span class="vu">%</span></td></tr>
+        <tr><td class="metric">수락률<small>막대는 같은 기준</small></td>
+          <td class="col-pf"><span class="v">11.3</span> <span class="vu">%</span><div class="rate-bar"><div class="rate-fill" style="width:38%;background:#3b82f6"></div></div></td>
+          <td class="col-iv"><span class="v">약 29</span> <span class="vu">%</span><div class="rate-bar"><div class="rate-fill" style="width:97%;background:#8b5cf6"></div></div></td>
+          <td class="col-cu"><span class="v">8.6</span> <span class="vu">%</span><div class="rate-bar"><div class="rate-fill" style="width:29%;background:#f59e0b"></div></div></td></tr>
         <tr class="cmp-key"><td class="metric">수락 1건당 추가매출</td>
           <td class="col-pf"><span class="v">13,500</span> <span class="vu">원 (평균)</span></td>
           <td class="col-iv"><span class="v">4,900</span> <span class="vu">원 (고정)</span></td>
