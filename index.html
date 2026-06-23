@@ -314,20 +314,20 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="cum-ref">누적 (5/21~6/21): 전체 예약 328,249건, 노출 215,851건, 수락 15,256건, 미노출 112,398건</div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
-  <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/1~6/7)</span></div>
+  <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/15~6/21)</span></div>
   <div class="card">
     <div class="card-sub">업셀링 노출의 99%가 PF라, 미노출 예약을 PF 추천이 안 뜬 이유로 분류</div>
     <div class="miss-bar">
-      <div class="miss-seg s1" style="width:75%">이미 PF0 75%</div>
-      <div class="miss-seg s2" style="width:17%">구버전 앱 17%</div>
+      <div class="miss-seg s1" style="width:76%">이미 PF0 76%</div>
+      <div class="miss-seg s2" style="width:16%">구버전 앱 16%</div>
       <div class="miss-seg s3" style="width:8%">8%</div>
     </div>
     <div class="miss-row">
-      <div class="miss-key"><div class="mk-n">이미 PF0</div><div class="mk-p">75%</div></div>
-      <div class="miss-txt">이미 최저 자기부담금이라 PF 추천 대상 아님<br>이 중 4시간 미만(18%)은 세 아이템 모두 거의 안 떠 <span class="miss-go">신규 아이템 검토 후보</span>(수요 미검증)<br>4시간 이상은 시간연장 대상이나 완화 여지 약 1.3배로 작음</div>
+      <div class="miss-key"><div class="mk-n">이미 PF0</div><div class="mk-p">76%</div></div>
+      <div class="miss-txt">이미 최저 자기부담금이라 PF 추천 대상 아님<br>이 중 4시간 미만(20%)은 세 아이템 모두 거의 안 떠 <span class="miss-go">신규 아이템 검토 후보</span>(수요 미검증)<br>4시간 이상은 시간연장 대상이나 완화 여지 약 1.3배로 작음</div>
     </div>
     <div class="miss-row">
-      <div class="miss-key"><div class="mk-n">구버전 앱</div><div class="mk-p">17%</div></div>
+      <div class="miss-key"><div class="mk-n">구버전 앱</div><div class="mk-p">16%</div></div>
       <div class="miss-txt">업셀링이 앱 18.20부터라 구버전은 추천 기능 미탑재<br>앱 업데이트되면 노출됨</div>
     </div>
     <div class="miss-row">
@@ -337,7 +337,7 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== 운영 기간 ===== -->
-  <div class="section-label">아이템별 운영 기간 <span class="scope scope-cum">6/18 기준</span></div>
+  <div class="section-label">아이템별 운영 기간 <span class="scope scope-cum">6/23 기준</span></div>
   <div class="card">
     <div class="mlabel"><span class="mname m-period">운영 기간</span><span class="mdef">막대 = <b>실제 노출된 날짜 구간</b> (언제부터 언제까지 노출했나, 막대 안 날짜가 시작과 끝)</span></div>
     <div class="timeline">
@@ -476,7 +476,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <summary class="method-summary">집계 기준, 데이터 출처, 쿼리</summary>
   <div class="method">
     <h3>핵심 정의</h3>
-    <div class="method-item">• <strong>전체 예약</strong>: <code>profit_socar_reservation</code> 생성 예약(5/21 14:00~6/14)<br>업셀링 노출 대상을 예약으로 잡음(결제 직전 도달 전용 이벤트가 없어 예약으로 근사)</div>
+    <div class="method-item">• <strong>전체 예약</strong>: <code>profit_socar_reservation</code> 생성 예약(5/21 14:00~6/21)<br>업셀링 노출 대상을 예약으로 잡음(결제 직전 도달 전용 이벤트가 없어 예약으로 근사)</div>
     <div class="method-item">• <strong>노출/미노출</strong>: 예약 회원이 그날 <code>page_name='upsell_bottomsheet'</code> <code>view</code> 이벤트가 있으면 노출, 없으면 미노출<br>회원+날짜 단위 매칭(예약ID가 이벤트에 없어 reservation_id 직접 매칭 불가)</div>
     <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
     <div class="method-item">• <strong>수락률</strong>: 흐름은 예약 기준(수락 예약 ÷ 노출 예약), 아이템 비교는 개별 대시보드 기준(PF와 차종은 노출 회원 중 수락 회원, 시간연장은 노출 유저 중 수락 횟수)</div>
@@ -488,7 +488,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="method-item">• <strong>PF 전환 집계</strong>: PF0는 바텀시트에서 수락하든 결제페이지에서 직접 선택하든 가격이 같아, 직접 전환과 간접 전환을 모두 PF0 결제로 집계<br>상시 운영이라 대조군이 없어 추천이 '추가로' 일으킨 순증분은 정밀 측정 어려움(원래 PF0 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
     <div class="method-item">• <strong>단위</strong>: 흐름은 예약 기준(노출에 예약ID가 없어 회원과 날짜로 매칭), 아이템 비교는 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수)</div>
     <div class="method-item">• <strong>미노출 등급</strong>: pf_type은 결제 결과 등급<br>'이미 PF0'는 결과 PF0(자기부담금 0원)면서 미노출인 건으로 진입 시점 등급의 근사</div>
-    <div class="method-item">• <strong>최근 지연</strong>: 6/13~6/14 수락은 결제 D+1 반영으로 과소집계 가능</div>
+    <div class="method-item">• <strong>최근 지연</strong>: 6/20~6/21 수락은 결제 D+1 반영으로 과소집계 가능, 6/22는 미완성이라 제외</div>
 
     <h3 style="margin-top:16px">데이터 출처 (BigQuery)</h3>
     <div class="method-item">• 노출: <code>socar-data.app_web_log.socar_app_web_log</code> (page_name='upsell_bottomsheet')</div>
