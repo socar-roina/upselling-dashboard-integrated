@@ -77,9 +77,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .funnel { margin-bottom:14px; }
 .fn-row { display:flex; align-items:center; gap:12px; margin-bottom:7px; }
 .fn-stage { width:88px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
-.fn-track { flex:1; height:32px; background:#f3f4f6; border-radius:7px; overflow:hidden; }
+.fn-track { flex:1; height:22px; background:#f3f4f6; border-radius:99px; overflow:hidden; }
 .fn-bar { height:100%; border-radius:7px; min-width:10px; }
-.fn-val { width:172px; flex-shrink:0; font-size:21px; font-weight:900; color:#0f172a; }
+.fn-val { width:172px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
 .fn-val small { font-size:13px; font-weight:700; color:#9ca3af; margin-left:1px; }
 .fn-val em { font-style:normal; font-size:14.5px; font-weight:700; color:#6b7280; margin-left:5px; }
 .funnel3 { display:flex; align-items:stretch; gap:8px; margin-bottom:12px; }
@@ -91,7 +91,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .fn-step { display:flex; align-items:center; }
 .fn-step span { font-size:13px; font-weight:800; color:#334155; text-align:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:8px; padding:7px 11px; line-height:1.3; white-space:nowrap; }
 .gap-callout { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; border-radius:10px; padding:14px 18px; margin-bottom:20px; }
-.gap-callout b { font-size:28px; font-weight:900; color:#0f172a; flex-shrink:0; }
+.gap-callout b { font-size:21px; font-weight:900; color:#0f172a; flex-shrink:0; }
 .gap-callout .gc-t { font-size:14.5px; color:#475569; font-weight:600; line-height:1.5; }
 .cum-ref { font-size:13px; color:#9ca3af; margin:-8px 0 20px; }
 @media (max-width:680px){ .funnel3 { flex-wrap:wrap; } .fn-step { display:none; } }
@@ -278,7 +278,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <h1>업셀링 통합 모니터링</h1>
     <div class="meta">결제 직전 PF 보험, 시간연장, 차종 중 하나 추천 (예약당 1개)</div>
   </div>
-  <div class="updated">흐름과 누적은 5/21~6/17 (KST), BQ 실측<br>아이템 비교는 개별 대시보드 기준 (차종 6/10~6/18)</div>
+  <div class="updated">흐름과 누적은 5/21~6/17 (KST), BQ 실측<br>아이템 비교는 개별 대시보드 기준 (차종 6/10~6/22 BQ 실측)</div>
 </div>
 
 <div class="main">
@@ -415,20 +415,20 @@ pre.sql .cmt { color:#7dd3fc; }
         </div>
       </div>
       <div class="mf-card cu">
-        <div class="mf-head"><span class="mf-name">차종 업그레이드</span><span class="mf-period">실험 중 (6/10~6/18)</span></div>
+        <div class="mf-head"><span class="mf-name">차종 업그레이드</span><span class="mf-period">실험 중 (6/10~6/22)</span></div>
         <div class="mf-purpose"><span class="mf-plabel">목적</span> 상위 차급 활용</div>
         <div class="mf-step">
-          <div class="mf-lab"><span>노출</span><b>1,008<small>명</small></b></div>
+          <div class="mf-lab"><span>노출</span><b>1,381<small>명</small></b></div>
           <div class="mf-track"><div class="mf-fill" style="width:100%;background:#e5e7eb"></div></div>
         </div>
         <div class="mf-step">
-          <div class="mf-lab"><span>수락</span><b>82<small>명 (92건)</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:8.1%;background:#f59e0b"></div></div>
+          <div class="mf-lab"><span>수락</span><b>121<small>명 (135건)</small></b></div>
+          <div class="mf-track"><div class="mf-fill" style="width:8.8%;background:#f59e0b"></div></div>
         </div>
-        <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">8.1%</span></div>
+        <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">8.8%</span></div>
         <div class="mf-econ">
           <div class="mf-econ-row"><span>수락 1건당 단가</span><b>9,900원<small>고정</small></b></div>
-          <div class="mf-econ-row key"><span>추가매출 합계</span><b>910,800원<small>9,900×92건</small></b></div>
+          <div class="mf-econ-row key"><span>추가매출 합계</span><b>1,336,500원<small>9,900×135건</small></b></div>
         </div>
       </div>
     </div>
@@ -445,13 +445,13 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="pen-block" style="margin-top:0;padding-top:0;border-top:none">
       <div class="pen-row">
         <span class="pen-name">PF 보험</span>
-        <div class="pen-track"><div class="pen-fill" style="width:65%;background:#3b82f6"></div></div>
-        <span class="pen-val">65.0%</span>
+        <div class="pen-track"><div class="pen-fill" style="width:64.6%;background:#3b82f6"></div></div>
+        <span class="pen-val">64.6%</span>
       </div>
       <div class="pen-row">
         <span class="pen-name">차종</span>
-        <div class="pen-track"><div class="pen-fill" style="width:1.15%;background:#f59e0b"></div></div>
-        <span class="pen-val">1.2%</span>
+        <div class="pen-track"><div class="pen-fill" style="width:1.27%;background:#f59e0b"></div></div>
+        <span class="pen-val">1.3%</span>
       </div>
       <div class="pen-row">
         <span class="pen-name">시간연장</span>
@@ -481,7 +481,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
     <div class="method-item">• <strong>수락률</strong>: 흐름은 예약 기준(수락 예약 ÷ 노출 예약), 아이템 비교는 개별 대시보드 기준(PF와 차종은 노출 회원 중 수락 회원, 시간연장은 노출 유저 중 수락 횟수)</div>
     <div class="method-item">• <strong>PF 추가매출</strong>: 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원), 합계 약 1.5억</div>
-    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 약 320건 약 157만, 차종 92건 910,800원(개별 대시보드 공식 수치, 6/10~6/18)<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
+    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 약 320건 약 157만, 차종 135건 1,336,500원(BQ 실측, 6/10~6/22)<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
     <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.7억, 전환 전 보험료 차감 시 추가매출 약 1.5억<br>의사결정은 추가매출 기준</div>
 
     <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
