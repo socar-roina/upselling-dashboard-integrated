@@ -120,9 +120,9 @@ table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
 .tl-axis span::after { content:""; position:absolute; left:50%; top:17px; width:1px; height:7px; background:#d1d5db; }
 .tl-row { display:flex; align-items:center; margin-bottom:8px; }
 .tl-label { width:72px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
-.tl-track { position:relative; flex:1; height:30px; background:#f3f4f6; border-radius:6px; background-image:linear-gradient(90deg,#e9ebef 1px,transparent 1px); background-size:calc(100%/6) 100%; }
-.tl-bar { position:absolute; top:0; bottom:0; border-radius:6px; display:flex; align-items:center; gap:7px; padding:0 11px; font-size:13px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; }
-.tl-bar .tl-state { font-size:10.5px; font-weight:800; padding:2px 7px; border-radius:20px; background:rgba(255,255,255,0.28); }
+.tl-track { position:relative; flex:1; height:18px; background:#f3f4f6; border-radius:99px; background-image:linear-gradient(90deg,#e9ebef 1px,transparent 1px); background-size:calc(100%/6) 100%; }
+.tl-bar { position:absolute; top:0; bottom:0; border-radius:99px; display:flex; align-items:center; gap:6px; padding:0 10px; font-size:11px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; }
+.tl-bar .tl-state { font-size:9.5px; font-weight:800; padding:1px 6px; border-radius:20px; background:rgba(255,255,255,0.28); }
 .tl-bar.ended { background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.16) 0 6px,transparent 6px 12px); }
 .tl-prio { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px dashed #e5e7eb; }
 .tl-prio .pl { font-size:12.5px; font-weight:800; color:#6b7280; margin-right:2px; }
@@ -229,8 +229,8 @@ table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
 .mf-econ-row.key b { color:#0f766e; }
 @media (max-width:720px){ .mini-funnels { grid-template-columns:1fr; } }
 /* 그래프 지표 라벨 (이 막대가 무엇 중 무엇 비율인지 명시) */
-.mlabel { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:13px; }
-.mlabel .mname { font-size:13px; font-weight:800; color:#fff; padding:4px 11px; border-radius:6px; white-space:nowrap; }
+.mlabel { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px; }
+.mlabel .mname { font-size:14.5px; font-weight:800; color:#fff; padding:5px 13px; border-radius:7px; white-space:nowrap; letter-spacing:-0.01em; }
 .mlabel .mname.m-rate { background:#0f766e; }
 .mlabel .mname.m-pen { background:#1d4ed8; }
 .mlabel .mname.m-period { background:#475569; }
@@ -242,8 +242,8 @@ table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
 .pen-cap { font-size:12.5px; color:#6b7280; margin:3px 0 12px; line-height:1.5; }
 .pen-row { display:flex; align-items:center; gap:12px; margin:8px 0; }
 .pen-name { width:84px; flex-shrink:0; font-size:13.5px; font-weight:700; color:#374151; }
-.pen-track { flex:1; height:22px; background:#f3f4f6; border-radius:6px; overflow:hidden; position:relative; }
-.pen-fill { height:100%; border-radius:6px; min-width:3px; }
+.pen-track { flex:1; height:13px; background:#f3f4f6; border-radius:99px; overflow:hidden; position:relative; }
+.pen-fill { height:100%; border-radius:99px; min-width:3px; }
 .pen-val { width:52px; flex-shrink:0; text-align:right; font-size:16px; font-weight:900; color:#0f172a; }
 .pen-axis { display:flex; justify-content:space-between; font-size:10.5px; color:#b6bcc6; font-weight:600; margin:2px 0 0 96px; padding-right:60px; }
 .pen-note { font-size:12.5px; color:#6b7280; line-height:1.55; margin-top:11px; background:#f8fafc; border-radius:8px; padding:10px 13px; }
