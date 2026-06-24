@@ -39,6 +39,15 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .scope-cum { background: #f1f5f9; color: #334155; } .scope-cum::before { background: #64748b; }
 .scope-week { background: #f3f4f6; color: #6b7280; } .scope-week::before { background: #9ca3af; }
 .scope-item { background: #fff7ed; color: #9a3412; } .scope-item::before { background: #f59e0b; }
+/* 관점 층 헤더 (A 통합 / B 아이템) */
+.layer { margin: 36px 0 6px; padding: 13px 18px; border-radius: 10px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.layer .lt { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; }
+.layer .ls { font-size: 12px; font-weight: 700; }
+.layer-a { background: #f1f5f9; border: 1px solid #e2e8f0; }
+.layer-a .lt { color: #0f172a; } .layer-a .ls { color: #64748b; }
+.layer-b { background: #fff7ed; border: 1px solid #fed7aa; }
+.layer-b .lt { color: #9a3412; } .layer-b .ls { color: #c2660c; }
+.layer + .section-label { margin-top: 16px; }
 
 .card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 18px 22px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); }
 .card h3 { font-size:13px; font-weight: 700; color: #374151; margin-bottom: 3px; }
@@ -278,7 +287,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <h1>업셀링 통합 모니터링</h1>
     <div class="meta">결제 직전 PF 보험, 시간연장, 차종 중 하나 추천 (예약당 1개)</div>
   </div>
-  <div class="updated">흐름과 누적은 5/21~6/21 (KST), BQ 실측<br>아이템 비교는 BQ 실측 (차종 6/10~6/21)</div>
+  <div class="updated">통합 지표는 5/21~6/21 누적 (KST), BQ 실측<br>아이템 비교는 개별 누적, 기간 상이 (차종 6/10~6/21)</div>
 </div>
 
 <div class="main">
@@ -291,27 +300,30 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
 
+  <!-- ===== A층 통합 ===== -->
+  <div class="layer layer-a"><span class="lt">전체 업셀링 통합</span><span class="ls">예약 건 기준, 누적 5/21~6/21</span></div>
+
   <!-- ===== 한눈에: 예약 노출 수락 퍼널 ===== -->
-  <div class="section-label">하루 평균 흐름 <span class="scope scope-day">하루 평균 (일 단위)</span></div>
+  <div class="section-label">통합 흐름 <span class="scope scope-cum">누적 (5/21~6/21)</span></div>
   <div class="funnel">
     <div class="fn-row">
       <span class="fn-stage">전체 예약</span>
       <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
-      <span class="fn-val">약 10,300<small>건</small></span>
+      <span class="fn-val">328,249<small>건</small></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">업셀링 노출</span>
       <div class="fn-track"><div class="fn-bar" style="width:66%;background:#64748b"></div></div>
-      <span class="fn-val">약 6,800<small>건</small> <em>66%</em></span>
+      <span class="fn-val">215,851<small>건</small> <em>66%</em></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">수락</span>
       <div class="fn-track"><div class="fn-bar" style="width:5%;background:#16a34a"></div></div>
-      <span class="fn-val">약 480<small>건</small> <em>노출의 7.0%</em></span>
+      <span class="fn-val">15,256<small>건</small> <em>노출의 7.1%</em></span>
     </div>
   </div>
-  <div class="gap-callout"><b>약 3,500건</b><span class="gc-t">업셀링이 안 뜬 미노출 예약 (전체의 34%)</span></div>
-  <div class="cum-ref">누적 (5/21~6/21): 전체 예약 328,249건, 노출 215,851건, 수락 15,256건, 미노출 112,398건</div>
+  <div class="gap-callout"><b>112,398건</b><span class="gc-t">업셀링이 안 뜬 미노출 예약 (전체의 34%)</span></div>
+  <div class="cum-ref">통합 추가매출 합계 약 1.7억원 (PF 약 1.7억원, 시간연장 약 157만원, 차종 약 126만원, 결제 기준)</div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/15~6/21)</span></div>
@@ -335,6 +347,16 @@ pre.sql .cmt { color:#7dd3fc; }
       <div class="miss-txt">PF5와 PF200 차량이거나, 최신 앱이라도 그 예약에 PF0가 제공되지 않아 추천이 안 뜬 경우</div>
     </div>
   </div>
+
+  <!-- ===== 미노출률 추이 ===== -->
+  <div class="section-label">미노출률 추이 <span class="scope scope-day">일별 추이 (5/21~6/21)</span></div>
+  <div class="card">
+    <div class="card-sub">5/21 이후 대체로 33~37%에서 등락, 최근 약 28~31%로 하락 (5/21~6/21, BQ 실측)</div>
+    <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
+  </div>
+
+  <!-- ===== B층 아이템별 ===== -->
+  <div class="layer layer-b"><span class="lt">아이템별 상세</span><span class="ls">회원과 횟수 기준, 운영 기간 상이</span></div>
 
   <!-- ===== 운영 기간 ===== -->
   <div class="section-label">아이템별 운영 기간 <span class="scope scope-cum">6/23 기준</span></div>
@@ -428,7 +450,7 @@ pre.sql .cmt { color:#7dd3fc; }
         <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">8.8%</span></div>
         <div class="mf-econ">
           <div class="mf-econ-row"><span>수락 1건당 단가</span><b>9,900원<small>고정</small></b></div>
-          <div class="mf-econ-row key"><span>추가매출 합계</span><b>1,257,300원<small>9,900×127건</small></b></div>
+          <div class="mf-econ-row key"><span>추가매출 합계</span><b>약 126만원<small>9,900×127=1,257,300원</small></b></div>
         </div>
       </div>
     </div>
@@ -464,13 +486,6 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
 
-  <!-- ===== 미노출률 추이 ===== -->
-  <div class="section-label">미노출률 추이 <span class="scope scope-day">일별 추이</span></div>
-  <div class="card">
-    <div class="card-sub">5/21 이후 대체로 33~37%에서 등락, 최근 약 28~31%로 하락 (5/21~6/21, BQ 실측)</div>
-    <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
-  </div>
-
   <!-- ===== method ===== -->
   <details class="method-details">
   <summary class="method-summary">집계 기준, 데이터 출처, 쿼리</summary>
@@ -480,9 +495,9 @@ pre.sql .cmt { color:#7dd3fc; }
     <div class="method-item">• <strong>노출/미노출</strong>: 예약 회원이 그날 <code>page_name='upsell_bottomsheet'</code> <code>view</code> 이벤트가 있으면 노출, 없으면 미노출<br>회원+날짜 단위 매칭(예약ID가 이벤트에 없어 reservation_id 직접 매칭 불가)</div>
     <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
     <div class="method-item">• <strong>수락률</strong>: 흐름은 예약 기준(수락 예약 ÷ 노출 예약), 아이템 비교는 개별 대시보드 기준(PF와 차종은 노출 회원 중 수락 회원, 시간연장은 노출 유저 중 수락 횟수)</div>
-    <div class="method-item">• <strong>PF 추가매출</strong>: 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원), 합계 약 1.7억</div>
-    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 약 320건 약 157만, 차종 127건 1,257,300원(BQ 실측, 6/10~6/21)<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
-    <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.9억, 전환 전 보험료 차감 시 추가매출 약 1.7억<br>의사결정은 추가매출 기준</div>
+    <div class="method-item">• <strong>PF 추가매출</strong>: 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원), 합계 약 1.7억원</div>
+    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 약 320건 약 157만원, 차종 127건 약 126만원(9,900×127=1,257,300원, BQ 실측 6/10~6/21)<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
+    <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.9억원, 전환 전 보험료 차감 시 추가매출 약 1.7억원<br>의사결정은 추가매출 기준</div>
 
     <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
     <div class="method-item">• <strong>PF 전환 집계</strong>: PF0는 바텀시트에서 수락하든 결제페이지에서 직접 선택하든 가격이 같아, 직접 전환과 간접 전환을 모두 PF0 결제로 집계<br>상시 운영이라 대조군이 없어 추천이 '추가로' 일으킨 순증분은 정밀 측정 어려움(원래 PF0 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
