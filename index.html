@@ -136,6 +136,8 @@ table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
 .tl-bar.ended { background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.16) 0 6px,transparent 6px 12px); }
 .tl-prio { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px dashed #e5e7eb; }
 .tl-prio .pl { font-size:12px; font-weight:800; color:#6b7280; margin-right:2px; }
+.tl-prio .prio-txt { flex:1; min-width:0; font-size:12.5px; font-weight:600; color:#475569; line-height:1.55; }
+.tl-prio .prio-txt b { color:#1e293b; font-weight:800; }
 .tl-prio .ps { font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; color:#fff; }
 .tl-prio .p1 { background:#3b82f6; } .tl-prio .p2 { background:#8b5cf6; } .tl-prio .p3 { background:#f59e0b; }
 .fbar { display:flex; height:34px; border-radius:7px; overflow:hidden; margin-bottom:12px; }
@@ -297,7 +299,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="section-label">핵심 요약</div>
   <div class="concl-card">
     <div class="concl-row"><span class="cn">1</span><div class="ct">전체 예약의 <b>34%</b>는 어떤 업셀링도 노출되지 않음</div></div>
-    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">이미 PF0이면서 4시간 미만으로 예약하는 고객</span>은 현재 대부분 어떤 업셀링도 보지 못해 신규 아이템 검토 후보 (수요는 별도 검증)</div></div>
+    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">이미 PF0(자기부담금 최저)이면서 4시간 미만으로 예약하는 고객</span>은 현재 대부분 어떤 업셀링도 보지 못함. 신규 아이템 검토 후보 (수요는 별도 검증)</div></div>
   </div>
 
 
@@ -330,7 +332,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/15~6/21)</span></div>
   <div class="card">
-    <div class="card-sub">최근 1주 미노출 예약을 안 뜬 사유별로 나눈 비중 (합 100%). 노출의 99%가 PF라 PF 추천이 안 뜬 이유 기준</div>
+    <div class="card-sub">최근 1주에 업셀링이 안 뜬 예약을 사유별로 나눈 비중 (합 100%). 업셀링 노출은 대부분 PF라, 사실상 'PF가 안 뜬 이유' 분류와 같음</div>
     <div class="miss-bar">
       <div class="miss-seg s1" style="width:76%">이미 PF0 76%</div>
       <div class="miss-seg s2" style="width:16%">구버전 앱 16%</div>
@@ -338,7 +340,7 @@ pre.sql .cmt { color:#7dd3fc; }
     </div>
     <div class="miss-row">
       <div class="miss-key"><div class="mk-n">이미 PF0</div><div class="mk-p">76%</div></div>
-      <div class="miss-txt">이미 최저 자기부담금이라 PF 추천 대상 아님<br>이 중 4시간 미만(20%)은 세 아이템 모두 거의 안 떠 <span class="miss-go">신규 아이템 검토 후보</span>(수요 미검증)<br>4시간 이상은 시간연장 대상이나 완화 여지 약 1.3배로 작음</div>
+      <div class="miss-txt">이미 자기부담금이 최저(PF0)라 보험 업셀링 대상 아님<br>이 중 4시간 미만(이미 PF0의 20%)은 세 아이템 모두 거의 안 떠 <span class="miss-go">신규 아이템 검토 후보</span> (수요는 미검증)<br>4시간 이상은 시간연장 대상이나, 노출 조건을 풀어도 늘 여지가 약 1.3배뿐</div>
     </div>
     <div class="miss-row">
       <div class="miss-key"><div class="mk-n">구버전 앱</div><div class="mk-p">16%</div></div>
@@ -353,7 +355,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출률 추이 ===== -->
   <div class="section-label">미노출률 추이 <span class="scope scope-day">일별 추이 (5/21~6/21)</span></div>
   <div class="card">
-    <div class="card-sub">5/21 이후 대체로 33~37%에서 등락, 최근 약 28~31%로 하락 (BQ 실측)</div>
+    <div class="card-sub">미노출률은 그날 전체 예약 중 업셀링이 안 뜬 비율. 5/21 이후 대체로 33~37%, 최근 약 28~31%로 하락 (BQ 실측)</div>
     <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
   </div>
 
@@ -385,11 +387,8 @@ pre.sql .cmt { color:#7dd3fc; }
       </div>
     </div>
     <div class="tl-prio">
-      <span class="pl">노출 우선순위 (예약당 1개)</span>
-      <span class="ps" style="background:#475569">AB 실험 아이템 최우선</span>
-      <span class="ps p1">1 PF</span>
-      <span class="ps p2">2 시간연장</span>
-      <span class="ps p3">3 차종</span>
+      <span class="pl">노출 우선순위</span>
+      <span class="prio-txt">한 예약에 업셀링은 <b>1개만</b> 노출. 여러 조건이 겹치면 기본은 <b>PF, 시간연장, 차종 순</b>으로 하나 선택. 단, AB 실험 중인 아이템이 있으면 그 아이템을 먼저 노출</span>
     </div>
   </div>
 
@@ -465,7 +464,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 노출 침투율 ===== -->
   <div class="section-label">노출 침투율 <span class="scope scope-day">하루 평균, 전체 고객 대비</span></div>
   <div class="card">
-    <div class="card-sub">막대는 전체 고객 중 본 비율, 운영한 날만 일평균 (셋 다 같은 100% 기준이라 기간 달라도 비교 가능)</div>
+    <div class="card-sub">아이템별로 전체 고객 중 그 아이템을 본 비율 (운영한 날 일평균). 세 아이템의 도달 범위 비교용, 셋 다 같은 100% 기준이라 기간 달라도 비교 가능</div>
     <div class="pen-block" style="margin-top:0;padding-top:0;border-top:none">
       <div class="pen-row">
         <span class="pen-name">PF 보험</span>
