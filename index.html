@@ -88,9 +88,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .fn-stage { width:88px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
 .fn-track { flex:1; height:22px; background:#f3f4f6; border-radius:99px; overflow:hidden; }
 .fn-bar { height:100%; border-radius:7px; min-width:10px; }
-.fn-val { width:172px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
+.fn-val { width:215px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
 .fn-val small { font-size:13px; font-weight:700; color:#9ca3af; margin-left:1px; }
 .fn-val em { font-style:normal; font-size:14.5px; font-weight:700; color:#6b7280; margin-left:5px; }
+.fn-pct { display:block; font-size:12.5px; font-weight:700; color:#475569; margin-top:2px; letter-spacing:-0.01em; }
 .funnel3 { display:flex; align-items:stretch; gap:8px; margin-bottom:12px; }
 .fn-card { flex:1; background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 .fn-card .fl { font-size:13px; font-weight:700; color:#6b7280; }
@@ -305,30 +306,31 @@ pre.sql .cmt { color:#7dd3fc; }
 
   <!-- ===== 한눈에: 예약 노출 수락 퍼널 ===== -->
   <div class="section-label">노출 수락 흐름</div>
+  <div class="card-sub" style="margin-bottom:10px">전체 예약이 업셀링 노출과 수락으로 이어지는 흐름 (막대 길이는 전체 예약 100% 대비)</div>
   <div class="funnel">
     <div class="fn-row">
       <span class="fn-stage">전체 예약</span>
       <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
-      <span class="fn-val">328,249<small>건</small></span>
+      <span class="fn-val">328,249<small>건</small><span class="fn-pct">기준값 (100%)</span></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">업셀링 노출</span>
       <div class="fn-track"><div class="fn-bar" style="width:66%;background:#64748b"></div></div>
-      <span class="fn-val">215,851<small>건</small> <em>66%</em></span>
+      <span class="fn-val">215,851<small>건</small><span class="fn-pct">전체 예약의 66%가 노출됨</span></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">수락</span>
       <div class="fn-track"><div class="fn-bar" style="width:5%;background:#16a34a"></div></div>
-      <span class="fn-val">15,256<small>건</small> <em>노출의 7.1%</em></span>
+      <span class="fn-val">15,256<small>건</small><span class="fn-pct">노출된 예약 중 7.1%가 결제</span></span>
     </div>
   </div>
-  <div class="gap-callout"><b>112,398건</b><span class="gc-t">업셀링이 안 뜬 미노출 예약 (전체의 34%)</span></div>
+  <div class="gap-callout"><b>112,398건</b><span class="gc-t">어떤 업셀링도 안 뜬 예약 총건 (전체 예약 328,249건의 34%)</span></div>
   <div class="cum-ref">통합 추가매출 합계 약 1.7억원 (PF 약 1.7억원, 시간연장 약 157만원, 차종 약 126만원, 결제 기준)</div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
   <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/15~6/21)</span></div>
   <div class="card">
-    <div class="card-sub">업셀링 노출의 99%가 PF라, 미노출 예약을 PF 추천이 안 뜬 이유로 분류</div>
+    <div class="card-sub">최근 1주 미노출 예약을 안 뜬 사유별로 나눈 비중 (합 100%). 노출의 99%가 PF라 PF 추천이 안 뜬 이유 기준</div>
     <div class="miss-bar">
       <div class="miss-seg s1" style="width:76%">이미 PF0 76%</div>
       <div class="miss-seg s2" style="width:16%">구버전 앱 16%</div>
@@ -455,7 +457,7 @@ pre.sql .cmt { color:#7dd3fc; }
       </div>
     </div>
 
-    <div class="warn-box">운영 기간과 모수가 달라 노출과 수락 합계로 우열을 가리지 않음 (차종은 상위 차급 활용이 목적)<br>수락률은 셋 다 표본이 충분해 신뢰 가능 (시간연장 29%는 좁은 조건이라 완화 시 하락 가능)<br>시간연장은 조건 완화로 늘릴 노출 여지가 약 1.3배가 한계</div>
+    <div class="warn-box">수락률은 셋 다 표본이 충분해 신뢰 가능 (시간연장 29%는 좁은 조건이라 완화 시 하락 가능)<br>시간연장은 조건 완화로 늘릴 노출 여지가 약 1.3배가 한계</div>
     <div class="cum-ref" style="margin:12px 0 0">노출과 수락은 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수), 추가매출은 결제 기준<br><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장 대시보드</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 대시보드</a></div>
   </div>
 
