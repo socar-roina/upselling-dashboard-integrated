@@ -301,10 +301,10 @@ pre.sql .cmt { color:#7dd3fc; }
 
 
   <!-- ===== A층 통합 ===== -->
-  <div class="layer layer-a"><span class="lt">전체 업셀링 통합</span><span class="ls">예약 건 기준, 누적 5/21~6/21</span></div>
+  <div class="layer layer-a"><span class="lt">전체 합산</span><span class="ls">예약 건 기준, 누적 5/21~6/21</span></div>
 
   <!-- ===== 한눈에: 예약 노출 수락 퍼널 ===== -->
-  <div class="section-label">통합 흐름 <span class="scope scope-cum">누적 (5/21~6/21)</span></div>
+  <div class="section-label">노출 수락 흐름</div>
   <div class="funnel">
     <div class="fn-row">
       <span class="fn-stage">전체 예약</span>
@@ -351,17 +351,17 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 미노출률 추이 ===== -->
   <div class="section-label">미노출률 추이 <span class="scope scope-day">일별 추이 (5/21~6/21)</span></div>
   <div class="card">
-    <div class="card-sub">5/21 이후 대체로 33~37%에서 등락, 최근 약 28~31%로 하락 (5/21~6/21, BQ 실측)</div>
+    <div class="card-sub">5/21 이후 대체로 33~37%에서 등락, 최근 약 28~31%로 하락 (BQ 실측)</div>
     <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
   </div>
 
   <!-- ===== B층 아이템별 ===== -->
-  <div class="layer layer-b"><span class="lt">아이템별 상세</span><span class="ls">회원과 횟수 기준, 운영 기간 상이</span></div>
+  <div class="layer layer-b"><span class="lt">아이템별 상세</span><span class="ls">회원과 횟수 기준, 개별 누적 (기간 상이)</span></div>
 
   <!-- ===== 운영 기간 ===== -->
-  <div class="section-label">아이템별 운영 기간 <span class="scope scope-cum">6/23 기준</span></div>
+  <div class="section-label">운영 기간 <span class="scope scope-cum">6/23 기준</span></div>
   <div class="card">
-    <div class="mlabel"><span class="mname m-period">운영 기간</span><span class="mdef">막대 = <b>실제 노출된 날짜 구간</b> (언제부터 언제까지 노출했나, 막대 안 날짜가 시작과 끝)</span></div>
+    <div class="card-sub">막대는 실제 노출한 날짜 구간, 막대 안 숫자가 시작과 끝</div>
     <div class="timeline">
       <div class="tl-axis">
         <span style="left:0;transform:none">5/21</span>
@@ -392,7 +392,7 @@ pre.sql .cmt { color:#7dd3fc; }
   </div>
 
   <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
-  <div class="section-label">아이템별 비교 <span class="scope scope-item">아이템 개별 누적, 기간 상이</span> <span class="tag tag-ok">추가매출 기준</span></div>
+  <div class="section-label">수락률과 단가 비교 <span class="tag tag-ok">추가매출 기준</span></div>
   <div class="card">
     <div class="cmp-banner">
       세 아이템은 운영 기간과 모수가 달라 노출과 수락 <b>건수는 직접 비교 불가</b><br>
@@ -400,7 +400,7 @@ pre.sql .cmt { color:#7dd3fc; }
       수락률이 낮아도 목적이 다르면 저성과가 아님 (목적 행 참고)
     </div>
 
-    <div class="mlabel"><span class="mname m-rate">수락률</span><span class="mdef">색 막대 = <b>본 사람 중 결제한 비율</b> (자기 노출 100% 기준, 카드끼리 막대 길이 비교는 아님)</span></div>
+    <div class="card-sub">색 막대는 본 사람 중 결제한 비율, 자기 노출 100% 기준 (카드끼리 막대 길이 비교는 아님)</div>
     <div class="mini-funnels">
       <div class="mf-card pf">
         <div class="mf-head"><span class="mf-name">PF 보험</span><span class="mf-period">상시 32일 (5/21~6/21)</span></div>
@@ -463,7 +463,7 @@ pre.sql .cmt { color:#7dd3fc; }
   <!-- ===== 노출 침투율 ===== -->
   <div class="section-label">노출 침투율 <span class="scope scope-day">하루 평균, 전체 고객 대비</span></div>
   <div class="card">
-    <div class="mlabel"><span class="mname m-pen">침투율</span><span class="mdef">막대 = <b>전체 고객 중 본 비율</b> (운영한 날만 일평균, 셋 다 같은 100% 자라 기간 달라도 비교 가능)</span></div>
+    <div class="card-sub">막대는 전체 고객 중 본 비율, 운영한 날만 일평균 (셋 다 같은 100% 기준이라 기간 달라도 비교 가능)</div>
     <div class="pen-block" style="margin-top:0;padding-top:0;border-top:none">
       <div class="pen-row">
         <span class="pen-name">PF 보험</span>
