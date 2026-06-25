@@ -304,20 +304,29 @@ pre.sql .cmt { color:#7dd3fc; }
 
 
   <!-- ===== A층 통합 ===== -->
-  <div class="layer layer-a"><span class="lt">전체 합산</span><span class="ls">예약 건 기준, PF 최초 노출(4/29) 이후</span></div>
+  <div class="layer layer-a"><span class="lt">전체 합산</span><span class="ls">예약 건 기준, 누적 5/21~6/21</span></div>
 
-  <!-- ===== 한눈에: 기간별 노출 수락 흐름 ===== -->
-  <div class="section-label">노출 수락 흐름 <span class="scope scope-cum">4/29 ~ 6/21</span></div>
-  <div class="card">
-    <div class="card-sub">PF 정규화 전환으로 노출률이 ABT 35%(실험군만 노출)에서 66%(전원)로 상승. 5/13~5/21은 PF가 꺼져 노출 거의 없음. BQ 실측(6/25 기준)</div>
-    <table class="phase">
-      <tr><th>기간</th><th>전체 예약</th><th>업셀링 노출</th><th>노출률</th><th>노출 후 PF0 결제</th></tr>
-      <tr><td>ABT 4/29~5/13 (실험군만 노출)</td><td>149,825건</td><td>52,604건</td><td>35.1%</td><td>3,416건</td></tr>
-      <tr><td>공백 5/13~5/21 (PF 꺼짐, 시간연장만)</td><td>87,247건</td><td>599건</td><td>0.7%</td><td>131건</td></tr>
-      <tr class="cur"><td>정규화 5/21~6/21 (전원, 상시)</td><td>332,577건</td><td>218,131건</td><td>65.6%</td><td>15,468건</td></tr>
-    </table>
+  <!-- ===== 한눈에: 3종 합산 예약 노출 수락 퍼널 ===== -->
+  <div class="section-label">노출 수락 흐름</div>
+  <div class="card-sub" style="margin-bottom:10px">PF, 시간연장, 차종 3종을 합친 흐름 (정규화 5/21 이후 기준, 막대 길이는 전체 예약 100% 대비). PF가 노출의 약 99%</div>
+  <div class="funnel">
+    <div class="fn-row">
+      <span class="fn-stage">전체 예약</span>
+      <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
+      <span class="fn-val">328,249<small>건</small><span class="fn-pct">기준값 (100%)</span></span>
+    </div>
+    <div class="fn-row">
+      <span class="fn-stage">업셀링 노출</span>
+      <div class="fn-track"><div class="fn-bar" style="width:66%;background:#64748b"></div></div>
+      <span class="fn-val">215,851<small>건</small><span class="fn-pct">전체 예약의 66%가 노출됨</span></span>
+    </div>
+    <div class="fn-row">
+      <span class="fn-stage">수락</span>
+      <div class="fn-track"><div class="fn-bar" style="width:5%;background:#16a34a"></div></div>
+      <span class="fn-val">15,256<small>건</small><span class="fn-pct">노출된 예약 중 7.1%가 결제</span></span>
+    </div>
   </div>
-  <div class="gap-callout"><b>114,446건</b><span class="gc-t">정규화 기간(5/21~6/21)에 어떤 업셀링도 안 뜬 예약 (전체의 34%)</span></div>
+  <div class="gap-callout"><b>112,398건</b><span class="gc-t">어떤 업셀링도 안 뜬 예약 총건 (전체 예약 328,249건의 34%)</span></div>
   <div class="cum-ref">통합 추가매출 합계 약 1.7억원 (PF 약 1.7억원, 시간연장 약 157만원, 차종 약 126만원, 정규화 기준 결제)</div>
 
   <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
