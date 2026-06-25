@@ -290,7 +290,7 @@ pre.sql .cmt { color:#7dd3fc; }
     <h1>업셀링 통합 모니터링</h1>
     <div class="meta">결제 직전 PF 보험, 시간연장, 차종 중 하나 추천 (예약당 1개)</div>
   </div>
-  <div class="updated">통합 지표는 5/21~6/21 누적 (KST), BQ 실측<br>아이템 비교는 개별 누적, 기간 상이 (차종 6/10~6/21)</div>
+  <div class="updated">운영 기간은 PF 최초 노출(4/29 ABT)부터 표시<br>퍼널·비교 수치는 5/21 정규화 이후 누적 (KST, BQ 실측), 아이템별 기간 상이</div>
 </div>
 
 <div class="main">
@@ -363,32 +363,36 @@ pre.sql .cmt { color:#7dd3fc; }
   <div class="layer layer-b"><span class="lt">아이템별 상세</span><span class="ls">회원과 횟수 기준, 개별 누적 (기간 상이)</span></div>
 
   <!-- ===== 운영 기간 ===== -->
-  <div class="section-label">운영 기간 <span class="scope scope-cum">6/23 기준</span></div>
+  <div class="section-label">운영 기간 <span class="scope scope-cum">6/25 기준</span></div>
   <div class="card">
-    <div class="card-sub">막대는 실제 노출한 날짜 구간, 막대 안 숫자가 시작과 끝</div>
+    <div class="card-sub">막대는 실제 노출한 날짜 구간, 막대 안 숫자가 시작과 끝. PF는 ABT(4/29~5/13) 후 공백을 거쳐 5/21 정규화로 상시 전환</div>
     <div class="timeline">
       <div class="tl-axis">
-        <span style="left:0;transform:none">5/21</span>
-        <span style="left:26%">6/2</span>
-        <span style="left:43.5%">6/10</span>
-        <span style="left:74%">6/24</span>
+        <span style="left:0;transform:none">4/29</span>
+        <span style="left:24.6%">5/13</span>
+        <span style="left:38.6%">5/21</span>
+        <span style="left:73.7%">6/10</span>
+        <span style="left:98%">6/24</span>
       </div>
       <div class="tl-row">
         <span class="tl-label">PF 보험</span>
-        <div class="tl-track"><div class="tl-bar" style="left:0;right:0;background:#3b82f6">5/21 ~ 상시 운영 (계속)<span class="tl-state">진행 중</span></div></div>
+        <div class="tl-track">
+          <div class="tl-bar ended" style="left:0;width:24.6%;background:#3b82f6">4/29~5/13<span class="tl-state">ABT</span></div>
+          <div class="tl-bar" style="left:38.6%;right:0;background:#3b82f6">5/21 ~ 상시 운영<span class="tl-state">진행 중</span></div>
+        </div>
       </div>
       <div class="tl-row">
         <span class="tl-label">시간연장</span>
-        <div class="tl-track"><div class="tl-bar ended" style="left:0;width:28%;background:#8b5cf6">5/21~6/3<span class="tl-state">종료</span></div></div>
+        <div class="tl-track"><div class="tl-bar ended" style="left:24.6%;width:36.8%;background:#8b5cf6">5/13~6/3<span class="tl-state">종료</span></div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">차종</span>
-        <div class="tl-track"><div class="tl-bar" style="left:43.5%;width:30.5%;background:#f59e0b">6/10~6/24<span class="tl-state">진행 중</span></div></div>
+        <div class="tl-track"><div class="tl-bar ended" style="left:73.7%;width:24.5%;background:#f59e0b">6/10~6/24<span class="tl-state">종료</span></div></div>
       </div>
     </div>
     <div class="tl-prio">
       <span class="pl">노출 우선순위</span>
-      <span class="prio-txt">한 예약에 업셀링은 <b>1개만</b> 노출. 여러 조건이 겹치면 기본은 <b>PF, 시간연장, 차종 순</b>으로 하나 선택. 단, AB 실험 중인 아이템이 있으면 그 아이템을 먼저 노출</span>
+      <span class="prio-txt">한 예약에 업셀링은 <b>1개만</b> 노출. 실험 중인 아이템이 있으면 그 아이템을 먼저 시도하고, 조건 미충족 시 PF로 넘어감. <b>6/24 차종 종료 후 현재는 PF만 노출</b> (시간연장은 6/3 종료)</span>
     </div>
   </div>
 
@@ -438,7 +442,7 @@ pre.sql .cmt { color:#7dd3fc; }
         </div>
       </div>
       <div class="mf-card cu">
-        <div class="mf-head"><span class="mf-name">차종 업그레이드</span><span class="mf-period">실험 중 (6/10~6/21)</span></div>
+        <div class="mf-head"><span class="mf-name">차종 업그레이드</span><span class="mf-period">실험 종료 (6/10~6/24)</span></div>
         <div class="mf-purpose"><span class="mf-plabel">목적</span> 상위 차급 활용</div>
         <div class="mf-step">
           <div class="mf-lab"><span>노출</span><b>1,295<small>명</small></b></div>
