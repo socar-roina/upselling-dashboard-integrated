@@ -4,10 +4,38 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>업셀링 통합 모니터링</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<title>업셀링 통합 대시보드</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<style>
+.tabs { display:inline-flex; gap:4px; margin-bottom:20px; background:#eef1f5; padding:4px; border-radius:11px; }
+.tabbtn { font-family:inherit; font-size:15px; font-weight:800; color:#64748b; background:none; border:none; padding:10px 24px; cursor:pointer; border-radius:8px; }
+.tabbtn.on { color:#fff; background:#2563eb; box-shadow:0 1px 3px rgba(37,99,235,.35); }
+.tabbtn:hover:not(.on) { color:#1e293b; }
+.date-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:13px 16px; margin-bottom:14px; background:#f8fafc; border:1px solid #e3edf9; border-radius:10px; }
+.date-bar .dt-title { font-size:13px; font-weight:800; color:#1e40af; }
+.date-bar input[type=date] { font-family:inherit; font-size:13px; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; color:#111827; background:#fff; }
+.date-bar button { font-family:inherit; font-weight:700; cursor:pointer; }
+.date-bar button.apply { font-size:12px; padding:7px 18px; border-radius:8px; border:1px solid #2563eb; color:#fff; background:#2563eb; }
+.date-bar button.reset { font-size:11px; padding:6px 11px; border-radius:7px; border:1px solid #d1d5db; color:#6b7280; background:#fff; }
+.chart-wrap { position:relative; }
+.item-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.item-card { border:1px solid #e5e7eb; border-left-width:4px; border-radius:12px; padding:17px 18px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+.item-card.pf{border-left-color:#3b82f6}.item-card.ti{border-left-color:#8b5cf6}.item-card.cu{border-left-color:#f59e0b}
+.item-card .ic-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.item-card .ic-name { font-size:17px; font-weight:800; color:#111827; }
+.item-card .ic-per { font-size:13.5px; color:#475569; line-height:1.7; margin-top:12px; }
+.item-card .ic-per b { color:#0f172a; }
+.item-card .ic-link { display:inline-block; margin-top:14px; font-size:13px; font-weight:800; color:#fff; background:#2563eb; padding:9px 14px; border-radius:8px; text-decoration:none; }
+.item-card a.ic-link:hover { background:#1d4ed8; }
+.item-card .ic-link.soon { background:#eef0f3; color:#9ca3af; }
+.item-card .ic-subs { margin-top:11px; padding-top:11px; border-top:1px solid #f1f3f5; display:flex; flex-wrap:wrap; gap:6px 16px; }
+.item-card .ic-subs a { font-size:12px; font-weight:700; color:#2563eb; text-decoration:none; }
+.item-card .ic-subs a:hover { text-decoration:underline; }
+@media (max-width:820px){ .item-grid { grid-template-columns:1fr; } }
+</style>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif; background: #f7f8fa; color: #111827; font-size:14.5px; line-height: 1.5; min-width: 1120px; }
@@ -16,356 +44,160 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .top-bar h1 { font-size:16px; font-weight: 800; letter-spacing: -0.02em; }
 .top-bar .meta { font-size:13px; color: #6b7280; margin-top: 3px; }
 .top-bar .updated { font-size:11px; color: #9ca3af; text-align: right; line-height: 1.6; }
-
 .main { width: 100%; margin: 0 auto; padding: 18px 28px 48px; }
 
-/* 결론 배너 */
-.verdict { background: linear-gradient(135deg,#0f2040 0%,#1e293b 100%); color:#fff; border-radius:16px; padding:22px 26px; margin-bottom:20px; }
-.verdict .vh { font-size:11px; font-weight:800; letter-spacing:0.08em; color:#7dd3fc; text-transform:uppercase; margin-bottom:10px; }
-.verdict .vt { font-size:16px; font-weight:800; line-height:1.55; letter-spacing:-0.01em; }
-.verdict .vt b { color:#fbbf24; }
-.verdict .vsub { font-size:12px; color:rgba(255,255,255,0.65); margin-top:12px; line-height:1.7; }
+/* 오늘의 결론 */
+.verdict { background: linear-gradient(135deg,#0f2040 0%,#1e293b 100%); color:#fff; border-radius:16px; padding:24px 28px; margin-bottom:22px; }
+.verdict .vh { font-size:12px; font-weight:800; letter-spacing:0.08em; color:#7dd3fc; text-transform:uppercase; margin-bottom:14px; }
+.vrow { display:flex; gap:11px; padding:8px 0; border-top:1px solid rgba(255,255,255,0.1); }
+.vrow:first-of-type { border-top:none; }
+.vrow .vn { flex-shrink:0; width:22px; height:22px; border-radius:7px; background:rgba(255,255,255,0.12); color:#cbd5e1; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.vrow .vt { font-size:15px; font-weight:700; line-height:1.55; letter-spacing:-0.01em; }
+.vrow .vt b { color:#fbbf24; font-weight:800; }
+.vrow .vt .go { color:#6ee7b7; font-weight:800; }
 
-.section-label { font-size:16px; font-weight: 800; color: #374151; margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.section-label { font-size:16px; font-weight: 800; color: #374151; margin: 32px 0 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .section-label::before { content: ""; display: inline-block; width: 4px; height: 16px; background: #3b82f6; border-radius: 2px; }
-.tag { font-size:12px; padding: 3px 9px; border-radius: 20px; font-weight: 600; letter-spacing: 0; }
-.tag-ok { background: #d1fae5; color: #065f46; }
-.tag-blue { background: #dbeafe; color: #1e40af; }
-.tag-gray { background: #f3f4f6; color: #6b7280; }
-/* 섹션 기준 배지 (색 점 = 시간 기준) */
-.scope { font-size:12px; font-weight: 700; padding: 3px 10px 3px 8px; border-radius: 7px; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0; }
+.section-label .sn { font-size:12px; font-weight:800; color:#94a3b8; }
+.scope { font-size:12px; font-weight: 700; padding: 3px 10px 3px 8px; border-radius: 7px; display: inline-flex; align-items: center; gap: 6px; }
 .scope::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.scope-day { background: #eff6ff; color: #1d4ed8; } .scope-day::before { background: #3b82f6; }
 .scope-cum { background: #f1f5f9; color: #334155; } .scope-cum::before { background: #64748b; }
 .scope-week { background: #f3f4f6; color: #6b7280; } .scope-week::before { background: #9ca3af; }
-.scope-item { background: #fff7ed; color: #9a3412; } .scope-item::before { background: #f59e0b; }
-/* 관점 층 헤더 (A 통합 / B 아이템) */
-.layer { margin: 36px 0 6px; padding: 13px 18px; border-radius: 10px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.layer .lt { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; }
-.layer .ls { font-size: 12px; font-weight: 700; }
-.layer-a { background: #f1f5f9; border: 1px solid #e2e8f0; }
-.layer-a .lt { color: #0f172a; } .layer-a .ls { color: #64748b; }
-.layer-b { background: #fff7ed; border: 1px solid #fed7aa; }
-.layer-b .lt { color: #9a3412; } .layer-b .ls { color: #c2660c; }
-.layer + .section-label { margin-top: 16px; }
 
 .card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 18px 22px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); }
-.card h3 { font-size:13px; font-weight: 700; color: #374151; margin-bottom: 3px; }
 .card-sub { font-size:13px; color: #6b7280; margin-bottom: 14px; line-height: 1.55; }
 
-/* 흐름 (진입에서 노출, 미노출) */
-.flow-cap { font-size:12px; color:#6b7280; font-weight:700; margin-bottom:2px; }
-.flow-cap b { color:#111827; }
-.flow-split { display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:10px; }
-.flow-col { border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
-.flow-col .fh { padding:11px 16px; font-weight:800; font-size:14.5px; color:#fff; display:flex; justify-content:space-between; align-items:baseline; }
-.flow-col.expo .fh { background:#334155; }
-.flow-col.none .fh { background:#64748b; }
-.flow-col .fb { padding:14px 16px; }
-.prop-bar { display:flex; height:42px; border-radius:9px; overflow:hidden; margin:14px 0; }
-.prop-bar .seg { display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:800; line-height:1.2; }
-.prop-bar .seg span { font-size:11px; font-weight:600; opacity:0.85; margin-top:2px; }
-.intro { background:#f8fafc; border-left:4px solid #64748b; border-radius:0 10px 10px 0; padding:14px 18px; font-size:13px; color:#1e293b; line-height:1.75; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
-.intro b { color:#1e40af; }
-.hero { background:white; border-radius:14px; border:1px solid #e5e7eb; padding:20px 22px; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); margin-bottom:20px; }
-.hero-lead { font-size:14.5px; font-weight:700; color:#374151; margin-bottom:14px; }
-.hero-lead b { font-size:16px; color:#111827; }
-.hero-flow { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.hero-box { border-radius:12px; padding:15px 18px; }
-.hero-box.expo { background:#eef2f6; border:1px solid #94a3b8; }
-.hero-box.miss { background:#f1f5f9; border:1px solid #cbd5e1; }
-.hero-box .hl { font-size:13px; font-weight:700; margin-bottom:6px; }
-.hero-box.expo .hl { color:#334155; }
-.hero-box.miss .hl { color:#475569; }
-.hero-box .hn { font-size:21px; font-weight:900; color:#111827; line-height:1; }
-.hero-box .hp { font-size:14.5px; font-weight:800; margin-left:4px; }
-.hero-box.expo .hp { color:#334155; }
-.hero-box.miss .hp { color:#64748b; }
-.hero-q { margin-top:14px; font-size:13px; font-weight:700; color:#334155; background:#f1f5f9; border-radius:8px; padding:11px 14px; line-height:1.5; }
-.hero-cum { margin-top:10px; font-size:11px; color:#9ca3af; line-height:1.7; }
+/* 현재 운영 상태 */
+.status-tbl { width:100%; border-collapse:collapse; margin-bottom:18px; }
+.status-tbl th { font-size:11px; color:#9ca3af; font-weight:700; text-align:left; padding:9px 14px; border-bottom:1px solid #e5e7eb; }
+.status-tbl td { padding:12px 14px; border-bottom:1px solid #f3f4f6; font-size:14.5px; color:#374151; font-weight:700; }
+.status-tbl tr:last-child td { border-bottom:none; }
+.st-badge { font-size:12px; font-weight:800; padding:4px 11px; border-radius:20px; }
+.st-live { background:#d1fae5; color:#065f46; }
+.st-end { background:#f3f4f6; color:#6b7280; }
+.st-when { font-size:12px; color:#9ca3af; font-weight:600; margin-left:8px; }
+
+/* 타임라인 */
+.timeline { margin-top:4px; }
+.tl-axis { position:relative; height:16px; margin-left:72px; margin-bottom:4px; }
+.tl-axis span { position:absolute; transform:translateX(-50%); font-size:12px; color:#6b7280; font-weight:700; white-space:nowrap; }
+.tl-axis span::after { content:""; position:absolute; left:50%; top:17px; width:1px; height:7px; background:#d1d5db; }
+.tl-row { display:flex; align-items:center; margin-bottom:8px; }
+.tl-label { width:72px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
+.tl-track { position:relative; flex:1; height:18px; background:#f3f4f6; border-radius:99px; }
+.tl-bar { position:absolute; top:0; bottom:0; border-radius:99px; display:flex; align-items:center; gap:6px; padding:0 10px; font-size:11px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; }
+.tl-bar .tl-state { font-size:11px; font-weight:800; padding:1px 6px; border-radius:20px; background:rgba(255,255,255,0.28); }
+.tl-bar.ended { background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.16) 0 6px,transparent 6px 12px); }
+.tl-note { font-size:12px; color:#6b7280; margin-top:10px; padding-top:12px; border-top:1px dashed #e5e7eb; line-height:1.6; }
+.tl-note b { color:#1e293b; font-weight:800; }
+
+/* 흐름 퍼널 */
 .funnel { margin-bottom:14px; }
 .fn-row { display:flex; align-items:center; gap:12px; margin-bottom:7px; }
 .fn-stage { width:88px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
 .fn-track { flex:1; height:22px; background:#f3f4f6; border-radius:99px; overflow:hidden; }
 .fn-bar { height:100%; border-radius:7px; min-width:10px; }
-.fn-val { width:215px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
+.fn-val { width:235px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
 .fn-val small { font-size:13px; font-weight:700; color:#9ca3af; margin-left:1px; }
-.fn-val em { font-style:normal; font-size:14.5px; font-weight:700; color:#6b7280; margin-left:5px; }
 .fn-pct { display:block; font-size:12.5px; font-weight:700; color:#475569; margin-top:2px; letter-spacing:-0.01em; }
-.funnel3 { display:flex; align-items:stretch; gap:8px; margin-bottom:12px; }
-.fn-card { flex:1; background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
-.fn-card .fl { font-size:13px; font-weight:700; color:#6b7280; }
-.fn-card .fnum { font-size:28px; font-weight:900; color:#0f172a; line-height:1.1; margin-top:4px; }
-.fn-card .fnum span { font-size:14.5px; font-weight:700; color:#9ca3af; margin-left:2px; }
-.fn-card .fu { font-size:12px; color:#6b7280; font-weight:600; margin-top:3px; }
-.fn-step { display:flex; align-items:center; }
-.fn-step span { font-size:13px; font-weight:800; color:#334155; text-align:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:8px; padding:7px 11px; line-height:1.3; white-space:nowrap; }
-.gap-callout { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; border-radius:10px; padding:14px 18px; margin-bottom:20px; }
+.gap-callout { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; border-radius:10px; padding:14px 18px; margin-bottom:12px; }
 .gap-callout b { font-size:21px; font-weight:900; color:#0f172a; flex-shrink:0; }
 .gap-callout .gc-t { font-size:14.5px; color:#475569; font-weight:600; line-height:1.5; }
-.cum-ref { font-size:13px; color:#9ca3af; margin:-8px 0 20px; }
-@media (max-width:680px){ .funnel3 { flex-wrap:wrap; } .fn-step { display:none; } }
-@media (max-width:600px){ .hero-flow { grid-template-columns:1fr; } }
-.kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
-.kpi-card { background:white; border-radius:14px; border:1px solid #e5e7eb; padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04); }
-.kpi-card.accent { background:linear-gradient(135deg,#1e293b 0%,#0f2040 100%); border-color:transparent; }
-.kpi-top { font-size:12px; font-weight:700; color:#9ca3af; margin-bottom:9px; }
-.kpi-card.accent .kpi-top { color:rgba(255,255,255,0.55); }
-.kpi-num { font-size:28px; font-weight:900; color:#111827; line-height:1; letter-spacing:-0.02em; }
-.kpi-card.accent .kpi-num { color:#fff; }
-.kpi-unit { font-size:14.5px; font-weight:700; color:#6b7280; margin-left:3px; }
-.kpi-card.accent .kpi-unit { color:rgba(255,255,255,0.6); }
-.kpi-sub { font-size:12px; color:#9ca3af; margin-top:9px; line-height:1.5; }
-.kpi-card.accent .kpi-sub { color:rgba(255,255,255,0.6); }
-.now { background:#f8fafc; border-left:4px solid #64748b; border-radius:0 8px 8px 0; padding:12px 15px; font-size:13px; font-weight:700; color:#1e293b; line-height:1.7; margin-bottom:14px; }
-table.phase { width:100%; border-collapse:collapse; font-size:12px; }
-table.phase th { font-size:11px; color:#9ca3af; font-weight:700; text-align:left; padding:8px 12px; border-bottom:1px solid #e5e7eb; }
-table.phase td { padding:9px 12px; border-bottom:1px solid #f3f4f6; color:#374151; }
-table.phase tr:last-child td { border-bottom:none; }
-table.phase td:first-child { color:#6b7280; white-space:nowrap; font-weight:600; }
-table.phase tr.cur td { background:#eff6ff; font-weight:700; color:#1e40af; }
-.timeline { margin-top:4px; }
-.tl-axis { position:relative; height:16px; margin-left:64px; margin-bottom:4px; }
-.tl-axis span { position:absolute; transform:translateX(-50%); font-size:12px; color:#6b7280; font-weight:700; white-space:nowrap; }
-.tl-axis span::after { content:""; position:absolute; left:50%; top:17px; width:1px; height:7px; background:#d1d5db; }
-.tl-row { display:flex; align-items:center; margin-bottom:8px; }
-.tl-label { width:72px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
-.tl-track { position:relative; flex:1; height:18px; background:#f3f4f6; border-radius:99px; background-image:linear-gradient(90deg,#e9ebef 1px,transparent 1px); background-size:calc(100%/6) 100%; }
-.tl-bar { position:absolute; top:0; bottom:0; border-radius:99px; display:flex; align-items:center; gap:6px; padding:0 10px; font-size:11px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; }
-.tl-bar .tl-state { font-size:11px; font-weight:800; padding:1px 6px; border-radius:20px; background:rgba(255,255,255,0.28); }
-.tl-bar.ended { background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.16) 0 6px,transparent 6px 12px); }
-.tl-prio { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px dashed #e5e7eb; }
-.tl-prio .pl { font-size:12px; font-weight:800; color:#6b7280; margin-right:2px; }
-.tl-prio .prio-txt { flex:1; min-width:0; font-size:12.5px; font-weight:600; color:#475569; line-height:1.55; }
-.tl-prio .prio-txt b { color:#1e293b; font-weight:800; }
-.tl-prio .ps { font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; color:#fff; }
-.tl-prio .p1 { background:#3b82f6; } .tl-prio .p2 { background:#8b5cf6; } .tl-prio .p3 { background:#f59e0b; }
-.fbar { display:flex; height:34px; border-radius:7px; overflow:hidden; margin-bottom:12px; }
-.fbar .s { display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:800; }
-.sub-row { display:flex; justify-content:space-between; font-size:12px; padding:7px 0; border-bottom:1px dashed #eef0f3; }
-.sub-row:last-child { border-bottom:none; }
-.sub-row .k { color:#6b7280; }
-.sub-row .k b { color:#111827; }
-.sub-row .v { font-weight:800; color:#111827; }
-.sub-row .v small { font-weight:600; color:#9ca3af; font-size:11px; }
-.tagline { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; margin-left:6px; }
-.tl-target { background:#e2e8f0; color:#475569; }
-.tl-miss { background:#e2e8f0; color:#475569; }
+.pf-note { background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; font-size:13px; color:#1e3a5f; line-height:1.55; }
+.pf-note b { font-weight:800; }
+.cum-ref { font-size:12px; color:#9ca3af; margin-top:11px; line-height:1.6; }
 
-/* 아이템별 비교 안내 배너 */
-.cmp-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; font-size:14.5px; color: #1e3a5f; line-height: 1.55; margin-bottom: 12px; }
-.warn-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:12px 16px; margin-top:12px; font-size:14.5px; color:#9a3412; line-height:1.5; }
-.chart-interpret { display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; border-top: 1px solid #f0f0f0; margin-top: 14px; padding: 12px 14px; border-radius: 0 0 8px 8px; font-size:12px; color: #374151; line-height: 1.6; }
-.chart-interpret-icon { font-size:14.5px; flex-shrink: 0; margin-top: 1px; }
-.chart-interpret em { font-style: normal; font-weight: 700; color: #111827; }
-.ci-good { color: #059669; font-weight: 700; }
-
-/* 미노출 심층 */
-.who-grid { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
-.mrow { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:8px 0; border-bottom:1px solid #f3f4f6; }
-.mrow:last-child { border-bottom:none; }
-.mrow .k { color:#6b7280; }
-.mrow .v { font-weight:700; color:#111827; }
-.bar-track { height: 8px; background:#f3f4f6; border-radius:99px; overflow:hidden; margin-top:6px; }
-.bar-fill { height:100%; border-radius:99px; }
-.action { background:#ecfdf5; border-left:4px solid #10b981; border-radius:0 10px 10px 0; padding:13px 16px; font-size:12px; color:#065f46; line-height:1.7; }
-.action b { color:#047857; }
-.gap-title { margin-top:18px; font-size:14.5px; font-weight:800; color:#111827; }
-.gap-cats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px; }
-.gap-cat { border-radius:10px; padding:12px 13px; }
-.gap-cat.gap-go { background:#ecfdf5; border:1px solid #a7f3d0; }
-.gap-cat.gap-soft { background:#f5f7fa; border:1px solid #e2e8f0; }
-.gap-cat.gap-fix { background:#f8fafc; border:1px solid #e5e7eb; }
-.gap-h { font-size:13px; font-weight:800; margin-bottom:9px; line-height:1.4; }
-.gap-go .gap-h { color:#047857; }
-.gap-soft .gap-h { color:#475569; }
-.gap-fix .gap-h { color:#6b7280; }
-.gap-sum { display:block; font-size:16px; font-weight:800; margin-top:2px; }
-.gap-i { font-size:13px; color:#374151; line-height:1.55; padding:8px 0; border-top:1px solid rgba(0,0,0,0.05); }
-.gap-i b { color:#111827; font-size:13px; }
-@media (max-width:720px){ .gap-cats { grid-template-columns:1fr; } }
-/* 미노출 구성 */
+/* 미노출 분석 */
 .miss-bar { display:flex; height:46px; border-radius:9px; overflow:hidden; margin:4px 0 18px; }
 .miss-seg { display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14.5px; line-height:1.25; text-align:center; padding:0 4px; white-space:nowrap; }
 .miss-seg span { font-size:11px; font-weight:600; opacity:0.9; }
 .miss-seg.s1 { background:#64748b; }
 .miss-seg.s2 { background:#94a3b8; }
 .miss-seg.s3 { background:#cbd5e1; color:#475569; }
-.miss-seg.s4 { background:#e2e8f0; color:#64748b; }
-.miss-row { display:flex; gap:14px; padding:10px 0; border-top:1px solid #f1f3f5; }
+.miss-row { display:flex; gap:14px; align-items:flex-start; padding:13px 0; border-top:1px solid #f1f3f5; }
 .miss-row:first-of-type { border-top:none; }
 .miss-key { flex-shrink:0; width:158px; }
 .miss-key .mk-n { font-size:16px; font-weight:800; color:#0f172a; }
 .miss-key .mk-p { font-size:14.5px; color:#6b7280; font-weight:700; margin-top:2px; }
-.miss-txt { font-size:14.5px; color:#475569; line-height:1.5; }
-.miss-txt b { color:#111827; font-weight:800; }
-.miss-go { color:#047857; font-weight:800; }
-@media (max-width:680px){ .miss-row { flex-direction:column; gap:4px; } .miss-key { width:auto; } }
-.takeaway { background:#f1f5f9; border-left:4px solid #334155; border-radius:0 8px 8px 0; padding:12px 16px; margin-top:16px; font-size:14.5px; color:#1e293b; line-height:1.6; }
-.takeaway b { color:#0f172a; }
-.concl-card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
-.concl-h { color:#111827; font-size:14.5px; font-weight:800; margin-bottom:12px; }
-.concl-row { display:flex; gap:12px; padding:9px 0; border-top:1px solid #f1f3f5; }
-.concl-row:first-of-type { border-top:none; }
-.cn { flex-shrink:0; width:22px; height:22px; border-radius:7px; background:#eef1f4; color:#475569; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; }
-.ct { font-size:14.5px; color:#374151; line-height:1.55; }
-.ct b { color:#0f172a; font-weight:800; }
-.ct .em { color:#0f172a; font-weight:800; }
+.miss-txt { flex:1; font-size:14px; color:#475569; line-height:1.5; }
+.miss-act { flex-shrink:0; width:190px; font-size:13px; font-weight:800; padding:8px 12px; border-radius:8px; line-height:1.45; }
+.act-no { background:#f3f4f6; color:#6b7280; }
+.act-auto { background:#eff6ff; color:#1e40af; }
+.act-go { background:#ecfdf5; color:#047857; }
+@media (max-width:820px){ .miss-row { flex-direction:column; gap:6px; } .miss-key,.miss-act { width:auto; } }
 
-/* 아이템별 자기기준 미니 퍼널 */
-.mf-note { font-size:13px; color:#475569; line-height:1.55; margin:14px 0 10px; }
-.mf-note b { color:#111827; font-weight:800; }
-.mini-funnels { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-.mf-card { border:1px solid #e5e7eb; border-left-width:4px; border-radius:12px; padding:15px 16px; background:#fff; }
-.mf-card.pf { border-left-color:#3b82f6; }
-.mf-card.ti { border-left-color:#8b5cf6; }
-.mf-card.cu { border-left-color:#f59e0b; }
-.mf-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:13px; }
-.mf-name { font-size:16px; font-weight:800; color:#111827; }
-.mf-period { font-size:11px; font-weight:700; color:#64748b; background:#f3f4f6; padding:3px 8px; border-radius:20px; white-space:nowrap; }
-.mf-step { margin-bottom:10px; }
-.mf-lab { display:flex; justify-content:space-between; align-items:baseline; font-size:12px; font-weight:700; color:#6b7280; margin-bottom:4px; }
-.mf-lab b { font-size:16px; color:#111827; font-weight:800; }
-.mf-lab b small { font-size:11px; font-weight:600; color:#9ca3af; margin-left:1px; }
-.mf-track { height:14px; background:#f3f4f6; border-radius:7px; overflow:hidden; }
-.mf-fill { height:100%; border-radius:7px; min-width:6px; }
-.mf-rate { margin-top:11px; padding-top:11px; border-top:1px solid #f1f3f5; display:flex; align-items:baseline; justify-content:space-between; }
-.mf-rl { font-size:12px; font-weight:700; color:#6b7280; }
-.mf-rv { font-size:21px; font-weight:900; line-height:1; color:#111827; }
-.mf-purpose { font-size:13px; color:#475569; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:7px; }
-.mf-purpose .mf-plabel { font-size:11px; font-weight:800; color:#94a3b8; background:#f1f5f9; padding:2px 7px; border-radius:5px; letter-spacing:0.02em; }
-.mf-econ { margin-top:11px; padding-top:11px; border-top:1px solid #f1f3f5; }
-.mf-econ-row { display:flex; justify-content:space-between; align-items:baseline; padding:4px 0; font-size:12px; font-weight:700; color:#6b7280; }
-.mf-econ-row b { font-size:14.5px; font-weight:800; color:#111827; }
-.mf-econ-row b small { font-size:11px; font-weight:600; color:#9ca3af; margin-left:2px; }
-.mf-econ-row.key b { color:#0f766e; }
-@media (max-width:720px){ .mini-funnels { grid-template-columns:1fr; } }
-/* 그래프 지표 라벨 (이 막대가 무엇 중 무엇 비율인지 명시) */
-.mlabel { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px; }
-.mlabel .mname { font-size:14.5px; font-weight:800; color:#fff; padding:5px 13px; border-radius:7px; white-space:nowrap; letter-spacing:-0.01em; }
-.mlabel .mname.m-rate { background:#0f766e; }
-.mlabel .mname.m-pen { background:#1d4ed8; }
-.mlabel .mname.m-period { background:#475569; }
-.mlabel .mdef { font-size:12px; font-weight:700; color:#475569; line-height:1.4; }
-.mlabel .mdef b { color:#0f172a; font-weight:800; }
-/* 하루 평균 노출 침투율 (전체 고객 대비, 같은 100% 스케일) */
-.pen-block { margin-top:20px; padding-top:16px; border-top:1px solid #eef0f3; }
-.pen-title { font-size:14.5px; font-weight:800; color:#111827; }
-.pen-cap { font-size:12px; color:#6b7280; margin:3px 0 12px; line-height:1.5; }
-.pen-row { display:flex; align-items:center; gap:12px; margin:8px 0; }
-.pen-name { width:84px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
-.pen-track { flex:1; height:13px; background:#f3f4f6; border-radius:99px; overflow:hidden; position:relative; }
-.pen-fill { height:100%; border-radius:99px; min-width:3px; }
-.pen-val { width:52px; flex-shrink:0; text-align:right; font-size:16px; font-weight:900; color:#0f172a; }
-.pen-axis { display:flex; justify-content:space-between; font-size:11px; color:#b6bcc6; font-weight:600; margin:2px 0 0 96px; padding-right:60px; }
-.pen-note { font-size:12px; color:#6b7280; line-height:1.55; margin-top:11px; background:#f8fafc; border-radius:8px; padding:10px 13px; }
-.pen-note b { color:#111827; font-weight:800; }
+/* 아이템 역할 비교 */
+.role-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.role-card { border:1px solid #e5e7eb; border-left-width:4px; border-radius:12px; padding:16px 17px; background:#fff; }
+.role-card.pf { border-left-color:#3b82f6; }
+.role-card.ti { border-left-color:#8b5cf6; }
+.role-card.cu { border-left-color:#f59e0b; }
+.role-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
+.role-name { font-size:16px; font-weight:800; color:#111827; }
+.role-line { padding:7px 0; border-top:1px solid #f1f3f5; font-size:13.5px; line-height:1.5; }
+.role-line:first-of-type { border-top:none; }
+.role-k { font-size:11px; font-weight:800; color:#94a3b8; letter-spacing:0.02em; }
+.role-v { color:#374151; font-weight:600; }
+.role-v.lim { color:#9a3412; }
+.role-aux { margin-top:11px; padding-top:11px; border-top:1px dashed #e5e7eb; display:flex; gap:14px; }
+.role-aux div { font-size:12px; font-weight:700; color:#6b7280; }
+.role-aux b { display:block; font-size:16px; color:#0f172a; font-weight:900; margin-top:2px; }
+@media (max-width:820px){ .role-grid { grid-template-columns:1fr; } }
+.cmp-foot { background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; padding:11px 14px; margin-top:12px; font-size:13px; color:#475569; line-height:1.55; }
+.cmp-foot b { color:#111827; font-weight:800; }
 
-.prep-card { background:#fbfbfc; border:1px dashed #d1d5db; border-radius:12px; padding:18px 22px; margin-bottom:14px; }
-.prep-card h3 { font-size:13px; font-weight:700; color:#6b7280; }
-.badge { font-size:11px; font-weight:800; padding:2px 8px; border-radius:20px; }
-.b-prep { background:#f3f4f6; color:#6b7280; }
-
-.chart-wrap { height: 270px; position: relative; }
-
-.method { background:#fbfbfc; border:1px solid #eef0f3; border-radius:12px; padding:18px 22px; margin-top:8px; }
-.method h3 { font-size:12px; font-weight:800; color:#374151; margin-bottom:10px; }
-.method-item { font-size:11px; color:#4b5563; line-height:1.7; margin-bottom:6px; }
-.method-item code { background:#f3f4f6; border-radius:4px; padding:1px 5px; font-family: ui-monospace, Menlo, monospace; font-size:11px; color:#374151; }
-.method-item strong { color:#111827; }
-pre.sql { background:#0f172a; color:#e2e8f0; border-radius:8px; padding:13px 15px; font-family: ui-monospace, Menlo, monospace; font-size:11px; line-height:1.6; overflow-x:auto; margin-top:8px; white-space:pre; }
-pre.sql .cmt { color:#7dd3fc; }
-.method-details { margin-top:26px; }
-.method-summary { cursor:pointer; font-size:11px; font-weight:700; color:#6b7280; letter-spacing:0.06em; padding:10px 16px; background:#f3f4f6; border-radius:8px; display:inline-block; list-style:none; }
-.method-summary::-webkit-details-marker { display:none; }
-.method-summary::before { content:'＋ '; color:#9ca3af; }
-.method-details[open] .method-summary::before { content:'－ '; }
-.method-details[open] .method-summary { margin-bottom:14px; }
+/* 다음 액션 */
+.act-board { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:8px 22px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.act-item { display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-top:1px solid #f1f3f5; }
+.act-item:first-child { border-top:none; }
+.act-tag { flex-shrink:0; width:96px; font-size:12px; font-weight:800; padding:5px 0; text-align:center; border-radius:7px; }
+.tag-keep { background:#eff6ff; color:#1e40af; }
+.tag-review { background:#fef3c7; color:#92400e; }
+.tag-new { background:#ecfdf5; color:#047857; }
+.tag-run { background:#f3e8ff; color:#6b21a8; }
+.act-desc { font-size:14.5px; color:#374151; line-height:1.55; font-weight:600; }
+.act-desc b { color:#0f172a; font-weight:800; }
 </style>
 </head>
 <body>
 
 <div class="top-bar">
   <div>
-    <h1>업셀링 통합 모니터링</h1>
+    <h1>업셀링 통합 대시보드</h1>
     <div class="meta">결제 직전 PF 보험, 시간연장, 차종 중 하나 추천 (예약당 1개)</div>
   </div>
-  <div class="updated">운영 기간은 PF 최초 노출(4/29 ABT)부터 표시<br>퍼널과 비교 수치는 5/21 정규화 이후 누적 (KST, BQ 실측), 아이템별 기간 상이</div>
+  <div class="updated">PF, 시간연장, 차종 3종 업셀링 운영 전반의 통합 분석<br>KST 기준, BQ 실측</div>
 </div>
 
 <div class="main">
 
-  <!-- ===== 핵심 요약 (BLUF: 흐름, 빈틈, 기회) ===== -->
-  <div class="section-label">핵심 요약</div>
-  <div class="concl-card">
-    <div class="concl-row"><span class="cn">1</span><div class="ct">전체 예약의 <b>34%</b>는 어떤 업셀링도 노출되지 않음</div></div>
-    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">이미 PF0(자기부담금 최저)이면서 4시간 미만으로 예약하는 고객</span>은 현재 대부분 어떤 업셀링도 보지 못함. 신규 아이템 검토 후보 (수요는 별도 검증)</div></div>
+  <div class="tabs">
+    <button class="tabbtn on" data-tab="overall">전체</button>
+    <button class="tabbtn" data-tab="items">아이템별</button>
   </div>
 
+  <div id="tab-overall" class="tabpane">
 
-  <!-- ===== A층 통합 ===== -->
-  <div class="layer layer-a"><span class="lt">전체 합산</span><span class="ls">예약 건 기준, 누적 5/21~6/21</span></div>
-
-  <!-- ===== 한눈에: 3종 합산 예약 노출 수락 퍼널 ===== -->
-  <div class="section-label">노출 수락 흐름</div>
-  <div class="card-sub" style="margin-bottom:10px">PF, 시간연장, 차종 3종을 합친 흐름 (정규화 5/21 이후 기준, 막대 길이는 전체 예약 100% 대비). PF가 노출의 약 99%</div>
-  <div class="funnel">
-    <div class="fn-row">
-      <span class="fn-stage">전체 예약</span>
-      <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
-      <span class="fn-val">328,249<small>건</small><span class="fn-pct">기준값 (100%)</span></span>
-    </div>
-    <div class="fn-row">
-      <span class="fn-stage">업셀링 노출</span>
-      <div class="fn-track"><div class="fn-bar" style="width:66%;background:#64748b"></div></div>
-      <span class="fn-val">215,851<small>건</small><span class="fn-pct">전체 예약의 66%가 노출됨</span></span>
-    </div>
-    <div class="fn-row">
-      <span class="fn-stage">수락</span>
-      <div class="fn-track"><div class="fn-bar" style="width:5%;background:#16a34a"></div></div>
-      <span class="fn-val">15,256<small>건</small><span class="fn-pct">노출된 예약 중 7.1%가 결제</span></span>
-    </div>
+  <!-- ===== 1. 오늘의 결론 ===== -->
+  <div class="verdict">
+    <div class="vh">핵심 요약</div>
+    <div class="vrow"><span class="vn">1</span><div class="vt">현재 <b>PF 보험은 상시</b>, <b>시간연장은 6/25부터 조건 완화 PoC 운영 중</b> (차종은 6/24 종료)</div></div>
+    <div class="vrow"><span class="vn">2</span><div class="vt">전체 예약의 약 <b>34%</b>는 어떤 업셀링도 보지 못함</div></div>
+    <div class="vrow"><span class="vn">3</span><div class="vt">미노출의 대부분은 <b>이미 PF0 고객</b>이라, PF로는 추가 확대 여지가 제한적</div></div>
+    <div class="vrow"><span class="vn">4</span><div class="vt">이미 PF0이면서 4시간 미만 예약 고객은 3개 업셀링 모두의 사각지대<br><span class="go">신규 업셀링 아이템 우선 검토 후보</span></div></div>
   </div>
-  <div class="gap-callout"><b>112,398건</b><span class="gc-t">어떤 업셀링도 안 뜬 예약 총건 (전체 예약 328,249건의 34%)</span></div>
-  <div class="cum-ref">통합 추가매출 합계 약 1.7억원 (PF 약 1.7억원, 시간연장 약 157만원, 차종 약 126만원, 정규화 기준 결제)</div>
 
-  <!-- ===== 미노출 심층: 누구이고 뭘 줄까 ===== -->
-  <div class="section-label">미노출 구성 <span class="scope scope-week">최근 1주 (6/15~6/21)</span></div>
+  <!-- ===== 2. 현재 운영 상태 ===== -->
+  <div class="section-label"><span class="sn">01</span> 현재 운영 상태 <span class="scope scope-cum">오늘(6/29) 시점</span></div>
   <div class="card">
-    <div class="card-sub">최근 1주에 업셀링이 안 뜬 예약을 사유별로 나눈 비중 (합 100%). 업셀링 노출은 대부분 PF라, 사실상 'PF가 안 뜬 이유' 분류와 같음</div>
-    <div class="miss-bar">
-      <div class="miss-seg s1" style="width:76%">이미 PF0 76%</div>
-      <div class="miss-seg s2" style="width:16%">구버전 앱 16%</div>
-      <div class="miss-seg s3" style="width:8%">8%</div>
-    </div>
-    <div class="miss-row">
-      <div class="miss-key"><div class="mk-n">이미 PF0</div><div class="mk-p">76%</div></div>
-      <div class="miss-txt">이미 자기부담금이 최저(PF0)라 보험 업셀링 대상 아님<br>이 중 4시간 미만(이미 PF0의 20%)은 세 아이템 모두 거의 안 떠 <span class="miss-go">신규 아이템 검토 후보</span> (수요는 미검증)<br>4시간 이상은 시간연장 대상이나, 노출 조건을 풀어도 늘 여지가 약 1.3배뿐</div>
-    </div>
-    <div class="miss-row">
-      <div class="miss-key"><div class="mk-n">구버전 앱</div><div class="mk-p">16%</div></div>
-      <div class="miss-txt">업셀링이 앱 18.20부터라 구버전은 추천 기능 미탑재<br>앱 업데이트되면 노출됨</div>
-    </div>
-    <div class="miss-row">
-      <div class="miss-key"><div class="mk-n">PF0 옵션 없음</div><div class="mk-p">8%</div></div>
-      <div class="miss-txt">PF5와 PF200 차량이거나, 최신 앱이라도 그 예약에 PF0가 제공되지 않아 추천이 안 뜬 경우</div>
-    </div>
-  </div>
+    <div class="card-sub">PF는 보험 매출이 목적<br>시간연장과 차종은 둘 다 유휴 차량 가동이지만 채우는 대상이 다름 (시간연장은 차량의 비는 시간, 차종은 비어 있는 상위 등급 차량)</div>
+    <table class="status-tbl">
+      <tr><th>아이템</th><th>상태</th><th>목적</th></tr>
+      <tr><td>PF 보험</td><td><span class="st-badge st-live">운영 중</span><span class="st-when">5/21 정규화 후 상시</span></td><td>보험 매출 확대<span style="display:block;font-size:12px;font-weight:600;color:#9ca3af;margin-top:2px">완전면책(PF0)을 추가로 판매</span></td></tr>
+      <tr><td>시간연장</td><td><span class="st-badge st-live">운영 중</span><span class="st-when">6/25 조건 완화 PoC (대조군 없음)</span></td><td>유휴 시간 가동<span style="display:block;font-size:12px;font-weight:600;color:#9ca3af;margin-top:2px">반납 후 비는 시간에 차량을 더 운행</span></td></tr>
+      <tr><td>차종 업그레이드</td><td><span class="st-badge st-end">종료</span><span class="st-when">6/24</span></td><td>상위 차급 가동<span style="display:block;font-size:12px;font-weight:600;color:#9ca3af;margin-top:2px">비어 있는 상위 등급 차량을 운행</span></td></tr>
+    </table>
 
-  <!-- ===== 미노출률 추이 ===== -->
-  <div class="section-label">미노출률 추이 <span class="scope scope-day">일별 추이 (5/21~6/21)</span></div>
-  <div class="card">
-    <div class="card-sub">미노출률은 그날 전체 예약 중 업셀링이 안 뜬 비율. 5/21 이후 대체로 33~37%, 최근 약 28~31%로 하락 (BQ 실측)</div>
-    <div class="chart-wrap" style="height:220px"><canvas id="missChart"></canvas></div>
-  </div>
-
-  <!-- ===== B층 아이템별 ===== -->
-  <div class="layer layer-b"><span class="lt">아이템별 상세</span><span class="ls">회원과 횟수 기준, 개별 누적 (기간 상이)</span></div>
-
-  <!-- ===== 운영 기간 ===== -->
-  <div class="section-label">운영 기간 <span class="scope scope-cum">6/25 기준</span></div>
-  <div class="card">
-    <div class="card-sub">막대는 실제 노출한 날짜 구간, 막대 안 숫자가 시작과 끝. PF는 ABT(4/29~5/13) 후 공백을 거쳐 5/21 정규화로 상시 전환</div>
     <div class="timeline">
       <div class="tl-axis">
         <span style="left:0;transform:none">4/29</span>
@@ -383,196 +215,190 @@ pre.sql .cmt { color:#7dd3fc; }
       </div>
       <div class="tl-row">
         <span class="tl-label">시간연장</span>
-        <div class="tl-track"><div class="tl-bar ended" style="left:24.6%;width:36.8%;background:#8b5cf6">5/13~6/3<span class="tl-state">종료</span></div></div>
+        <div class="tl-track"><div class="tl-bar ended" style="left:24.6%;width:36.8%;background:#8b5cf6">5/13~6/3<span class="tl-state">1차 종료</span></div><div class="tl-bar" style="left:96.5%;right:0;background:#8b5cf6"></div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">차종</span>
         <div class="tl-track"><div class="tl-bar ended" style="left:73.7%;width:24.5%;background:#f59e0b">6/10~6/24<span class="tl-state">종료</span></div></div>
       </div>
     </div>
-    <div class="tl-prio">
-      <span class="pl">노출 우선순위</span>
-      <span class="prio-txt">한 예약에 업셀링은 <b>1개만</b> 노출. 실험 중인 아이템이 있으면 그 아이템을 먼저 시도하고, 조건 미충족 시 PF로 넘어감. <b>6/24 차종 종료 후 현재는 PF만 노출</b> (시간연장은 6/3 종료)</span>
-    </div>
+    <div class="tl-note">한 예약에 업셀링은 <b>1개만</b> 노출<br>시간연장 조건에 맞으면 시간연장, 아니면 PF로 노출<br><b>차종은 6/24 종료, 시간연장은 6/25부터 조건 완화 PoC 운영 중</b> (대조군 없이 조건 충족 전원 노출)</div>
   </div>
 
-  <!-- ===== 아이템별 비교 (추가매출 기준) ===== -->
-  <div class="section-label">수락률과 단가 비교 <span class="tag tag-ok">추가매출 기준</span></div>
+  <!-- ===== 3. 전체 업셀링 흐름 (캘린더 기간 조회) ===== -->
+  <div class="section-label"><span class="sn">02</span> 전체 업셀링 흐름</div>
+  <div class="card-sub">전체 예약이 업셀링 노출과 수락으로 이어지는 흐름 (노출의 약 99%가 PF라 사실상 PF 중심)<br>정규화(전원 노출) 이후라야 노출률 비교가 맞아 5/21부터 집계 (4/29~5/13 PF ABT는 실험군만 노출돼 제외)</div>
+  <div class="date-bar">
+    <span class="dt-title">조회 기간</span>
+    <input type="date" id="dt-start"><span>~</span><input type="date" id="dt-end">
+    <button class="apply" id="dt-apply">조회</button>
+    <button class="reset" id="dt-reset">전체기간</button>
+  </div>
+  <div class="funnel">
+    <div class="fn-row">
+      <span class="fn-stage">전체 예약</span>
+      <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
+      <span class="fn-val"><span id="v-rsv">-</span><small>건</small><span class="fn-pct">기준값 (100%)</span></span>
+    </div>
+    <div class="fn-row">
+      <span class="fn-stage">업셀링 노출</span>
+      <div class="fn-track"><div class="fn-bar" id="bar-exp" style="width:0;background:#64748b"></div></div>
+      <span class="fn-val"><span id="v-exp">-</span><small>건</small><span class="fn-pct" id="p-exp"></span></span>
+    </div>
+    <div class="fn-row">
+      <span class="fn-stage">수락</span>
+      <div class="fn-track"><div class="fn-bar" id="bar-acc" style="width:0;background:#16a34a"></div></div>
+      <span class="fn-val"><span id="v-acc">-</span><small>건</small><span class="fn-pct" id="p-acc"></span></span>
+    </div>
+  </div>
+  <div class="gap-callout"><b id="v-miss">-</b><span class="gc-t" id="t-miss"></span></div>
+  <div class="card"><div class="chart-wrap" style="height:240px"><canvas id="flowChart"></canvas></div></div>
+  <div class="pf-note"><b>통합 수치는 사실상 PF 중심으로 해석</b><br>노출의 약 99%가 PF 보험이라 위 노출과 수락은 거의 PF의 성과 (시간연장과 차종은 노출 규모가 작음)</div>
+  <div class="cum-ref" id="dt-foot"></div>
+
+  <!-- ===== 4. 미노출 분석 ===== -->
+  <div class="section-label"><span class="sn">03</span> 미노출 분석 <span class="scope scope-week">최근 1주 (6/22~6/28)</span></div>
   <div class="card">
-    <div class="cmp-banner">
-      세 아이템은 운영 기간과 모수가 달라 노출과 수락 <b>건수는 직접 비교 불가</b><br>
-      기간과 모수에 무관한 <b style="color:#334155">수락률과 단가</b>로 비교<br>
-      수락률이 낮아도 목적이 다르면 저성과가 아님 (목적 행 참고)
+    <div class="card-sub">업셀링이 안 뜬 예약을 사유별로 나눈 비중 (합 100%), 사유별로 무엇을 더 줄 수 있는지 함께 표시<br>지금 누가 안 보는지가 중요해 최근 1주 기준 (전체 누적이면 이미 해소된 구버전 앱 비중이 섞여 흐려짐)</div>
+    <div class="miss-bar">
+      <div class="miss-seg s1" style="width:78%">이미 PF0 78%</div>
+      <div class="miss-seg s2" style="width:12%">구버전 앱 12%</div>
+      <div class="miss-seg s3" style="width:10%">10%</div>
     </div>
-
-    <div class="card-sub">색 막대는 본 사람 중 결제한 비율, 자기 노출 100% 기준 (카드끼리 막대 길이 비교는 아님)</div>
-    <div class="mini-funnels">
-      <div class="mf-card pf">
-        <div class="mf-head"><span class="mf-name">PF 보험</span><span class="mf-period">상시 32일 (5/21~6/21)</span></div>
-        <div class="mf-purpose"><span class="mf-plabel">목적</span> 보험 추가매출</div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>노출</span><b>117,319<small>명</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:100%;background:#e5e7eb"></div></div>
-        </div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>수락</span><b>14,381<small>명</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:12.3%;background:#3b82f6"></div></div>
-        </div>
-        <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">12.3%</span></div>
-        <div class="mf-econ">
-          <div class="mf-econ-row"><span>수락 1건당 단가</span><b>13,500원<small>평균</small></b></div>
-          <div class="mf-econ-row key"><span>추가매출 합계</span><b>약 1.7억원<small>전환 차액 합계</small></b></div>
-        </div>
-      </div>
-      <div class="mf-card ti">
-        <div class="mf-head"><span class="mf-name">시간연장</span><span class="mf-period">실험 종료 (~6/3)</span></div>
-        <div class="mf-purpose"><span class="mf-plabel">목적</span> 유휴 차량 가동</div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>노출</span><b>약 1,100<small>명</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:100%;background:#e5e7eb"></div></div>
-        </div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>수락</span><b>약 320<small>건</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:29%;background:#8b5cf6"></div></div>
-        </div>
-        <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">약 29%</span></div>
-        <div class="mf-econ">
-          <div class="mf-econ-row"><span>수락 1건당 단가</span><b>4,900원<small>고정</small></b></div>
-          <div class="mf-econ-row key"><span>추가매출 합계</span><b>약 157만원<small>4,900원 × 약 320건</small></b></div>
-        </div>
-      </div>
-      <div class="mf-card cu">
-        <div class="mf-head"><span class="mf-name">차종 업그레이드</span><span class="mf-period">실험 종료 (6/10~6/24)</span></div>
-        <div class="mf-purpose"><span class="mf-plabel">목적</span> 상위 차급 활용</div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>노출</span><b>1,295<small>명</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:100%;background:#e5e7eb"></div></div>
-        </div>
-        <div class="mf-step">
-          <div class="mf-lab"><span>수락</span><b>114<small>명</small></b></div>
-          <div class="mf-track"><div class="mf-fill" style="width:8.8%;background:#f59e0b"></div></div>
-        </div>
-        <div class="mf-rate"><span class="mf-rl">노출 대비 수락률</span><span class="mf-rv">8.8%</span></div>
-        <div class="mf-econ">
-          <div class="mf-econ-row"><span>수락 1건당 단가</span><b>9,900원<small>고정</small></b></div>
-          <div class="mf-econ-row key"><span>추가매출 합계</span><b>약 126만원<small>9,900원 × 127건</small></b></div>
-        </div>
-      </div>
+    <div class="miss-row">
+      <div class="miss-key"><div class="mk-n">이미 PF0</div><div class="mk-p">78%</div></div>
+      <div class="miss-txt">이미 자기부담금이 최저(PF0)라 보험 업셀링 대상 아님<br>이 중 4시간 미만(이미 PF0의 20%)은 세 아이템 모두 거의 안 떠 사각지대</div>
+      <div class="miss-act act-go">PF 확대 불가<br>4시간 미만은 신규 아이템 검토 후보</div>
     </div>
-
-    <div class="warn-box">수락률은 셋 다 표본이 충분해 신뢰 가능 (시간연장 29%는 좁은 조건이라 완화 시 하락 가능)<br>시간연장은 조건 완화로 늘릴 노출 여지가 약 1.3배가 한계</div>
-    <div class="cum-ref" style="margin:12px 0 0">노출과 수락은 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수), 추가매출은 결제 기준<br><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank" style="color:#2563eb">시간연장 대시보드</a>, <a href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank" style="color:#2563eb">차종 대시보드</a></div>
+    <div class="miss-row">
+      <div class="miss-key"><div class="mk-n">구버전 앱</div><div class="mk-p">12%</div></div>
+      <div class="miss-txt">업셀링이 앱 18.20부터라 구버전은 추천 기능 미탑재</div>
+      <div class="miss-act act-auto">앱 업데이트되면 자연 해결</div>
+    </div>
+    <div class="miss-row">
+      <div class="miss-key"><div class="mk-n">PF0 옵션 없음</div><div class="mk-p">10%</div></div>
+      <div class="miss-txt">그 예약에 PF0가 옵션으로 제공되지 않아 추천 대상 아님 (차량과 회원 조건 따라 예약별로 갈림)</div>
+      <div class="miss-act act-no">추가 액션 어려움</div>
+    </div>
   </div>
 
-
-  <!-- ===== 노출 침투율 ===== -->
-  <div class="section-label">노출 침투율 <span class="scope scope-day">하루 평균, 전체 고객 대비</span></div>
+  <!-- ===== 5. 아이템별 성과 비교 ===== -->
+  <div class="section-label"><span class="sn">04</span> 아이템별 성과 비교 <span class="scope scope-cum">개별 누적, 기간 상이</span></div>
   <div class="card">
-    <div class="card-sub">아이템별로 전체 고객 중 그 아이템을 본 비율 (운영한 날 일평균). 세 아이템의 도달 범위 비교용, 셋 다 같은 100% 기준이라 기간 달라도 비교 가능</div>
-    <div class="pen-block" style="margin-top:0;padding-top:0;border-top:none">
-      <div class="pen-row">
-        <span class="pen-name">PF 보험</span>
-        <div class="pen-track"><div class="pen-fill" style="width:63.2%;background:#3b82f6"></div></div>
-        <span class="pen-val">63.2%</span>
+    <div class="card-sub">수락률 나열이 아니라 역할과 확장성으로 비교 (수락률과 단가는 보조 지표)<br>세 아이템은 운영 기간이 서로 달라 각자 누적으로 봄</div>
+    <div class="role-grid">
+      <div class="role-card pf">
+        <div class="role-head"><span class="role-name">PF 보험</span><span class="st-badge st-live">운영 중</span></div>
+        <div class="role-line"><span class="role-k">목적</span><div class="role-v">보험 매출 확대 (완전면책 추가 판매)</div></div>
+        <div class="role-line"><span class="role-k">강점</span><div class="role-v">노출 규모 큼 (전체 노출의 약 99%)</div></div>
+        <div class="role-line"><span class="role-k">한계</span><div class="role-v lim">이미 PF0 고객에게는 노출 불가</div></div>
+        <div class="role-aux">
+          <div>수락률<b>12.6%</b></div>
+          <div>수락 1건당<b>약 13,500원</b></div>
+        </div>
       </div>
-      <div class="pen-row">
-        <span class="pen-name">차종</span>
-        <div class="pen-track"><div class="pen-fill" style="width:1.18%;background:#f59e0b"></div></div>
-        <span class="pen-val">1.2%</span>
+      <div class="role-card ti">
+        <div class="role-head"><span class="role-name">시간연장</span><span class="st-badge st-live">PoC 운영 중</span></div>
+        <div class="role-line"><span class="role-k">목적</span><div class="role-v">유휴 시간 가동 (반납 후 비는 시간 채움)</div></div>
+        <div class="role-line"><span class="role-k">강점</span><div class="role-v">수락률 높음</div></div>
+        <div class="role-line"><span class="role-k">한계</span><div class="role-v lim">노출 규모 제한 (1차 완화 기준 약 1.3배, 이번 PoC는 결과 누적 중)</div></div>
+        <div class="role-aux">
+          <div>수락률<b>약 29%</b></div>
+          <div>수락 1건당<b>4,900 또는 12,900원</b></div>
+        </div>
       </div>
-      <div class="pen-row">
-        <span class="pen-name">시간연장</span>
-        <div class="pen-track"><div class="pen-fill" style="width:0.72%;background:#8b5cf6"></div></div>
-        <span class="pen-val">0.7%</span>
+      <div class="role-card cu">
+        <div class="role-head"><span class="role-name">차종 업그레이드</span><span class="st-badge st-end">종료</span></div>
+        <div class="role-line"><span class="role-k">목적</span><div class="role-v">상위 차급 가동 (비어 있는 상위 등급 차량 채움)</div></div>
+        <div class="role-line"><span class="role-k">강점</span><div class="role-v">단가 높음</div></div>
+        <div class="role-line"><span class="role-k">한계</span><div class="role-v lim">재고(빈 슬롯) 의존, 사업성 검증 필요</div></div>
+        <div class="role-aux">
+          <div>수락률<b>8.8%</b></div>
+          <div>수락 1건당<b>9,900원</b></div>
+        </div>
       </div>
-      <div class="pen-axis"><span>0%</span><span>전체 고객 (100%)</span></div>
-      <div class="pen-note">전체 고객 100명 중 <b>PF는 약 63명</b>이 보고, <b>차종과 시간연장은 1명 안팎</b>. 실험 둘은 노출 조건(당일 출발, 특정 차급, 빈 슬롯 등)이 좁아 의도적으로 소수에게만 노출되는 것이라 낮은 게 정상</div>
     </div>
+    <div class="cmp-foot">세 아이템은 운영 기간과 모수가 달라 <b>노출과 수락 건수는 직접 비교 불가</b><br>시간연장과 차종은 노출 모수가 작아(각 약 1,100명, 1,295명) 표 수치는 참고용<br><b>시간연장은 수락률은 이미 검증됐고, 관건은 할인까지 빼고도 이득인지</b><br>이 매출 증분은 표본이 작아 아직 확인 단계라, 6/25 조건 완화 PoC로 노출을 늘려 검증 중 (표는 1차 ABT 5/13~6/3 기준)</div>
   </div>
 
-
-  <!-- ===== method ===== -->
-  <details class="method-details">
-  <summary class="method-summary">집계 기준, 데이터 출처, 쿼리</summary>
-  <div class="method">
-    <h3>핵심 정의</h3>
-    <div class="method-item">• <strong>전체 예약</strong>: <code>profit_socar_reservation</code> 생성 예약(5/21 14:00~6/21)<br>업셀링 노출 대상을 예약으로 잡음(결제 직전 도달 전용 이벤트가 없어 예약으로 근사)</div>
-    <div class="method-item">• <strong>노출/미노출</strong>: 예약 회원이 그날 <code>page_name='upsell_bottomsheet'</code> <code>view</code> 이벤트가 있으면 노출, 없으면 미노출<br>회원+날짜 단위 매칭(예약ID가 이벤트에 없어 reservation_id 직접 매칭 불가)</div>
-    <div class="method-item">• <strong>로깅 포맷 변경</strong>: 6/10 09:42부터 <code>form_data</code>가 <code>upselling_type</code>(pfNudge 등) 대신 <code>ut</code>(p=PF, i=시간연장, c=차종)로 바뀜<br>양 포맷 모두 파싱해 집계(미반영 시 6/10 이후와 차종 누락)</div>
-    <div class="method-item">• <strong>수락률</strong>: 흐름은 예약 기준(수락 예약 ÷ 노출 예약), 아이템 비교는 개별 대시보드 기준(PF와 차종은 노출 회원 중 수락 회원, 시간연장은 노출 유저 중 수락 횟수)</div>
-    <div class="method-item">• <strong>PF 추가매출</strong>: 전환 전 등급 보험료를 뺀 차액(PF0 평균 15,231원, PF70 약 0원, PF30 4,669원, 노출 원등급 약 PF70 62%/PF30 38% 가중 약 13,500원), 합계 약 1.7억원</div>
-    <div class="method-item">• <strong>시간연장과 차종 추가매출</strong>: 수락 1건당 고정 추가금(시간연장 4,900원, 차종 9,900원)에 수락 건수를 곱한 값<br>시간연장 약 320건 약 157만원, 차종 127건 약 126만원(9,900×127=1,257,300원, BQ 실측 6/10~6/21)<br>업셀링은 정규가보다 싸게 제안하는 방식이라 <code>paid_info</code>의 <code>upselling_discount</code>는 할인액(추가매출 아님)이라 합산하지 않음</div>
-    <div class="method-item">• <strong>추가매출과 총액 구분</strong>: PF 총 보험매출 약 1.9억원, 전환 전 보험료 차감 시 추가매출 약 1.7억원<br>의사결정은 추가매출 기준</div>
-
-    <h3 style="margin-top:16px">한계 (논리상 미리 박아둠)</h3>
-    <div class="method-item">• <strong>PF 전환 집계</strong>: PF0는 바텀시트에서 수락하든 결제페이지에서 직접 선택하든 가격이 같아, 직접 전환과 간접 전환을 모두 PF0 결제로 집계<br>상시 운영이라 대조군이 없어 추천이 '추가로' 일으킨 순증분은 정밀 측정 어려움(원래 PF0 살 사람 포함)<br>시간연장은 ABT라 대조군 기반 정밀 인과는 별도 가능</div>
-    <div class="method-item">• <strong>단위</strong>: 흐름은 예약 기준(노출에 예약ID가 없어 회원과 날짜로 매칭), 아이템 비교는 개별 대시보드와 같은 기준(PF와 차종은 회원, 시간연장은 노출 유저와 수락 횟수)</div>
-    <div class="method-item">• <strong>미노출 등급</strong>: pf_type은 결제 결과 등급<br>'이미 PF0'는 결과 PF0(자기부담금 0원)면서 미노출인 건으로 진입 시점 등급의 근사</div>
-    <div class="method-item">• <strong>최근 지연</strong>: 6/20~6/21 수락은 결제 D+1 반영으로 과소집계 가능, 6/22는 미완성이라 제외</div>
-
-    <h3 style="margin-top:16px">데이터 출처 (BigQuery)</h3>
-    <div class="method-item">• 노출: <code>socar-data.app_web_log.socar_app_web_log</code> (page_name='upsell_bottomsheet')</div>
-    <div class="method-item">• PF 수락/매출/등급: <code>socar-data.socar_biz_profit.profit_socar_reservation</code> (pf_type, _rev_pf, utime, region1)</div>
-    <div class="method-item">• 시간연장과 차종 수락/매출: <code>socar-data.dbt.stg_tianjin_replica__paid_info</code> (paid_type='upselling_discount', 차종은 6/10 이후분)</div>
-
-    <h3 style="margin-top:16px">쿼리 (미노출 분해)</h3>
-    <pre class="sql"><span class="cmt">-- 예약을 노출/미노출 × 보험등급으로 분해</span>
-WITH v AS (
-  SELECT DISTINCT DATE(event_at_kst) d, member_id
-  FROM `socar-data.app_web_log.socar_app_web_log`
-  WHERE page_name='upsell_bottomsheet' AND event_name='view'
-    AND event_at_kst >= DATETIME '2026-05-21 14:00:00'
-    AND event_at_kst <  DATETIME '2026-06-15 00:00:00'
-),
-r AS (
-  SELECT DATE(created_at_kst) d, member_id, pf_type, utime, region1
-  FROM `socar-data.socar_biz_profit.profit_socar_reservation`
-  WHERE created_at_kst >= DATETIME '2026-05-21 14:00:00'
-    AND created_at_kst <  DATETIME '2026-06-15 00:00:00'
-)
-SELECT IF(v.member_id IS NULL,'미노출','노출') expose, r.pf_type,
-  COUNT(*) rsv, COUNT(DISTINCT r.member_id) uu
-FROM r LEFT JOIN v ON r.d=v.d AND r.member_id=v.member_id
-GROUP BY 1,2;</pre>
-    <h3 style="margin-top:16px">쿼리 (아이템 분류, 양 포맷)</h3>
-    <pre class="sql"><span class="cmt">-- 6/10 09:42 포맷 변경(upselling_type -> ut) 양쪽 파싱</span>
-SELECT
-  CASE
-    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+pfNudge')
-         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+p[\\}",]')  THEN 'PF'
-    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+intervalUpselling')
-         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+i[\\}",]')  THEN '시간연장'
-    WHEN REGEXP_CONTAINS(form_data, r'upselling_type[\\:"]+carUpgradeUpselling')
-         OR REGEXP_CONTAINS(form_data, r'ut[\\:"]+c[\\}",]')  THEN '차종'
-  END AS item,
-  COUNT(DISTINCT FORMAT('%t-%d', DATE(event_at_kst), member_id)) AS view_member_day
-FROM `socar-data.app_web_log.socar_app_web_log`
-WHERE page_name='upsell_bottomsheet' AND event_name='view'
-  AND event_at_kst >= DATETIME '2026-05-21 14:00:00'
-  AND event_at_kst <  DATETIME '2026-06-15 00:00:00'
-GROUP BY 1;</pre>
+  <!-- ===== 6. 다음 액션 ===== -->
+  <div class="section-label"><span class="sn">05</span> 다음 액션</div>
+  <div class="act-board">
+    <div class="act-item"><span class="act-tag tag-keep">유지</span><div class="act-desc"><b>PF 보험은 상시 유지</b><br>노출 규모가 크고 매출의 대부분을 차지하는 핵심 아이템</div></div>
+    <div class="act-item"><span class="act-tag tag-run">운영 중</span><div class="act-desc"><b>시간연장은 6/25부터 조건 완화 PoC 운영 중</b><br>PoC 결과로 정규화 여부 판단 (1차에선 완화해도 노출 증가 약 1.3배 수준이었음)</div></div>
+    <div class="act-item"><span class="act-tag tag-review">판단</span><div class="act-desc"><b>차종은 6/24 종료, 손익 검증 후 재운영 판단</b><br>단가는 높지만 빈 슬롯 재고에 의존</div></div>
+    <div class="act-item"><span class="act-tag tag-new">신규</span><div class="act-desc"><b>신규 아이템은 PF0이면서 4시간 미만 예약 고객을 우선 검토</b><br>PF, 시간연장(최소 4시간), 차종 모두 닿지 않는 구간 (수요는 별도 검증 필요)</div></div>
   </div>
-  </details>
+
+  </div><!-- /tab-overall -->
+
+  <div id="tab-items" class="tabpane" style="display:none">
+    <div class="item-grid">
+      <div class="item-card pf">
+        <div class="ic-head"><span class="ic-name">PF 보험</span><span class="st-badge st-live">운영 중</span></div>
+        <div class="ic-per"><b>ABT</b> 4/29~5/13<br><b>정규화</b> 5/21~상시</div>
+        <a class="ic-link" href="https://socar-roina.github.io/upselling-dashboard-normalization/" target="_blank">정규화 모니터링</a>
+        <div class="ic-subs"><a href="https://socar-roina.github.io/upselling-dashboard-PF0-/" target="_blank">ABT 결과</a></div>
+      </div>
+      <div class="item-card ti">
+        <div class="ic-head"><span class="ic-name">시간연장</span><span class="st-badge st-live">PoC 운영 중</span></div>
+        <div class="ic-per"><b>1차 ABT</b> 5/13~6/3<br><b>PoC</b> 6/25~ (조건 완화)</div>
+        <!-- PoC 모니터링 대시보드 제작 후 span을 <a href=...>로 교체 -->
+        <span class="ic-link soon">PoC 모니터링 (준비 중)</span>
+        <div class="ic-subs"><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" target="_blank">ABT 결과</a><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/modu-analysis.html" target="_blank">조건 완화 분석</a><a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/modu-monitoring.html" target="_blank">PoC 방향성</a></div>
+      </div>
+      <div class="item-card cu">
+        <div class="ic-head"><span class="ic-name">차종 업그레이드</span><span class="st-badge st-end">종료</span></div>
+        <div class="ic-per"><b>ABT</b> 6/10~6/24 (종료)</div>
+        <a class="ic-link" href="https://socar-roina.github.io/upselling-dashboard-car-upgrade/" target="_blank">차종 ABT 결과</a>
+      </div>
+    </div>
+  </div><!-- /tab-items -->
 
 </div>
-
 <script>
-const labels   = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14','6/15','6/16','6/17','6/18','6/19','6/20','6/21'];
-const missPct = [34.9,37.3,38.0,37.2,32.8,35.6,35.5,33.3,36.9,35.4,32.9,35.3,36.2,32.6,33.9,37.5,35.7,32.4,36.0,35.3,34.4,33.0,36.0,33.6,30.6,33.7,33.2,32.4,31.4,32.3,31.3,28.1];
-new Chart(document.getElementById('missChart'), {
-  type:'line',
-  data:{ labels, datasets:[
-    { label:'미노출률 (%)', data: missPct, borderColor:'#64748b', backgroundColor:'rgba(100,116,139,0.10)', pointBackgroundColor:'#64748b', pointRadius:3, borderWidth:2.5, tension:0.35, fill:true }
-  ]},
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{ labels:{ font:{size:11}, boxWidth:12, padding:10 } } },
-    scales:{
-      x:{ ticks:{font:{size:11}}, grid:{display:false} },
-      y:{ beginAtZero:false, suggestedMin:20, suggestedMax:42, title:{display:true,text:'미노출률 %',font:{size:10},color:'#9ca3af'}, ticks:{font:{size:11}, callback:v=>v+'%'}, grid:{color:'#f3f4f6'} }
-    }
+(function(){
+  const D = window.DASH;
+  const $ = id => document.getElementById(id);
+  const cma = n => n.toLocaleString();
+  document.querySelectorAll('.tabbtn').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.querySelectorAll('.tabpane').forEach(p=>p.style.display='none');
+    $('tab-'+b.dataset.tab).style.display='';
+  }));
+  let chart;
+  function render(s,e){
+    const rows = D.daily.filter(d=>d.dt>=s && d.dt<=e);
+    const rsv=rows.reduce((a,d)=>a+d.rsv,0), exp=rows.reduce((a,d)=>a+d.exp,0), acc=rows.reduce((a,d)=>a+d.acc,0);
+    const miss=rsv-exp;
+    $('v-rsv').textContent=cma(rsv);
+    $('v-exp').textContent=cma(exp);
+    $('v-acc').textContent=cma(acc);
+    $('v-miss').textContent=cma(miss)+'건';
+    const expPct=rsv?Math.round(exp/rsv*100):0;
+    const accPct=exp?(acc/exp*100):0;
+    const missPct=rsv?Math.round(miss/rsv*100):0;
+    $('bar-exp').style.width=expPct+'%';
+    $('bar-acc').style.width=(rsv?acc/rsv*100:0)+'%';
+    $('p-exp').textContent='전체 예약의 '+expPct+'%가 노출됨';
+    $('p-acc').textContent='노출된 예약 중 '+accPct.toFixed(1)+'%가 결제';
+    $('t-miss').textContent='어떤 업셀링도 안 뜬 예약 (전체의 '+missPct+'%)';
+    $('dt-foot').textContent='조회 기간 '+s+' ~ '+e+' ('+rows.length+'일), BQ 실측 '+D.meta.generated_at+' 생성. 최근 1~2일은 적재 지연으로 과소(재조회 시 증가)';
+    const labels=rows.map(d=>d.dt.slice(5));
+    if(chart)chart.destroy();
+    chart=new Chart($('flowChart'),{type:'line',data:{labels,datasets:[
+      {label:'노출',data:rows.map(d=>d.exp),borderColor:'#64748b',backgroundColor:'rgba(100,116,139,.08)',tension:.3,fill:true,pointRadius:2,borderWidth:2},
+      {label:'수락',data:rows.map(d=>d.acc),borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,.10)',tension:.3,fill:true,pointRadius:2,borderWidth:2}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11},boxWidth:12,padding:10}}},scales:{x:{ticks:{font:{size:10},maxTicksLimit:12},grid:{display:false}},y:{beginAtZero:true,ticks:{font:{size:10}},grid:{color:'#f3f4f6'}}}}});
   }
-});
+  const S=D.meta.start, E=D.meta.cut;
+  ['dt-start','dt-end'].forEach(id=>{$(id).min=S;$(id).max=E;});
+  $('dt-start').value=S; $('dt-end').value=E;
+  $('dt-apply').addEventListener('click',()=>{let s=$('dt-start').value||S,e=$('dt-end').value||E;if(s>e){const t=s;s=e;e=t;}render(s,e);});
+  $('dt-reset').addEventListener('click',()=>{$('dt-start').value=S;$('dt-end').value=E;render(S,E);});
+  render(S,E);
+})();
 </script>
 </body>
 </html>
