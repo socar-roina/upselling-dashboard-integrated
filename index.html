@@ -46,15 +46,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .top-bar .updated { font-size:11px; color: #9ca3af; text-align: right; line-height: 1.6; }
 .main { width: 100%; margin: 0 auto; padding: 18px 28px 48px; }
 
-/* 오늘의 결론 */
-.verdict { background: linear-gradient(135deg,#0f2040 0%,#1e293b 100%); color:#fff; border-radius:16px; padding:24px 28px; margin-bottom:22px; }
-.verdict .vh { font-size:12px; font-weight:800; letter-spacing:0.08em; color:#7dd3fc; text-transform:uppercase; margin-bottom:14px; }
-.vrow { display:flex; gap:11px; padding:8px 0; border-top:1px solid rgba(255,255,255,0.1); }
-.vrow:first-of-type { border-top:none; }
-.vrow .vn { flex-shrink:0; width:22px; height:22px; border-radius:7px; background:rgba(255,255,255,0.12); color:#cbd5e1; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
-.vrow .vt { font-size:15px; font-weight:700; line-height:1.55; letter-spacing:-0.01em; }
-.vrow .vt b { color:#fbbf24; font-weight:800; }
-.vrow .vt .go { color:#6ee7b7; font-weight:800; }
+/* 핵심 요약 (깔끔한 카드) */
+.concl-card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:6px 22px; margin-bottom:22px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.concl-row { display:flex; gap:12px; padding:14px 0; border-top:1px solid #f1f3f5; align-items:flex-start; }
+.concl-row:first-of-type { border-top:none; }
+.cn { flex-shrink:0; width:22px; height:22px; border-radius:7px; background:#eef1f4; color:#475569; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.ct { font-size:15px; color:#374151; line-height:1.6; }
+.ct b { color:#0f172a; font-weight:800; }
+.ct .em { color:#0f172a; font-weight:800; }
 
 .section-label { font-size:16px; font-weight: 800; color: #374151; margin: 32px 0 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .section-label::before { content: ""; display: inline-block; width: 4px; height: 16px; background: #3b82f6; border-radius: 2px; }
@@ -92,14 +91,15 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
 .tl-note b { color:#1e293b; font-weight:800; }
 
 /* 흐름 퍼널 */
-.funnel { margin-bottom:14px; }
-.fn-row { display:flex; align-items:center; gap:12px; margin-bottom:7px; }
-.fn-stage { width:88px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
-.fn-track { flex:1; height:22px; background:#f3f4f6; border-radius:99px; overflow:hidden; }
-.fn-bar { height:100%; border-radius:7px; min-width:10px; }
-.fn-val { width:235px; flex-shrink:0; font-size:16px; font-weight:900; color:#0f172a; }
+.funnel { margin-bottom:10px; }
+.fn-row { display:flex; align-items:center; gap:14px; margin-bottom:9px; }
+.fn-stage { width:96px; flex-shrink:0; font-size:14.5px; font-weight:700; color:#374151; }
+.fn-track { flex:1; height:30px; background:#f3f4f6; border-radius:8px; overflow:hidden; }
+.fn-bar { height:100%; border-radius:8px; min-width:48px; display:flex; align-items:center; justify-content:flex-end; padding:0 12px; color:#fff; font-size:13px; font-weight:800; }
+.fn-val { width:118px; flex-shrink:0; text-align:right; font-size:18px; font-weight:900; color:#0f172a; }
 .fn-val small { font-size:13px; font-weight:700; color:#9ca3af; margin-left:1px; }
-.fn-pct { display:block; font-size:12.5px; font-weight:700; color:#475569; margin-top:2px; letter-spacing:-0.01em; }
+.conv-note { font-size:13px; color:#475569; font-weight:700; margin:0 0 12px; padding-left:110px; }
+.conv-note b { color:#0f172a; }
 .gap-callout { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; border-radius:10px; padding:14px 18px; margin-bottom:12px; }
 .gap-callout b { font-size:21px; font-weight:900; color:#0f172a; flex-shrink:0; }
 .gap-callout .gc-t { font-size:14.5px; color:#475569; font-weight:600; line-height:1.5; }
@@ -166,7 +166,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
     <h1>업셀링 통합 대시보드</h1>
     <div class="meta">결제 직전 PF 보험, 시간연장, 차종 중 하나 추천 (예약당 1개)</div>
   </div>
-  <div class="updated">PF, 시간연장, 차종 3종 업셀링 운영 전반의 통합 분석<br>KST 기준, BQ 실측</div>
+  <div class="updated">BQ 실측, KST 기준</div>
 </div>
 
 <div class="main">
@@ -179,16 +179,15 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
   <div id="tab-overall" class="tabpane">
 
   <!-- ===== 1. 오늘의 결론 ===== -->
-  <div class="verdict">
-    <div class="vh">핵심 요약</div>
-    <div class="vrow"><span class="vn">1</span><div class="vt">전체 예약의 약 <b>34%</b>는 어떤 업셀링도 보지 못함<br>미노출 대부분은 <b>이미 PF0 고객</b>이라 PF로는 추가 확대 여지가 작음</div></div>
-    <div class="vrow"><span class="vn">2</span><div class="vt">이미 PF0이면서 <b>4시간 미만 예약 고객</b>은 3개 업셀링 모두의 사각지대<br><span class="go">신규 업셀링 아이템 우선 검토 후보</span> (수요는 별도 검증)</div></div>
+  <div class="section-label" style="margin-top:8px">핵심 요약</div>
+  <div class="concl-card">
+    <div class="concl-row"><span class="cn">1</span><div class="ct">전체 예약의 <b>34%</b>는 어떤 업셀링도 노출되지 않음</div></div>
+    <div class="concl-row"><span class="cn">2</span><div class="ct"><span class="em">이미 PF0이면서 4시간 미만으로 예약하는 고객</span>은 대부분 어떤 업셀링도 보지 못함, 신규 아이템 우선 검토 후보 (수요는 별도 검증)</div></div>
   </div>
 
   <!-- ===== 2. 현재 운영 상태 ===== -->
   <div class="section-label"><span class="sn">01</span> 현재 운영 상태 <span class="scope scope-cum">오늘(6/29) 시점</span></div>
   <div class="card">
-    <div class="card-sub">PF는 보험 매출이 목적<br>시간연장과 차종은 둘 다 유휴 차량 가동이지만 채우는 대상이 다름 (시간연장은 차량의 비는 시간, 차종은 비어 있는 상위 등급 차량)</div>
     <table class="status-tbl">
       <tr><th>아이템</th><th>상태</th><th>목적</th></tr>
       <tr><td>PF 보험</td><td><span class="st-badge st-live">운영 중</span><span class="st-when">5/21 정규화 후 상시</span></td><td>보험 매출 확대<span style="display:block;font-size:12px;font-weight:600;color:#9ca3af;margin-top:2px">완전면책(PF0)을 추가로 판매</span></td></tr>
@@ -199,28 +198,28 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
     <div class="timeline">
       <div class="tl-axis">
         <span style="left:0;transform:none">4/29</span>
-        <span style="left:24.6%">5/13</span>
-        <span style="left:38.6%">5/21</span>
-        <span style="left:73.7%">6/10</span>
-        <span style="left:98%">6/24</span>
+        <span style="left:36%">5/21</span>
+        <span style="left:68.9%">6/10</span>
+        <span style="left:91.8%">6/24</span>
+        <span style="left:100%;transform:translateX(-100%);color:#ef4444;font-weight:800">오늘 6/29</span>
       </div>
       <div class="tl-row">
         <span class="tl-label">PF 보험</span>
         <div class="tl-track">
-          <div class="tl-bar ended" style="left:0;width:24.6%;background:#3b82f6">4/29~5/13<span class="tl-state">ABT</span></div>
-          <div class="tl-bar" style="left:38.6%;right:0;background:#3b82f6">5/21 ~ 상시 운영<span class="tl-state">진행 중</span></div>
+          <div class="tl-bar ended" style="left:0;width:23%;background:#3b82f6">4/29~5/13<span class="tl-state">ABT</span></div>
+          <div class="tl-bar" style="left:36%;right:0;background:#3b82f6">5/21 ~ 상시 운영<span class="tl-state">진행 중</span></div>
         </div>
       </div>
       <div class="tl-row">
         <span class="tl-label">시간연장</span>
-        <div class="tl-track"><div class="tl-bar ended" style="left:24.6%;width:36.8%;background:#8b5cf6">5/13~6/3<span class="tl-state">1차 종료</span></div><div class="tl-bar" style="left:96.5%;right:0;background:#8b5cf6"></div></div>
+        <div class="tl-track"><div class="tl-bar ended" style="left:23%;width:34.4%;background:#8b5cf6">5/13~6/3<span class="tl-state">1차</span></div><div class="tl-bar" style="left:93.4%;right:0;background:#8b5cf6">PoC</div></div>
       </div>
       <div class="tl-row">
         <span class="tl-label">차종</span>
-        <div class="tl-track"><div class="tl-bar ended" style="left:73.7%;width:24.5%;background:#f59e0b">6/10~6/24<span class="tl-state">종료</span></div></div>
+        <div class="tl-track"><div class="tl-bar ended" style="left:68.9%;width:22.9%;background:#f59e0b">6/10~6/24<span class="tl-state">종료</span></div></div>
       </div>
     </div>
-    <div class="tl-note">한 예약에 업셀링은 <b>1개만</b> 노출<br>시간연장 조건에 맞으면 시간연장, 아니면 PF로 노출<br><b>차종은 6/24 종료, 시간연장은 6/25부터 조건 완화 PoC 운영 중</b> (대조군 없이 조건 충족 전원 노출)</div>
+    <div class="tl-note">한 예약에 업셀링은 <b>1개만</b> 노출 (조건 맞으면 시간연장, 아니면 PF)</div>
   </div>
 
   <!-- ===== 3. 전체 업셀링 흐름 (캘린더 기간 조회) ===== -->
@@ -235,29 +234,29 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
   <div class="funnel">
     <div class="fn-row">
       <span class="fn-stage">전체 예약</span>
-      <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1"></div></div>
-      <span class="fn-val"><span id="v-rsv">-</span><small>건</small><span class="fn-pct">기준값 (100%)</span></span>
+      <div class="fn-track"><div class="fn-bar" style="width:100%;background:#cbd5e1;color:#475569">100%</div></div>
+      <span class="fn-val"><span id="v-rsv">-</span><small>건</small></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">업셀링 노출</span>
-      <div class="fn-track"><div class="fn-bar" id="bar-exp" style="width:0;background:#64748b"></div></div>
-      <span class="fn-val"><span id="v-exp">-</span><small>건</small><span class="fn-pct" id="p-exp"></span></span>
+      <div class="fn-track"><div class="fn-bar" id="bar-exp" style="width:0;background:#64748b"><span id="pct-exp"></span></div></div>
+      <span class="fn-val"><span id="v-exp">-</span><small>건</small></span>
     </div>
     <div class="fn-row">
       <span class="fn-stage">수락</span>
-      <div class="fn-track"><div class="fn-bar" id="bar-acc" style="width:0;background:#16a34a"></div></div>
-      <span class="fn-val"><span id="v-acc">-</span><small>건</small><span class="fn-pct" id="p-acc"></span></span>
+      <div class="fn-track"><div class="fn-bar" id="bar-acc" style="width:0;background:#16a34a"><span id="pct-acc"></span></div></div>
+      <span class="fn-val"><span id="v-acc">-</span><small>건</small></span>
     </div>
   </div>
+  <div class="conv-note" id="conv-note"></div>
   <div class="gap-callout"><b id="v-miss">-</b><span class="gc-t" id="t-miss"></span></div>
   <div class="card"><div class="chart-wrap" style="height:240px"><canvas id="flowChart"></canvas></div></div>
-  <div class="pf-note"><b>통합 수치는 사실상 PF 중심으로 해석</b><br>노출의 약 99%가 PF 보험이라 위 노출과 수락은 거의 PF의 성과 (시간연장과 차종은 노출 규모가 작음)</div>
   <div class="cum-ref" id="dt-foot"></div>
 
   <!-- ===== 4. 미노출 분석 ===== -->
   <div class="section-label"><span class="sn">03</span> 미노출 분석 <span class="scope scope-week">최근 1주 (6/22~6/28)</span></div>
   <div class="card">
-    <div class="card-sub">업셀링이 안 뜬 예약을 사유별로 나눈 비중 (합 100%), 사유별로 무엇을 더 줄 수 있는지 함께 표시<br>지금 누가 안 보는지가 중요해 최근 1주 기준 (전체 누적이면 이미 해소된 구버전 앱 비중이 섞여 흐려짐)</div>
+    <div class="card-sub">미노출 예약을 사유별로 나눈 비중 (최근 1주, 합 100%)<br>누적이 아닌 최근 기준이라야 이미 줄어든 구버전 앱이 안 섞임</div>
     <div class="miss-bar">
       <div class="miss-seg s1" style="width:78%">이미 PF0 78%</div>
       <div class="miss-seg s2" style="width:12%">구버전 앱 12%</div>
@@ -374,12 +373,12 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', 'S
     $('v-acc').textContent=cma(acc);
     $('v-miss').textContent=cma(miss)+'건';
     const expPct=rsv?Math.round(exp/rsv*100):0;
-    const accPct=exp?(acc/exp*100):0;
+    const accPctTotal=rsv?Math.round(acc/rsv*100):0;
+    const accConv=exp?(acc/exp*100):0;
     const missPct=rsv?Math.round(miss/rsv*100):0;
-    $('bar-exp').style.width=expPct+'%';
-    $('bar-acc').style.width=(rsv?acc/rsv*100:0)+'%';
-    $('p-exp').textContent='전체 예약의 '+expPct+'%가 노출됨';
-    $('p-acc').textContent='노출된 예약 중 '+accPct.toFixed(1)+'%가 결제';
+    $('bar-exp').style.width=expPct+'%'; $('pct-exp').textContent=expPct+'%';
+    $('bar-acc').style.width=accPctTotal+'%'; $('pct-acc').textContent=accPctTotal+'%';
+    $('conv-note').innerHTML='노출 대비 수락 전환율 <b>약 '+accConv.toFixed(1)+'%</b>';
     $('t-miss').textContent='어떤 업셀링도 안 뜬 예약 (전체의 '+missPct+'%)';
     $('dt-foot').textContent='조회 기간 '+s+' ~ '+e+' ('+rows.length+'일), BQ 실측 '+D.meta.generated_at+' 생성. 최근 1~2일은 적재 지연으로 과소(재조회 시 증가)';
     const labels=rows.map(d=>d.dt.slice(5));
