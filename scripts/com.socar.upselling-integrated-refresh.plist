@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>Label</key><string>com.socar.upselling-integrated-v2-refresh</string>
+  <key>Label</key><string>com.socar.upselling-integrated-refresh</string>
   <key>ProgramArguments</key><array>
     <string>/bin/bash</string>
-    <string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated-v2/scripts/refresh.sh</string>
+    <string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated/scripts/refresh.sh</string>
   </array>
   <key>StartCalendarInterval</key><array>
     <dict><key>Hour</key><integer>11</integer><key>Minute</key><integer>0</integer></dict>
     <dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>0</integer></dict>
   </array>
-  <key>StandardOutPath</key><string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated-v2/scripts/launchd.out.log</string>
-  <key>StandardErrorPath</key><string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated-v2/scripts/launchd.err.log</string>
+  <key>StandardOutPath</key><string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated/scripts/launchd.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated/scripts/launchd.err.log</string>
 </dict></plist>

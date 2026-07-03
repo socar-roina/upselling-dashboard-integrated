@@ -1,20 +1,25 @@
 #!/bin/bash
-# 업셀링 통합 대시보드 v2 자동 갱신: BQ 재집계 → data.js → 검증 → 변경 시 커밋/푸시
-# launchd가 매일 11:00, 15:00(KST) 호출. 11시 성공 시 15시는 마커로 스킵.
-REPO="/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated-v2"
+# 업셀링 통합 대시보드(정본) 자동 갱신: BQ 재집계 → data.js → 검증(python3) → 변경 시 커밋/푸시
+# launchd가 매일 11:00, 15:00(KST) 호출.
+# 마커(.last_success)엔 마지막으로 반영한 cut(집계 종료일)을 기록.
+# 노출 로그 D+1 지연 때문에 11시엔 cut이 이틀 전으로 밀릴 수 있어, cut이 어제까지
+# 따라잡혔을 때만 스킵. 아직 뒤처졌으면 15시 실행이 최신으로 당김.
+REPO="/Users/admin/upselling-work/dashboards/upselling-dashboard-integrated"
 LOG="$REPO/scripts/refresh.log"
 MARKER="$REPO/scripts/.last_success"
 TODAY=$(date +%Y-%m-%d)
-export PATH="/opt/homebrew/bin:/Users/admin/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+YESTERDAY=$(date -v-1d +%Y-%m-%d)
+export PATH="/opt/homebrew/bin:/usr/local/bin:/Users/admin/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export HOME="/Users/admin"
 cd "$REPO" || exit 1
-if [ "$(cat "$MARKER" 2>/dev/null)" = "$TODAY" ]; then
-  echo "$(date '+%F %T') 오늘 이미 갱신됨, 스킵" >> "$LOG"; exit 0
+if [ "$(cat "$MARKER" 2>/dev/null)" = "$YESTERDAY" ]; then
+  echo "$(date '+%F %T') 이미 최신(cut=$YESTERDAY)까지 갱신됨, 스킵" >> "$LOG"; exit 0
 fi
 {
   echo "=== $(date '+%F %T') 갱신 시작 ==="
+  git pull -q --rebase origin main 2>/dev/null
   if ! python3 scripts/gen_data.py --out data.js; then echo "gen_data.py 실패 → 종료"; exit 1; fi
-  if ! node -e "global.window={};require('./data.js');const D=window.DASH;if(!(D.total.rsv>0)||!D.meta.cut||!(D.daily.length>0))process.exit(1);console.log('검증 OK 예약'+D.total.rsv+' cut'+D.meta.cut)"; then
+  if ! python3 -c "import json,re; s=open('data.js').read(); d=json.loads(re.sub(r'^window\.DASH\s*=\s*','',s).strip().rstrip(';')); assert d['total']['rsv']>0 and d['meta']['cut'] and len(d['daily'])>0; print('검증 OK 예약',d['total']['rsv'],'cut',d['meta']['cut'])"; then
     echo "검증 실패 → 커밋 안 함"; exit 1
   fi
   if git diff --quiet data.js; then
@@ -24,6 +29,7 @@ fi
     git commit -q -m "데이터 자동 갱신 (${TODAY})" || { echo "commit 실패"; exit 1; }
     if git push -q origin HEAD; then echo "푸시 완료"; else echo "푸시 실패"; exit 1; fi
   fi
-  echo "$TODAY" > "$MARKER"
-  echo "=== $(date '+%F %T') 성공 ==="
+  CUT=$(python3 -c "import json,re;s=open('data.js').read();print(json.loads(re.sub(r'^window\.DASH\s*=\s*','',s).strip().rstrip(';'))['meta']['cut'])")
+  echo "$CUT" > "$MARKER"
+  echo "=== $(date '+%F %T') 성공 (cut=$CUT) ==="
 } >> "$LOG" 2>&1

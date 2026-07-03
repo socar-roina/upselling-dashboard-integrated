@@ -65,6 +65,12 @@ FROM r LEFT JOIN v ON r.d=v.d AND r.member_id=v.member_id
 GROUP BY 1 ORDER BY 1""")
 
     by = {r["dt"]: r for r in rows}
+    # 이벤트 로그 D+1 지연: 노출이 아직 안 실린 마지막 날(들)은 기준일에서 제외.
+    # (예약은 먼저 실려서, 그 날을 넣으면 노출/수락이 0인 빈 날이 생김)
+    if not a.cut:
+        loaded = [dt for dt, r in by.items() if i(r.get("exp")) > 0]
+        if loaded and max(loaded) < cut:
+            cut = max(loaded)
     d0 = datetime.strptime(start_day, "%Y-%m-%d").date()
     dN = datetime.strptime(cut, "%Y-%m-%d").date()
     days = [(d0 + timedelta(days=k)).strftime("%Y-%m-%d") for k in range((dN - d0).days + 1)]
